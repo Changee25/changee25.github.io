@@ -1,0 +1,46 @@
+# ============================================================
+# 站点配置。把下面出现的 username / 你的名字 换成你自己的。
+# 这个文件就是「用户主页仓库」的配置：仓库名必须是 username.github.io
+# ============================================================
+
+title: 我的博客
+description: 学习记录、项目笔记与生活随笔
+author: 你的名字
+email: you@example.com
+
+# 站点地址：换成你的用户名，结尾不要加 /
+url: "https://username.github.io"
+# 如果是「项目仓库」而不是 username.github.io，这里要写 "/仓库名"
+baseurl: ""
+
+# GitHub Pages 官方支持的主题，改这一行就能换外观
+theme: minima
+
+# 文章永久链接：/2026/10/25/first-meeting/
+permalink: /:year/:month/:day/:title/
+
+# 首页显示每篇文章的摘要
+show_excerpts: true
+
+# 顶部导航栏的页面
+header_pages:
+  - about.md
+
+# GitHub Pages 内置支持的插件，不用自己装
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+timezone: Asia/Shanghai
+
+# 构建时排除的文件
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor
