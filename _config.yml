@@ -1,16 +1,16 @@
 # ============================================================
-# 站点配置。把下面出现的 username / 你的名字 换成你自己的。
-# 这个文件就是「用户主页仓库」的配置：仓库名必须是 username.github.io
+# 站点配置。仓库名必须是 changee25.github.io（不区分大小写）。
+# 想改站点名、作者名，改下面几行即可。
 # ============================================================
 
-title: 我的博客
+title: Changee25 的博客
 description: 学习记录、项目笔记与生活随笔
-author: 你的名字
-email: you@example.com
+author: Changee25
+email: ""
 
-# 站点地址：换成你的用户名，结尾不要加 /
-url: "https://username.github.io"
-# 如果是「项目仓库」而不是 username.github.io，这里要写 "/仓库名"
+# 站点地址：结尾不要加 /
+url: "https://changee25.github.io"
+# 如果是「项目仓库」而不是 changee25.github.io，这里要写 "/仓库名"
 baseurl: ""
 
 # GitHub Pages 官方支持的主题，改这一行就能换外观

@@ -16,8 +16,8 @@ permalink: /about/
 
 ## 联系方式
 
-- GitHub：[@username](https://github.com/username)
-- 邮箱：you@example.com
+- GitHub：[@Changee25](https://github.com/Changee25)
+- 邮箱：【you@example.com】
 
 ## 关于这个博客
 

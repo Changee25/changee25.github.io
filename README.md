@@ -21,40 +21,55 @@ Jekyll 的规则很简单：**`_posts/` 里放 Markdown，首页自动出列表*
 
 ---
 
-## 1. 填掉两处占位符
+## 1. 填掉剩下的占位符
 
-1. `_config.yml` 里的 `username`（出现 2 次：`url` 和 `author` 附近的链接）
-2. `_posts/2026-10-25-first-meeting.md` 里的 `【 】` 内容
+站点地址已经按你的账号 `Changee25` 填好（`_config.yml` 里的 `url`），仓库名请用 **`changee25.github.io`**。
+
+还需要改的只有个人内容：
+
+1. `_config.yml` 里的 `title`、`description`、`author`、`email`
+2. `about.md` 里的自我介绍和邮箱
+3. `_posts/2026-10-25-first-meeting.md` 里的 `【 】` 内容
 
 仓库名决定网址：
 
 | 仓库名 | 网址 | `baseurl` |
 | --- | --- | --- |
-| `username.github.io` | `https://username.github.io` | `""`（空） |
-| `blog` 等其他名字 | `https://username.github.io/blog/` | `"/blog"` |
+| `changee25.github.io` | `https://changee25.github.io` | `""`（已设好） |
+| `blog` 等其他名字 | `https://changee25.github.io/blog/` | `"/blog"` |
 
-**建议用 `username.github.io`**，网址最短，`baseurl` 留空不用管。
+**用 `changee25.github.io`**，网址最短，`baseurl` 留空不用管。
 
 ---
 
 ## 2. 推到 GitHub
 
-在 `blog` 目录下执行（把 `username` 换成你的用户名）：
+这个目录**已经是一个初始化好的 git 仓库**，并且完成了第一次提交（分支 `main`）。剩下只差一个远端：
+
+**方式 A：用 GitHub Desktop（最省事，已装在你机器上）**
+
+1. 打开 GitHub Desktop → `File → Add local repository…` → 选 `D:\DSH\blog`
+2. 右上角 `Publish repository`
+3. 仓库名填 `changee25.github.io`，**取消勾选** `Keep this code private`（Pages 免费版必须公开）
+4. `Publish`，登录过一次之后鉴权它全包了
+
+**方式 B：命令行**
+
+先在 GitHub 网页上新建仓库 `changee25.github.io`（**公开**，不要勾 README / .gitignore，避免冲突），然后：
 
 ```bash
-git init
-git add .
-git commit -m "初始化博客：Jekyll + GitHub Pages"
-git branch -M main
-git remote add origin https://github.com/username/username.github.io.git
+cd D:\DSH\blog
+git remote add origin https://github.com/changee25/changee25.github.io.git
 git push -u origin main
 ```
 
-然后在 GitHub 上建仓库 **`username.github.io`**（必须公开），推送完成后：
+（推送到 GitHub 不能用账号密码，要么用 Personal Access Token，要么走 SSH。这是方式 A 更省事的原因。）
+
+推送完成后：
 
 1. 打开仓库 → **Settings → Pages**
 2. **Source** 选 `Deploy from a branch`，分支选 `main`，目录选 `/ (root)`
-3. 等 1–2 分钟，访问 `https://username.github.io`
+3. 等 1–2 分钟，访问 <https://changee25.github.io>
 
 > GitHub Pages 原生支持 Jekyll，**不需要写任何 Actions 工作流**，推上去自动构建。
 
