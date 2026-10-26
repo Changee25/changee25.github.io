@@ -1,9 +1,0 @@
-- name: 示例 · 小明的博客
-  url: https://example.com
-  desc: 写前端，也写读书笔记
-- name: 示例 · 阿花的相册
-  url: https://example.org
-  desc: 拍照、旅行、偶尔写诗
-- name: 示例 · 老张的实验室
-  url: https://example.net
-  desc: 后端、咖啡和折腾硬件
