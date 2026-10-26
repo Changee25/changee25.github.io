@@ -1,0 +1,355 @@
+---
+layout: blank
+---
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>zaikai</title>
+<meta name="description" content="I don't know where I'm going, but I'm on my way.">
+<style>
+  :root {
+    --glow: #8fd6ff;
+    --glow-2: #c9ecff;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: #04090f;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: #f3f8ff;
+  }
+
+  .splash { position: fixed; inset: 0; overflow: hidden; }
+
+  /* ===== 背景：暗场 + 中央微光 ===== */
+  .sky {
+    position: absolute;
+    inset: -6%;
+    background:
+      radial-gradient(120% 82% at 50% 46%, #3079ba 0%, #1b5285 38%, #0f3355 68%, #071a2c 100%);
+  }
+  .blobs {
+    position: absolute;
+    inset: -25%;
+    filter: blur(80px);
+    opacity: .85;
+    background:
+      radial-gradient(30% 12% at 38% 14%, rgba(190, 230, 255, .38) 0%, rgba(190, 230, 255, 0) 70%),
+      radial-gradient(24% 9% at 72% 22%, rgba(160, 215, 255, .26) 0%, rgba(160, 215, 255, 0) 70%),
+      radial-gradient(44% 30% at 22% 74%, rgba(52, 130, 200, .55) 0%, rgba(52, 130, 200, 0) 66%),
+      radial-gradient(40% 26% at 82% 68%, rgba(70, 150, 220, .45) 0%, rgba(70, 150, 220, 0) 64%);
+  }
+
+  /* 参考图里的竖向光束 */
+  .beams {
+    position: absolute;
+    inset: 0;
+    opacity: .68;
+    filter: blur(5px);
+    background-image: repeating-linear-gradient(
+      90deg,
+      rgba(130, 205, 255, 0) 0 54px,
+      rgba(130, 205, 255, .3) 54px 56px,
+      rgba(130, 205, 255, 0) 56px 110px
+    );
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 24%, #000 76%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 24%, #000 76%, transparent 100%);
+  }
+
+  /* 中央光晕，呼应参考图里汇聚的高光 */
+  .halo {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(34% 24% at 50% 30%, rgba(150, 210, 255, .22) 0%, rgba(150, 210, 255, 0) 72%),
+      radial-gradient(46% 30% at 50% 58%, rgba(90, 165, 235, .16) 0%, rgba(90, 165, 235, 0) 70%);
+  }
+
+  .veil {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 28, 48, .16);
+    backdrop-filter: blur(9px) saturate(125%);
+    -webkit-backdrop-filter: blur(9px) saturate(125%);
+  }
+  .vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+    background: radial-gradient(120% 92% at 50% 44%, rgba(0, 0, 0, 0) 38%, rgba(4, 14, 26, .62) 100%);
+  }
+
+  /* ===== 五线谱素材 ===== */
+  .dec {
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+    user-select: none;
+    filter: drop-shadow(0 0 5px rgba(143, 214, 255, .5))
+            drop-shadow(0 0 22px rgba(64, 150, 235, .38));
+  }
+  .dec--1 { width: 44vw; left: -8vw; top: -2vw; transform: rotate(-9deg); opacity: .40; }
+  .dec--2 { width: 38vw; right: -9vw; top: -4vw; transform: scaleX(-1) rotate(-6deg); opacity: .22; }
+  .dec--3 { width: 26vw; left: -5vw; bottom: -4vw; transform: rotate(6deg); opacity: .32; }
+  .dec--4 { width: 22vw; right: -6vw; bottom: -8vw; transform: scaleX(-1) rotate(-5deg); opacity: .20; }
+
+  /* ===== 谱号 ===== */
+  .clef {
+    position: absolute;
+    z-index: 3;
+    color: #d5eeff;
+    font-family: "Segoe UI Symbol", "Noto Music", "Bravura", serif;
+    line-height: 1;
+    filter: drop-shadow(0 0 10px rgba(143, 214, 255, .9))
+            drop-shadow(0 0 30px rgba(70, 160, 240, .55));
+    animation: floaty 13s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .clef--a { left: 11%; top: 13%; font-size: 66px; opacity: .42; transform: rotate(-10deg); }
+  .clef--b { right: 13%; bottom: 17%; font-size: 82px; opacity: .3; transform: rotate(9deg); animation-delay: -6s; }
+
+  /* ===== 12 个音符 ===== */
+  .note {
+    position: absolute;
+    z-index: 3;
+    color: #e2f4ff;
+    text-shadow: 0 0 8px rgba(143, 214, 255, .95), 0 0 26px rgba(70, 160, 240, .7);
+    animation: drift 10s ease-in-out infinite;
+    pointer-events: none;
+    will-change: transform, opacity;
+  }
+  @keyframes drift {
+    0%, 100% { transform: translate3d(0, 0, 0) rotate(-5deg); opacity: .38; }
+    50% { transform: translate3d(0, -18px, 0) rotate(5deg); opacity: .95; }
+  }
+  @keyframes floaty {
+    0%, 100% { translate: 0 0; }
+    50% { translate: 0 -12px; }
+  }
+
+  /* ===== 内容 ===== */
+  .stage { position: relative; z-index: 5; height: 100%; }
+
+  .welcome {
+    position: absolute;
+    top: 25%;
+    left: 0;
+    right: 0;
+    margin: 0;
+    text-align: center;
+    font-family: "Noto Serif SC", "Songti SC", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(17px, 2.9vw, 26px);
+    letter-spacing: .52em;
+    text-indent: .52em;
+    color: #eef8ff;
+    text-shadow: 0 0 18px rgba(120, 195, 255, .55);
+    opacity: 1;
+    animation: fadeUp 1.2s ease .25s both;
+  }
+  .welcome::after {
+    content: "";
+    display: block;
+    width: 64px;
+    height: 1px;
+    margin: 20px auto 0;
+    background: linear-gradient(90deg, transparent, rgba(180, 225, 255, .9), transparent);
+    box-shadow: 0 0 12px rgba(120, 195, 255, .8);
+  }
+
+  .typed {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(720px, 86vw);
+    margin: 0;
+    text-align: center;
+    font-family: Georgia, "Times New Roman", "Songti SC", serif;
+    font-style: italic;
+    font-size: clamp(19px, 2.9vw, 30px);
+    line-height: 1.75;
+    color: #f6faff;
+    text-shadow: 0 0 26px rgba(110, 185, 255, .45), 0 2px 24px rgba(0, 20, 40, .7);
+    min-height: 2em;
+  }
+  .caret {
+    display: inline-block;
+    width: 2px;
+    height: .95em;
+    margin-left: 3px;
+    vertical-align: -.1em;
+    background: #d7efff;
+    box-shadow: 0 0 10px rgba(143, 214, 255, .95);
+    animation: blink 1.05s steps(1) infinite;
+  }
+  @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+  .actions {
+    position: absolute;
+    top: 70%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity .9s ease, transform .9s ease;
+    pointer-events: none;
+  }
+  .actions.show { opacity: 1; transform: none; pointer-events: auto; }
+
+  .enter {
+    display: inline-block;
+    padding: 13px 40px;
+    border: 1px solid rgba(170, 220, 255, .55);
+    border-radius: 999px;
+    background: rgba(140, 200, 255, .08);
+    color: #f2f9ff;
+    font-size: 15px;
+    letter-spacing: .22em;
+    text-indent: .22em;
+    text-decoration: none;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 0 22px rgba(90, 170, 240, .35), inset 0 0 18px rgba(140, 200, 255, .12);
+    transition: background .3s ease, transform .3s ease, box-shadow .3s ease;
+  }
+  .enter:hover {
+    background: rgba(150, 205, 255, .2);
+    transform: translateY(-2px);
+    box-shadow: 0 0 32px rgba(110, 190, 255, .55), inset 0 0 22px rgba(160, 215, 255, .2);
+  }
+  .enter .arrow { margin-left: 8px; text-indent: 0; }
+  .hint {
+    margin: 16px 0 0;
+    font-size: 12px;
+    letter-spacing: .16em;
+    color: rgba(200, 228, 250, .5);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: .35; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 640px) {
+    .welcome { top: 22%; letter-spacing: .38em; text-indent: .38em; }
+    .typed { top: 50%; }
+    .actions { top: 68%; }
+    .dec--1, .dec--2 { width: 96vw; }
+    .dec--3, .dec--4 { width: 58vw; }
+    .clef--a { font-size: 46px; }
+    .clef--b { font-size: 54px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .note, .clef { animation: none; }
+    .welcome { animation: none; opacity: 1; }
+  }
+  html.static .welcome { animation: none; opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="splash">
+  <div class="sky"></div>
+  <div class="blobs"></div>
+  <div class="beams"></div>
+  <div class="halo"></div>
+  <div class="veil"></div>
+
+  <!-- 五线谱素材：由你给的抠图转成透明 PNG -->
+  <img class="dec dec--1" src="assets/img/staff-long.png" alt="" aria-hidden="true">
+  <img class="dec dec--2" src="assets/img/staff-long.png" alt="" aria-hidden="true">
+  <img class="dec dec--3" src="assets/img/staff-s.png" alt="" aria-hidden="true">
+  <img class="dec dec--4" src="assets/img/staff-s.png" alt="" aria-hidden="true">
+
+  <!-- 谱号 -->
+  <span class="clef clef--a" aria-hidden="true">&#119070;</span>
+  <span class="clef clef--b" aria-hidden="true">&#119070;</span>
+
+  <!-- 12 个音符 -->
+  <span class="note" style="left:7%; top:58%; font-size:26px; animation-duration:11s; animation-delay:-1s;">&#9834;</span>
+  <span class="note" style="left:16%; top:31%; font-size:18px; animation-duration:9s; animation-delay:-3s;">&#9835;</span>
+  <span class="note" style="left:25%; top:79%; font-size:22px; animation-duration:13s; animation-delay:-5s;">&#9833;</span>
+  <span class="note" style="left:33%; top:17%; font-size:16px; animation-duration:10s; animation-delay:-2s;">&#9836;</span>
+  <span class="note" style="left:43%; top:87%; font-size:20px; animation-duration:12s; animation-delay:-7s;">&#9834;</span>
+  <span class="note" style="left:56%; top:11%; font-size:16px; animation-duration:9.5s; animation-delay:-4s;">&#9835;</span>
+  <span class="note" style="left:64%; top:81%; font-size:24px; animation-duration:11.5s; animation-delay:-6s;">&#9833;</span>
+  <span class="note" style="left:72%; top:23%; font-size:20px; animation-duration:10.5s; animation-delay:-1.5s;">&#9836;</span>
+  <span class="note" style="left:80%; top:65%; font-size:28px; animation-duration:13.5s; animation-delay:-8s;">&#9834;</span>
+  <span class="note" style="left:88%; top:35%; font-size:18px; animation-duration:9s; animation-delay:-2.5s;">&#9835;</span>
+  <span class="note" style="left:92%; top:78%; font-size:22px; animation-duration:12.5s; animation-delay:-4.5s;">&#9833;</span>
+  <span class="note" style="left:5%; top:86%; font-size:20px; animation-duration:10s; animation-delay:-9s;">&#9836;</span>
+
+  <div class="stage">
+    <h1 class="welcome">WELCOME</h1>
+
+    <p class="typed"><span id="text">I don't know where I'm going, but I'm on my way.</span><span class="caret"></span></p>
+
+    <div class="actions" id="actions">
+      <a class="enter" href="blog/">点击进入<span class="arrow">→</span></a>
+      <p class="hint">按 Enter 也可以</p>
+    </div>
+  </div>
+
+  <div class="vignette"></div>
+</div>
+
+<noscript>
+  <style>
+    .actions { opacity: 1 !important; transform: none !important; pointer-events: auto !important; }
+    .caret { display: none; }
+    html.static .welcome { animation: none; opacity: 1; }
+</style>
+</noscript>
+
+<script>
+(function () {
+  var LINE = "I don't know where I'm going, but I'm on my way.";
+  var out = document.getElementById('text');
+  var actions = document.getElementById('actions');
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var staticMode = /[?&]static=1/.test(window.location.search);
+
+  out.textContent = '';
+
+  function showEnter() {
+    actions.classList.add('show');
+  }
+
+  if (staticMode) { document.documentElement.classList.add('static'); }
+
+  if (reduced || staticMode) {
+    out.textContent = LINE;
+    showEnter();
+  } else {
+    var i = 0;
+    var tick = function () {
+      i += 1;
+      out.textContent = LINE.slice(0, i);
+      if (i < LINE.length) {
+        setTimeout(tick, 100 + Math.random() * 60);
+      } else {
+        setTimeout(showEnter, 560);
+      }
+    };
+    setTimeout(tick, 900);
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      window.location.href = 'blog/';
+    }
+  });
+})();
+</script>
+</body>
+</html>

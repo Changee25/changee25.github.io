@@ -1,8 +1,3 @@
-# ============================================================
-# 站点配置。仓库名必须是 changee25.github.io（不区分大小写）。
-# 想改站点名、作者名，改下面几行即可。
-# ============================================================
-
 title: Changee25 的博客
 description: 学习记录、项目笔记与生活随笔
 author: Changee25
@@ -10,35 +5,30 @@ email: ""
 
 # 站点地址：结尾不要加 /
 url: "https://changee25.github.io"
-# 如果是「项目仓库」而不是 changee25.github.io，这里要写 "/仓库名"
+# 这是用户名仓库，根路径，所以 baseurl 必须留空
 baseurl: ""
 
-# GitHub Pages 官方支持的主题，改这一行就能换外观
 theme: minima
-
-# 文章永久链接：/2026/10/25/first-meeting/
-permalink: /:year/:month/:day/:title/
-
-# 首页显示每篇文章的摘要
 show_excerpts: true
-
-# 顶部导航栏的页面
 header_pages:
+  - blog.md
   - about.md
 
-# GitHub Pages 内置支持的插件，不用自己装
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
+lang: zh-CN
+timezone: Asia/Shanghai
+
+permalink: /:year/:month/:day/:title/
 
 markdown: kramdown
 kramdown:
   input: GFM
+  hard_wrap: false
   syntax_highlighter: rouge
 
-timezone: Asia/Shanghai
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
 
-# 构建时排除的文件
 exclude:
   - Gemfile
   - Gemfile.lock
