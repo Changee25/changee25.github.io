@@ -293,9 +293,105 @@ layout: blank
     .welcome { animation: none; opacity: 1; }
   }
   html.static .welcome { animation: none; opacity: 1; }
+  html.static .typed .ch { animation: none; opacity: 1; filter: none; }
   /* fade out before navigating */
   .splash { transition: opacity .36s ease; }
   body.leaving .splash { opacity: 0; }
+
+  /* ============================================================
+     白昼版配色：天空蓝 + 白云，元素整体压深保证可读
+     ============================================================ */
+  body { background: #cfe9fa; }
+
+  .sky {
+    background: linear-gradient(180deg, #1f7fd0 0%, #4f9fe0 26%, #8ac4ee 52%, #c9e6fb 78%, #eef9ff 100%);
+  }
+
+  .blobs {
+    opacity: .96;
+    filter: blur(40px);
+    background:
+      radial-gradient(13% 9% at 25% 17%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 70%),
+      radial-gradient(10% 7% at 32% 21%, rgba(255, 255, 255, .95) 0%, rgba(255, 255, 255, 0) 70%),
+      radial-gradient(15% 10% at 68% 35%, rgba(255, 255, 255, .95) 0%, rgba(255, 255, 255, 0) 72%),
+      radial-gradient(9% 6% at 76% 40%, rgba(255, 255, 255, .9) 0%, rgba(255, 255, 255, 0) 70%),
+      radial-gradient(16% 10% at 47% 57%, rgba(255, 255, 255, .92) 0%, rgba(255, 255, 255, 0) 72%),
+      radial-gradient(11% 7% at 13% 65%, rgba(255, 255, 255, .85) 0%, rgba(255, 255, 255, 0) 70%),
+      radial-gradient(13% 8% at 87% 61%, rgba(255, 255, 255, .85) 0%, rgba(255, 255, 255, 0) 70%),
+      radial-gradient(18% 11% at 72% 84%, rgba(255, 255, 255, .8) 0%, rgba(255, 255, 255, 0) 72%);
+    animation: cloudDrift 46s ease-in-out infinite alternate;
+  }
+
+  @keyframes cloudDrift {
+    from { translate: -2.2vw 0; }
+    to   { translate: 2.8vw -1.6vh; }
+  }
+
+  .veil {
+    background: rgba(255, 255, 255, .05);
+    backdrop-filter: blur(4px) saturate(112%);
+    -webkit-backdrop-filter: blur(4px) saturate(112%);
+  }
+
+  .vignette {
+    background: radial-gradient(120% 92% at 50% 42%, rgba(255, 255, 255, 0) 44%, rgba(96, 154, 200, .26) 100%);
+  }
+
+  /* 五线谱：深蓝线条 + 白色柔光，避免糊在云里 */
+  .dec {
+    filter: drop-shadow(0 1px 3px rgba(255, 255, 255, .8))
+            drop-shadow(0 6px 20px rgba(255, 255, 255, .55));
+  }
+  .dec--1 { opacity: .55; }
+  .dec--2 { opacity: .38; }
+  .dec--3 { opacity: .48; }
+  .dec--4 { opacity: .34; }
+  .dec--5 { opacity: .26; }
+  .dec--6 { opacity: .24; }
+
+  .note {
+    color: #10466f;
+    text-shadow: 0 0 10px rgba(255, 255, 255, .95), 0 2px 6px rgba(255, 255, 255, .8);
+  }
+
+  .clef {
+    color: #10466f;
+    filter: drop-shadow(0 2px 8px rgba(255, 255, 255, .9));
+  }
+
+  .welcome {
+    color: #0b3a5e;
+    text-shadow: 0 2px 20px rgba(255, 255, 255, .95), 0 1px 2px rgba(255, 255, 255, .9);
+  }
+  .welcome::after {
+    background: linear-gradient(90deg, transparent, rgba(11, 58, 94, .45), transparent);
+    box-shadow: none;
+  }
+
+  .typed {
+    color: #0a2e4d;
+    text-shadow: 0 2px 26px rgba(255, 255, 255, .95), 0 1px 3px rgba(255, 255, 255, .85);
+  }
+
+  .caret {
+    background: #0a2e4d;
+    box-shadow: 0 0 10px rgba(255, 255, 255, .9);
+  }
+
+  .enter {
+    color: #0a2e4d;
+    background: rgba(255, 255, 255, .55);
+    border-color: rgba(10, 46, 77, .3);
+    box-shadow: 0 12px 28px rgba(30, 88, 138, .18), inset 0 0 16px rgba(255, 255, 255, .6);
+  }
+  .enter:hover {
+    background: #ffffff;
+    box-shadow: 0 16px 34px rgba(30, 88, 138, .26);
+  }
+
+  .hint {
+    color: rgba(10, 46, 77, .55);
+  }
 </style>
 </head>
 <body>
@@ -308,12 +404,12 @@ layout: blank
   <div class="veil"></div>
 
   <!-- 五线谱素材：由你给的抠图转成透明 PNG -->
-  <img class="dec dec--1" src="assets/img/staff-long.png" alt="" aria-hidden="true">
-  <img class="dec dec--2" src="assets/img/staff-long.png" alt="" aria-hidden="true">
-  <img class="dec dec--3" src="assets/img/staff-s.png" alt="" aria-hidden="true">
-  <img class="dec dec--4" src="assets/img/staff-s.png" alt="" aria-hidden="true">
-  <img class="dec dec--5" src="assets/img/staff-s.png" alt="" aria-hidden="true">
-  <img class="dec dec--6" src="assets/img/staff-long.png" alt="" aria-hidden="true">
+  <img class="dec dec--1" src="assets/img/staff-long-day.png" alt="" aria-hidden="true">
+  <img class="dec dec--2" src="assets/img/staff-long-day.png" alt="" aria-hidden="true">
+  <img class="dec dec--3" src="assets/img/staff-s-day.png" alt="" aria-hidden="true">
+  <img class="dec dec--4" src="assets/img/staff-s-day.png" alt="" aria-hidden="true">
+  <img class="dec dec--5" src="assets/img/staff-s-day.png" alt="" aria-hidden="true">
+  <img class="dec dec--6" src="assets/img/staff-long-day.png" alt="" aria-hidden="true">
 
   <!-- 谱号 -->
   <span class="clef clef--a" aria-hidden="true">&#119070;</span>
@@ -330,16 +426,12 @@ layout: blank
   <span class="note" style="left:17%; top:24%; font-size:18px; rotate:6deg; animation-name:drift; animation-duration:11.5s; animation-delay:-5.1s;">&#9834;</span>
   <span class="note" style="left:21%; top:82%; font-size:18px; rotate:-9deg; animation-name:driftB; animation-duration:12.4s; animation-delay:-6.3s;">&#9835;</span>
   <span class="note" style="left:21%; top:40%; font-size:28px; rotate:-9deg; animation-name:drift; animation-duration:12.4s; animation-delay:-2.1s;">&#9833;</span>
-  <span class="note" style="left:25%; top:26%; font-size:26px; rotate:7deg; animation-name:drift; animation-duration:13.3s; animation-delay:-5.3s;">&#9836;</span>
   <span class="note" style="left:16%; top:58%; font-size:17px; rotate:12deg; animation-name:driftB; animation-duration:12.0s; animation-delay:-5.0s;">&#9834;</span>
   <span class="note" style="left:29%; top:44%; font-size:20px; rotate:-1deg; animation-name:drift; animation-duration:11.8s; animation-delay:-8.3s;">&#9835;</span>
   <span class="note" style="left:29%; top:76%; font-size:18px; rotate:12deg; animation-name:drift; animation-duration:10.5s; animation-delay:-2.0s;">&#9833;</span>
-  <span class="note" style="left:71%; top:18%; font-size:17px; rotate:3deg; animation-name:driftB; animation-duration:9.5s; animation-delay:-3.1s;">&#9836;</span>
   <span class="note" style="left:71%; top:74%; font-size:20px; rotate:-10deg; animation-name:drift; animation-duration:13.4s; animation-delay:-2.9s;">&#9834;</span>
-  <span class="note" style="left:75%; top:34%; font-size:15px; rotate:-2deg; animation-name:drift; animation-duration:12.1s; animation-delay:-1.9s;">&#9835;</span>
   <span class="note" style="left:75%; top:88%; font-size:16px; rotate:9deg; animation-name:driftB; animation-duration:14.6s; animation-delay:-4.1s;">&#9833;</span>
   <span class="note" style="left:79%; top:52%; font-size:15px; rotate:-2deg; animation-name:drift; animation-duration:13.6s; animation-delay:-5.4s;">&#9836;</span>
-  <span class="note" style="left:79%; top:10%; font-size:20px; rotate:6deg; animation-name:drift; animation-duration:13.2s; animation-delay:-5.6s;">&#9834;</span>
   <span class="note" style="left:83%; top:68%; font-size:24px; rotate:-4deg; animation-name:driftB; animation-duration:9.4s; animation-delay:-1.3s;">&#9835;</span>
   <span class="note" style="left:83%; top:24%; font-size:24px; rotate:11deg; animation-name:drift; animation-duration:13.2s; animation-delay:-1.1s;">&#9833;</span>
   <span class="note" style="left:87%; top:82%; font-size:18px; rotate:2deg; animation-name:drift; animation-duration:12.9s; animation-delay:-8.9s;">&#9836;</span>
@@ -368,6 +460,7 @@ layout: blank
     .actions { opacity: 1 !important; transform: none !important; pointer-events: auto !important; }
     .caret { display: none; }
     html.static .welcome { animation: none; opacity: 1; }
+  html.static .typed .ch { animation: none; opacity: 1; filter: none; }
 </style>
 </noscript>
 
