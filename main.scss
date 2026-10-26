@@ -662,3 +662,37 @@ hr {
 .friend-url {
   color: #6b8aa6;
 }
+
+/* ---------- 文章底部：复制链接 ---------- */
+.share-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 2.4em;
+  padding-top: 22px;
+  border-top: 1px dashed rgba(31, 111, 178, 0.18);
+}
+
+.share-btn {
+  padding: 8px 20px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #1f6fb2;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(31, 111, 178, 0.28);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.share-btn:hover,
+.share-btn.is-done {
+  color: #ffffff;
+  background: #1f6fb2;
+  border-color: #1f6fb2;
+}
+
+.share-tip {
+  font-size: 13px;
+  color: #5c7c99;
+}
