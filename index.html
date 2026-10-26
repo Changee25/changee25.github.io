@@ -85,19 +85,25 @@ layout: blank
     background: radial-gradient(120% 92% at 50% 44%, rgba(0, 0, 0, 0) 38%, rgba(4, 14, 26, .62) 100%);
   }
 
-  /* ===== 五线谱素材 ===== */
+  /* ===== 五线谱素材（缓慢流动） ===== */
   .dec {
     position: absolute;
     z-index: 2;
     pointer-events: none;
     user-select: none;
+    will-change: translate;
     filter: drop-shadow(0 0 5px rgba(143, 214, 255, .5))
             drop-shadow(0 0 22px rgba(64, 150, 235, .38));
   }
-  .dec--1 { width: 44vw; left: -8vw; top: -2vw; transform: rotate(-9deg); opacity: .40; }
-  .dec--2 { width: 38vw; right: -9vw; top: -4vw; transform: scaleX(-1) rotate(-6deg); opacity: .22; }
-  .dec--3 { width: 26vw; left: -5vw; bottom: -4vw; transform: rotate(6deg); opacity: .32; }
-  .dec--4 { width: 22vw; right: -6vw; bottom: -8vw; transform: scaleX(-1) rotate(-5deg); opacity: .20; }
+  .dec--1 { width: 46vw; left: -9vw;   top: -3vw;  rotate: -8deg;  opacity: .42; animation: flowA 26s ease-in-out infinite alternate; }
+  .dec--2 { width: 38vw; right: -9vw;  top: -4vw;  rotate: 6deg;   scale: -1 1; opacity: .26; animation: flowB 33s ease-in-out infinite alternate; }
+  .dec--3 { width: 26vw; left: -5vw;   bottom: -4vw; rotate: 6deg;  opacity: .34; animation: flowB 29s ease-in-out infinite alternate; }
+  .dec--4 { width: 22vw; right: -5vw;  bottom: -6vw; rotate: -5deg; scale: -1 1; opacity: .22; animation: flowA 35s ease-in-out infinite alternate; }
+  .dec--5 { width: 20vw; left: -11vw;  top: 36%;   rotate: 18deg;  opacity: .16; animation: flowA 38s ease-in-out infinite alternate; }
+  .dec--6 { width: 30vw; right: -16vw; top: 50%;   rotate: -12deg; scale: -1 1; opacity: .14; animation: flowB 41s ease-in-out infinite alternate; }
+
+  @keyframes flowA { from { translate: 0 0; } to { translate: 3vw -2.2vh; } }
+  @keyframes flowB { from { translate: 0 0; } to { translate: -2.6vw 1.8vh; } }
 
   /* ===== 谱号 ===== */
   .clef {
@@ -114,19 +120,23 @@ layout: blank
   .clef--a { left: 11%; top: 13%; font-size: 66px; opacity: .42; transform: rotate(-10deg); }
   .clef--b { right: 13%; bottom: 17%; font-size: 82px; opacity: .3; transform: rotate(9deg); animation-delay: -6s; }
 
-  /* ===== 12 个音符 ===== */
+  /* ===== 音符（28 个，缓慢浮游） ===== */
   .note {
     position: absolute;
     z-index: 3;
     color: #e2f4ff;
     text-shadow: 0 0 8px rgba(143, 214, 255, .95), 0 0 26px rgba(70, 160, 240, .7);
-    animation: drift 10s ease-in-out infinite;
+    animation: drift 11s ease-in-out infinite;
     pointer-events: none;
-    will-change: transform, opacity;
+    will-change: translate, opacity;
   }
   @keyframes drift {
-    0%, 100% { transform: translate3d(0, 0, 0) rotate(-5deg); opacity: .38; }
-    50% { transform: translate3d(0, -18px, 0) rotate(5deg); opacity: .95; }
+    0%, 100% { translate: 0 0; opacity: .3; }
+    50% { translate: 0 -20px; opacity: .95; }
+  }
+  @keyframes driftB {
+    0%, 100% { translate: 0 8px; opacity: .26; }
+    50% { translate: 8px -16px; opacity: .8; }
   }
   @keyframes floaty {
     0%, 100% { translate: 0 0; }
@@ -243,6 +253,7 @@ layout: blank
     .typed { top: 50%; }
     .actions { top: 68%; }
     .dec--1, .dec--2 { width: 96vw; }
+    .dec--5, .dec--6 { display: none; }
     .dec--3, .dec--4 { width: 58vw; }
     .clef--a { font-size: 46px; }
     .clef--b { font-size: 54px; }
@@ -253,6 +264,9 @@ layout: blank
     .welcome { animation: none; opacity: 1; }
   }
   html.static .welcome { animation: none; opacity: 1; }
+  /* fade out before navigating */
+  .splash { transition: opacity .36s ease; }
+  body.leaving .splash { opacity: 0; }
 </style>
 </head>
 <body>
@@ -269,24 +283,42 @@ layout: blank
   <img class="dec dec--2" src="assets/img/staff-long.png" alt="" aria-hidden="true">
   <img class="dec dec--3" src="assets/img/staff-s.png" alt="" aria-hidden="true">
   <img class="dec dec--4" src="assets/img/staff-s.png" alt="" aria-hidden="true">
+  <img class="dec dec--5" src="assets/img/staff-s.png" alt="" aria-hidden="true">
+  <img class="dec dec--6" src="assets/img/staff-long.png" alt="" aria-hidden="true">
 
   <!-- 谱号 -->
   <span class="clef clef--a" aria-hidden="true">&#119070;</span>
   <span class="clef clef--b" aria-hidden="true">&#119070;</span>
 
-  <!-- 12 个音符 -->
-  <span class="note" style="left:7%; top:58%; font-size:26px; animation-duration:11s; animation-delay:-1s;">&#9834;</span>
-  <span class="note" style="left:16%; top:31%; font-size:18px; animation-duration:9s; animation-delay:-3s;">&#9835;</span>
-  <span class="note" style="left:25%; top:79%; font-size:22px; animation-duration:13s; animation-delay:-5s;">&#9833;</span>
-  <span class="note" style="left:33%; top:17%; font-size:16px; animation-duration:10s; animation-delay:-2s;">&#9836;</span>
-  <span class="note" style="left:43%; top:87%; font-size:20px; animation-duration:12s; animation-delay:-7s;">&#9834;</span>
-  <span class="note" style="left:56%; top:11%; font-size:16px; animation-duration:9.5s; animation-delay:-4s;">&#9835;</span>
-  <span class="note" style="left:64%; top:81%; font-size:24px; animation-duration:11.5s; animation-delay:-6s;">&#9833;</span>
-  <span class="note" style="left:72%; top:23%; font-size:20px; animation-duration:10.5s; animation-delay:-1.5s;">&#9836;</span>
-  <span class="note" style="left:80%; top:65%; font-size:28px; animation-duration:13.5s; animation-delay:-8s;">&#9834;</span>
-  <span class="note" style="left:88%; top:35%; font-size:18px; animation-duration:9s; animation-delay:-2.5s;">&#9835;</span>
-  <span class="note" style="left:92%; top:78%; font-size:22px; animation-duration:12.5s; animation-delay:-4.5s;">&#9833;</span>
-  <span class="note" style="left:5%; top:86%; font-size:20px; animation-duration:10s; animation-delay:-9s;">&#9836;</span>
+  <!-- 28 个音符 -->
+  <span class="note" style="left:5%; top:18%; font-size:20px; rotate:-11deg; animation-name:drift; animation-duration:14.7s; animation-delay:-3.9s;">&#9835;</span>
+  <span class="note" style="left:5%; top:74%; font-size:15px; rotate:6deg; animation-name:drift; animation-duration:13.9s; animation-delay:-1.3s;">&#9833;</span>
+  <span class="note" style="left:9%; top:34%; font-size:14px; rotate:-10deg; animation-name:driftB; animation-duration:14.5s; animation-delay:-2.3s;">&#9836;</span>
+  <span class="note" style="left:9%; top:88%; font-size:22px; rotate:5deg; animation-name:drift; animation-duration:11.5s; animation-delay:-2.5s;">&#9834;</span>
+  <span class="note" style="left:13%; top:52%; font-size:22px; rotate:-5deg; animation-name:drift; animation-duration:9.4s; animation-delay:-5.3s;">&#9835;</span>
+  <span class="note" style="left:13%; top:10%; font-size:28px; rotate:0deg; animation-name:driftB; animation-duration:14.7s; animation-delay:-5.4s;">&#9833;</span>
+  <span class="note" style="left:17%; top:68%; font-size:14px; rotate:-8deg; animation-name:drift; animation-duration:14.9s; animation-delay:-0.9s;">&#9836;</span>
+  <span class="note" style="left:17%; top:24%; font-size:18px; rotate:6deg; animation-name:drift; animation-duration:11.5s; animation-delay:-5.1s;">&#9834;</span>
+  <span class="note" style="left:21%; top:82%; font-size:18px; rotate:-9deg; animation-name:driftB; animation-duration:12.4s; animation-delay:-6.3s;">&#9835;</span>
+  <span class="note" style="left:21%; top:40%; font-size:28px; rotate:-9deg; animation-name:drift; animation-duration:12.4s; animation-delay:-2.1s;">&#9833;</span>
+  <span class="note" style="left:25%; top:26%; font-size:26px; rotate:7deg; animation-name:drift; animation-duration:13.3s; animation-delay:-5.3s;">&#9836;</span>
+  <span class="note" style="left:25%; top:58%; font-size:17px; rotate:12deg; animation-name:driftB; animation-duration:12.0s; animation-delay:-5.0s;">&#9834;</span>
+  <span class="note" style="left:29%; top:44%; font-size:20px; rotate:-1deg; animation-name:drift; animation-duration:11.8s; animation-delay:-8.3s;">&#9835;</span>
+  <span class="note" style="left:29%; top:76%; font-size:18px; rotate:12deg; animation-name:drift; animation-duration:10.5s; animation-delay:-2.0s;">&#9833;</span>
+  <span class="note" style="left:71%; top:18%; font-size:17px; rotate:3deg; animation-name:driftB; animation-duration:9.5s; animation-delay:-3.1s;">&#9836;</span>
+  <span class="note" style="left:71%; top:74%; font-size:20px; rotate:-10deg; animation-name:drift; animation-duration:13.4s; animation-delay:-2.9s;">&#9834;</span>
+  <span class="note" style="left:75%; top:34%; font-size:15px; rotate:-2deg; animation-name:drift; animation-duration:12.1s; animation-delay:-1.9s;">&#9835;</span>
+  <span class="note" style="left:75%; top:88%; font-size:16px; rotate:9deg; animation-name:driftB; animation-duration:14.6s; animation-delay:-4.1s;">&#9833;</span>
+  <span class="note" style="left:79%; top:52%; font-size:15px; rotate:-2deg; animation-name:drift; animation-duration:13.6s; animation-delay:-5.4s;">&#9836;</span>
+  <span class="note" style="left:79%; top:10%; font-size:20px; rotate:6deg; animation-name:drift; animation-duration:13.2s; animation-delay:-5.6s;">&#9834;</span>
+  <span class="note" style="left:83%; top:68%; font-size:24px; rotate:-4deg; animation-name:driftB; animation-duration:9.4s; animation-delay:-1.3s;">&#9835;</span>
+  <span class="note" style="left:83%; top:24%; font-size:24px; rotate:11deg; animation-name:drift; animation-duration:13.2s; animation-delay:-1.1s;">&#9833;</span>
+  <span class="note" style="left:87%; top:82%; font-size:18px; rotate:2deg; animation-name:drift; animation-duration:12.9s; animation-delay:-8.9s;">&#9836;</span>
+  <span class="note" style="left:87%; top:40%; font-size:18px; rotate:-1deg; animation-name:driftB; animation-duration:13.3s; animation-delay:-8.0s;">&#9834;</span>
+  <span class="note" style="left:91%; top:26%; font-size:14px; rotate:7deg; animation-name:drift; animation-duration:14.6s; animation-delay:-3.5s;">&#9835;</span>
+  <span class="note" style="left:91%; top:58%; font-size:15px; rotate:-3deg; animation-name:drift; animation-duration:12.0s; animation-delay:-2.4s;">&#9833;</span>
+  <span class="note" style="left:95%; top:44%; font-size:16px; rotate:3deg; animation-name:driftB; animation-duration:13.4s; animation-delay:-3.9s;">&#9836;</span>
+  <span class="note" style="left:95%; top:76%; font-size:15px; rotate:-4deg; animation-name:drift; animation-duration:10.0s; animation-delay:-3.9s;">&#9834;</span>
 
   <div class="stage">
     <h1 class="welcome">WELCOME</h1>
@@ -343,10 +375,31 @@ layout: blank
     setTimeout(tick, 900);
   }
 
+  var leaving = false;
+
+  function go() {
+    if (leaving) return;
+    leaving = true;
+    if (reduced) {
+      window.location.href = 'blog/';
+      return;
+    }
+    document.body.classList.add('leaving');
+    setTimeout(function () { window.location.href = 'blog/'; }, 340);
+  }
+
+  var enterLink = document.querySelector('.enter');
+  if (enterLink) {
+    enterLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      go();
+    });
+  }
+
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      window.location.href = 'blog/';
+      go();
     }
   });
 })();
