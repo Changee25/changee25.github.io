@@ -95,15 +95,21 @@ layout: blank
     filter: drop-shadow(0 0 5px rgba(143, 214, 255, .5))
             drop-shadow(0 0 22px rgba(64, 150, 235, .38));
   }
-  .dec--1 { width: 46vw; left: -9vw;   top: -3vw;  rotate: -8deg;  opacity: .42; animation: flowA 26s ease-in-out infinite alternate; }
-  .dec--2 { width: 38vw; right: -9vw;  top: -4vw;  rotate: 6deg;   scale: -1 1; opacity: .26; animation: flowB 33s ease-in-out infinite alternate; }
-  .dec--3 { width: 26vw; left: -5vw;   bottom: -4vw; rotate: 6deg;  opacity: .34; animation: flowB 29s ease-in-out infinite alternate; }
-  .dec--4 { width: 22vw; right: -5vw;  bottom: -6vw; rotate: -5deg; scale: -1 1; opacity: .22; animation: flowA 35s ease-in-out infinite alternate; }
-  .dec--5 { width: 20vw; left: -11vw;  top: 36%;   rotate: 18deg;  opacity: .16; animation: flowA 38s ease-in-out infinite alternate; }
-  .dec--6 { width: 30vw; right: -16vw; top: 50%;   rotate: -12deg; scale: -1 1; opacity: .14; animation: flowB 41s ease-in-out infinite alternate; }
+  .dec--1 { width: 46vw; left: -9vw;   top: -3vw;  opacity: .42; animation: flowA 20s ease-in-out infinite alternate; }
+  .dec--2 { width: 38vw; right: -9vw;  top: -4vw;  scale: -1 1; opacity: .26; animation: flowB 35s ease-in-out infinite alternate; }
+  .dec--3 { width: 26vw; left: -5vw;   bottom: -4vw; opacity: .34; animation: flowB 23s ease-in-out infinite alternate; }
+  .dec--4 { width: 22vw; right: -5vw;  bottom: -6vw; scale: -1 1; opacity: .22; animation: flowA 32s ease-in-out infinite alternate; }
+  .dec--5 { width: 20vw; left: -11vw;  top: 36%;   opacity: .16; animation: flowA 26s ease-in-out infinite alternate; }
+  .dec--6 { width: 30vw; right: -16vw; top: 50%;   scale: -1 1; opacity: .14; animation: flowB 29s ease-in-out infinite alternate; }
 
-  @keyframes flowA { from { translate: 0 0; } to { translate: 3vw -2.2vh; } }
-  @keyframes flowB { from { translate: 0 0; } to { translate: -2.6vw 1.8vh; } }
+  @keyframes flowA {
+    from { translate: -1vw 0; rotate: -1.5deg; }
+    to   { translate: 3.5vw -2.4vh; rotate: 1.5deg; }
+  }
+  @keyframes flowB {
+    from { translate: 1vw 0; rotate: 1.5deg; }
+    to   { translate: -3.5vw 2.2vh; rotate: -1.5deg; }
+  }
 
   /* ===== 谱号 ===== */
   .clef {
@@ -131,12 +137,12 @@ layout: blank
     will-change: translate, opacity;
   }
   @keyframes drift {
-    0%, 100% { translate: 0 0; opacity: .3; }
-    50% { translate: 0 -20px; opacity: .95; }
+    0%, 100% { translate: 0 0; opacity: .28; }
+    50% { translate: 5px -28px; opacity: .95; }
   }
   @keyframes driftB {
-    0%, 100% { translate: 0 8px; opacity: .26; }
-    50% { translate: 8px -16px; opacity: .8; }
+    0%, 100% { translate: 0 12px; opacity: .22; }
+    50% { translate: 12px -24px; opacity: .86; }
   }
   @keyframes floaty {
     0%, 100% { translate: 0 0; }
@@ -178,7 +184,7 @@ layout: blank
     top: 55%;
     left: 50%;
     transform: translateX(-50%);
-    width: min(720px, 86vw);
+    width: min(760px, 88vw);
     margin: 0;
     text-align: center;
     font-family: Georgia, "Times New Roman", "Songti SC", serif;
@@ -189,6 +195,25 @@ layout: blank
     text-shadow: 0 0 26px rgba(110, 185, 255, .45), 0 2px 24px rgba(0, 20, 40, .7);
     min-height: 2em;
   }
+
+  .typed .w {
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  .typed .ch {
+    display: inline-block;
+    opacity: 0;
+    -webkit-filter: blur(6px);
+    filter: blur(6px);
+    animation: bloom 260ms cubic-bezier(.215, .61, .355, 1) forwards;
+  }
+
+  @keyframes bloom {
+    from { opacity: 0; filter: blur(6px); -webkit-filter: blur(6px); transform: translateY(3px); }
+    to   { opacity: 1; filter: blur(0);   -webkit-filter: blur(0);   transform: none; }
+  }
+
   .caret {
     display: inline-block;
     width: 2px;
@@ -197,6 +222,10 @@ layout: blank
     vertical-align: -.1em;
     background: #d7efff;
     box-shadow: 0 0 10px rgba(143, 214, 255, .95);
+    opacity: 0;
+  }
+  body.typed-done .caret {
+    opacity: 1;
     animation: blink 1.05s steps(1) infinite;
   }
   @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
@@ -302,7 +331,7 @@ layout: blank
   <span class="note" style="left:21%; top:82%; font-size:18px; rotate:-9deg; animation-name:driftB; animation-duration:12.4s; animation-delay:-6.3s;">&#9835;</span>
   <span class="note" style="left:21%; top:40%; font-size:28px; rotate:-9deg; animation-name:drift; animation-duration:12.4s; animation-delay:-2.1s;">&#9833;</span>
   <span class="note" style="left:25%; top:26%; font-size:26px; rotate:7deg; animation-name:drift; animation-duration:13.3s; animation-delay:-5.3s;">&#9836;</span>
-  <span class="note" style="left:25%; top:58%; font-size:17px; rotate:12deg; animation-name:driftB; animation-duration:12.0s; animation-delay:-5.0s;">&#9834;</span>
+  <span class="note" style="left:16%; top:58%; font-size:17px; rotate:12deg; animation-name:driftB; animation-duration:12.0s; animation-delay:-5.0s;">&#9834;</span>
   <span class="note" style="left:29%; top:44%; font-size:20px; rotate:-1deg; animation-name:drift; animation-duration:11.8s; animation-delay:-8.3s;">&#9835;</span>
   <span class="note" style="left:29%; top:76%; font-size:18px; rotate:12deg; animation-name:drift; animation-duration:10.5s; animation-delay:-2.0s;">&#9833;</span>
   <span class="note" style="left:71%; top:18%; font-size:17px; rotate:3deg; animation-name:driftB; animation-duration:9.5s; animation-delay:-3.1s;">&#9836;</span>
@@ -345,37 +374,63 @@ layout: blank
 <script>
 (function () {
   var LINE = "I don't know where I'm going, but I'm on my way.";
+  var STAGGER = 120;   // 相邻字错开 120ms，与 260ms 化开叠加成波纹
+  var DUR = 260;      // 单字从 blur(6px) 化开所需时间
   var out = document.getElementById('text');
   var actions = document.getElementById('actions');
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var staticMode = /[?&]static=1/.test(window.location.search);
+  var leaving = false;
 
   out.textContent = '';
 
   function showEnter() {
     actions.classList.add('show');
+    document.body.classList.add('typed-done');
+  }
+
+  function build(delay) {
+    var idx = 0;
+    LINE.split(' ').forEach(function (word, wi) {
+      if (wi > 0) {
+        out.appendChild(document.createTextNode(' '));
+        idx += 1;
+      }
+      var w = document.createElement('span');
+      w.className = 'w';
+      word.split('').forEach(function (ch) {
+        var s = document.createElement('span');
+        s.className = 'ch';
+        s.textContent = ch;
+        s.style.animationDelay = (delay + idx * STAGGER) + 'ms';
+        s.addEventListener('animationend', function (ev) {
+          var t = ev.target;
+          t.style.animation = 'none';
+          t.style.opacity = '1';
+          t.style.filter = 'none';
+          t.style.webkitFilter = 'none';
+          t.style.transform = 'none';
+        });
+        w.appendChild(s);
+        idx += 1;
+      });
+      out.appendChild(w);
+    });
+    return delay + (idx - 1) * STAGGER + DUR;
   }
 
   if (staticMode) { document.documentElement.classList.add('static'); }
 
-  if (reduced || staticMode) {
+  if (reduced) {
     out.textContent = LINE;
     showEnter();
+  } else if (staticMode) {
+    build(0);
+    showEnter();
   } else {
-    var i = 0;
-    var tick = function () {
-      i += 1;
-      out.textContent = LINE.slice(0, i);
-      if (i < LINE.length) {
-        setTimeout(tick, 100 + Math.random() * 60);
-      } else {
-        setTimeout(showEnter, 560);
-      }
-    };
-    setTimeout(tick, 900);
+    var done = build(730);
+    setTimeout(showEnter, done + 380);
   }
-
-  var leaving = false;
 
   function go() {
     if (leaving) return;
