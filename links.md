@@ -6,7 +6,6 @@ permalink: /links/
 
 <div id="lock" class="lock">
   <h2>要密码才能看</h2>
-  <p>朋友们的博客都放在这里。输入密码，进去看看他们在写什么。</p>
   <form id="lock-form">
     <input id="pw" type="password" placeholder="密码" autocomplete="current-password">
     <button type="submit">进入</button>
