@@ -347,3 +347,7 @@ hr {
 /* 站名在页脚也隐藏 */
 .site-footer .footer-heading,
 .site-footer .p-name { display: none; }
+/* 隐藏列表页底部的 subscribe via RSS */
+.rss-subscribe {
+  display: none;
+}
