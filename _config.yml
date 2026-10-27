@@ -12,6 +12,7 @@ theme: minima
 show_excerpts: true
 header_pages:
   - blog.md
+  - diary.md
   - links.md
   - about.md
 
