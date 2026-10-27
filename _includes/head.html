@@ -25,7 +25,7 @@
     .toc {
       position: fixed;
       top: 120px;
-      right: max(24px, calc((100vw - 1120px) / 2));
+      right: 24px;
       width: 238px;
       max-height: 74vh;
       overflow-y: auto;
@@ -40,7 +40,12 @@
       -webkit-backdrop-filter: blur(8px);
       box-shadow: 0 10px 30px rgba(30, 90, 140, 0.06);
     }
-    @media (min-width: 1200px) { .toc { display: block; } }
+    @media (min-width: 1340px) {
+      .toc {
+        display: block;
+        right: calc((100vw - 780px) / 2 - 258px);
+      }
+    }
 
     .toc-head {
       display: flex;
@@ -321,7 +326,7 @@
       repo: 'Changee25/changee25.github.io',
       repoId: 'R_kgDOVW185w',
       category: 'Announcements',
-      categoryId: 'DIC_kwDOVW185w4DJthh',          /* ← 从 giscus.app 复制这一串 */
+      categoryId: 'DIC_kwDOVW185w4DJthh',
       mapping: 'pathname',
       theme: 'light'
     };
@@ -369,4 +374,159 @@
     })();
   });
   </script>
+
+{% if page.lock %}
+  <style>
+    html.lock-check .page-content { visibility: hidden; }
+
+    .lock-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, #c7e3fa 0%, #e6f3fe 52%, #f6fbff 100%);
+      padding: 20px;
+    }
+
+    .lock-card {
+      width: min(420px, 88vw);
+      padding: 34px 30px 26px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 16px;
+      box-shadow: 0 24px 60px rgba(30, 90, 140, 0.18);
+    }
+
+    .lock-card h2 {
+      margin: 0 0 10px;
+      font-size: 1.25em;
+      color: #123a5c;
+    }
+
+    .lock-card p {
+      margin: 0;
+      font-size: 0.94em;
+      color: #4a6b8a;
+    }
+
+    .lock-form { display: flex; gap: 8px; margin-top: 20px; }
+
+    .lock-input {
+      flex: 1;
+      min-width: 0;
+      padding: 10px 16px;
+      font-size: 15px;
+      font-family: inherit;
+      color: #123a5c;
+      background: #fff;
+      border: 1px solid rgba(31, 111, 178, 0.24);
+      border-radius: 999px;
+      outline: none;
+      transition: border-color .2s ease;
+    }
+    .lock-input:focus { border-color: #1f6fb2; }
+
+    .lock-btn {
+      padding: 10px 22px;
+      font-size: 15px;
+      font-family: inherit;
+      font-weight: 600;
+      color: #fff;
+      background: #1f6fb2;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    .lock-btn:hover { background: #1a5f9c; }
+
+    .lock-err {
+      min-height: 1.5em;
+      margin: 12px 0 0;
+      font-size: 0.86em;
+      color: #c0392b;
+    }
+
+    .lock-card.shake { animation: lock-shake .36s ease; }
+    @keyframes lock-shake {
+      25% { transform: translateX(-7px); }
+      75% { transform: translateX(7px); }
+    }
+  </style>
+
+  <script>
+  document.documentElement.classList.add('lock-check');
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var HASH = '{{ page.lock_hash | default: "0026dfa9677472300020fb4ca90df0cf593f3f93de9acb6e918a856f5d39bd43" }}';
+    var KEY = 'unlock:' + location.pathname;
+
+    try {
+      if (sessionStorage.getItem(KEY) === HASH) {
+        document.documentElement.classList.remove('lock-check');
+        return;
+      }
+    } catch (e) {}
+
+    var ov = document.createElement('div');
+    ov.className = 'lock-overlay';
+    ov.innerHTML =
+      '<div class="lock-card">' +
+        '<h2>要密码才能看</h2>' +
+        '<p>这个页面加密了，输入密码查看。</p>' +
+        '<form class="lock-form">' +
+          '<input class="lock-input" type="password" placeholder="密码" autocomplete="current-password">' +
+          '<button class="lock-btn" type="submit">进入</button>' +
+        '</form>' +
+        '<p class="lock-err"></p>' +
+      '</div>';
+    document.body.appendChild(ov);
+
+    var card = ov.querySelector('.lock-card');
+    var form = ov.querySelector('.lock-form');
+    var input = ov.querySelector('.lock-input');
+    var err = ov.querySelector('.lock-err');
+
+    input.focus();
+
+    function hex(buf) {
+      return Array.prototype.map.call(new Uint8Array(buf), function (b) {
+        return ('0' + b.toString(16)).slice(-2);
+      }).join('');
+    }
+
+    function wrong(msg) {
+      err.textContent = msg;
+      card.classList.add('shake');
+      setTimeout(function () { card.classList.remove('shake'); }, 420);
+      input.value = '';
+      input.focus();
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!(window.crypto && crypto.subtle)) {
+        err.textContent = '请用 https 地址打开这个页面';
+        return;
+      }
+      crypto.subtle.digest('SHA-256', new TextEncoder().encode(input.value)).then(function (buf) {
+        if (hex(buf) === HASH) {
+          try { sessionStorage.setItem(KEY, HASH); } catch (e2) {}
+          document.documentElement.classList.remove('lock-check');
+          ov.style.transition = 'opacity .35s ease';
+          ov.style.opacity = '0';
+          setTimeout(function () { if (ov.parentNode) ov.parentNode.removeChild(ov); }, 380);
+        } else {
+          wrong('密码不正确，请重新输入');
+        }
+      });
+    });
+  });
+  </script>
+
+  <noscript>
+    <style>html.lock-check .page-content { visibility: visible; }</style>
+  </noscript>
+{% endif %}
 </head>
