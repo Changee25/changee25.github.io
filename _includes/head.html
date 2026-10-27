@@ -26,7 +26,8 @@
       position: fixed;
       top: 120px;
       right: 24px;
-      width: 238px;
+      box-sizing: border-box;
+      width: 232px;
       max-height: 74vh;
       overflow-y: auto;
       font-size: 14px;
@@ -143,7 +144,8 @@
   <script>
   document.addEventListener('DOMContentLoaded', function () {
 
-    var article = document.querySelector('article.post');
+    /* 只有文章页才有 h-entry；page 布局只有 article.post，靠这个区分 */
+    var article = document.querySelector('article.post.h-entry');
     if (!article) return;
 
     var content = article.querySelector('.post-content');
