@@ -2,7 +2,6 @@
 layout: page
 title: 友链
 permalink: /links/
-lock: true
 ---
 
 朋友们的博客都放在这里
