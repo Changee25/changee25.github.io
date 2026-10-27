@@ -15,7 +15,7 @@ permalink: /about/
 ## 联系方式
 
 - GitHub：[@Changee25](https://github.com/Changee25)
-- telephonenumber:MTg5NDQxNTU3NTQ=
+- Telephonenumber：MTg5NDQxNTU3NTQ=
 
 ## 关于这个博客
 
