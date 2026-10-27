@@ -1,0 +1,10 @@
+# 每一条友链三行：name 名字、url 网址、desc 一句话介绍
+# 想加人就复制最后那三行（去掉开头的 #）
+
+- name: Circle
+  url: https://circle-q.github.io
+  desc: 记录我的 web 学习之路
+
+# - name: 名字
+#   url: https://example.com
+#   desc: 一句话介绍
