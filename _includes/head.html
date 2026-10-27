@@ -1,0 +1,372 @@
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- seo -%}
+  <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
+  {%- feed_meta -%}
+  {%- if jekyll.environment == 'production' and site.google_analytics -%}
+    {%- include google-analytics.html -%}
+  {%- endif -%}
+
+  <meta name="theme-color" content="#c7e3fa">
+
+  <style>
+    /* ---------- 页面切换淡入淡出 ---------- */
+    @view-transition { navigation: auto; }
+    @media (prefers-reduced-motion: no-preference) {
+      ::view-transition-old(root) { animation: 160ms ease both vt-out; }
+      ::view-transition-new(root) { animation: 240ms ease both vt-in; }
+    }
+    @keyframes vt-out { to { opacity: 0; } }
+    @keyframes vt-in { from { opacity: 0; } }
+
+    /* ---------- 文章目录 ---------- */
+    .toc {
+      position: fixed;
+      top: 120px;
+      right: max(24px, calc((100vw - 1120px) / 2));
+      width: 238px;
+      max-height: 74vh;
+      overflow-y: auto;
+      font-size: 14px;
+      line-height: 1.6;
+      display: none;
+      scrollbar-width: thin;
+      padding: 16px 14px 18px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.84);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 10px 30px rgba(30, 90, 140, 0.06);
+    }
+    @media (min-width: 1200px) { .toc { display: block; } }
+
+    .toc-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 14px;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      color: #16324f;
+    }
+    .toc-head svg { width: 17px; height: 17px; flex: none; }
+
+    .toc ul { list-style: none; margin: 0; padding: 0; }
+    .toc li { position: relative; }
+
+    .toc a {
+      display: block;
+      padding: 5px 6px 5px 14px;
+      color: #3d5670;
+      text-decoration: none;
+      border-bottom: none;
+      border-left: 2.5px solid transparent;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color .16s ease, border-color .16s ease;
+    }
+    .toc a:hover { color: #1f6fb2; }
+    .toc a.active {
+      color: #1f6fb2;
+      border-left-color: #1f6fb2;
+      font-weight: 600;
+    }
+
+    .toc li.has-sub > a { padding-left: 18px; }
+
+    .toc ul.sub { margin: 1px 0 6px; }
+    .toc ul.sub a {
+      padding-left: 30px;
+      font-size: 13px;
+      color: #56707f;
+    }
+    .toc ul.sub a.active { color: #1f6fb2; }
+
+    .toc .toggle {
+      position: absolute;
+      left: -1px;
+      top: 7px;
+      z-index: 1;
+      width: 13px;
+      height: 13px;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: #7c93a8;
+      font-size: 12px;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform .18s ease, color .18s ease;
+    }
+    .toc .toggle:hover { color: #1f6fb2; }
+    .toc li.collapsed .toggle { transform: rotate(-90deg); }
+    .toc li.collapsed ul.sub { display: none; }
+
+    /* ---------- 评论区 ---------- */
+    .comments {
+      margin-top: 3em;
+      padding-top: 26px;
+      border-top: 1px dashed rgba(31, 111, 178, .18);
+    }
+    .comments-title {
+      margin: 0 0 18px;
+      font-size: 1.05em;
+      letter-spacing: .06em;
+      color: #123a5c;
+    }
+    .comments-tip {
+      padding: 16px 18px;
+      font-size: 13px;
+      line-height: 1.8;
+      color: #4a6b8a;
+      background: rgba(255, 255, 255, .62);
+      border: 1px dashed rgba(31, 111, 178, .24);
+      border-radius: 10px;
+    }
+  </style>
+
+  <!-- 悬停预渲染 -->
+  <script type="speculationrules">
+  { "prerender": [ { "where": { "href_matches": "/*" }, "eagerness": "moderate" } ] }
+  </script>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    var article = document.querySelector('article.post');
+    if (!article) return;
+
+    var content = article.querySelector('.post-content');
+    if (!content) return;
+
+    /* ============================================================
+       1. 目录（TOC）
+       ============================================================ */
+    (function buildToc() {
+      var heads = content.querySelectorAll('h2, h3');
+      if (heads.length < 2) return;
+
+      function slug(text, i) {
+        var t = (text || '').trim().toLowerCase()
+          .replace(/[^\w\u4e00-\u9fa5-]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+        return 'sec-' + (t || i);
+      }
+
+      /* 按 h2 分组，h3 挂到上一组下面 */
+      var groups = [];
+      for (var i = 0; i < heads.length; i++) {
+        var h = heads[i];
+        if (!h.id) h.id = slug(h.textContent, i);
+        if (h.tagName === 'H2') {
+          groups.push({ h2: h, subs: [] });
+        } else if (groups.length) {
+          groups[groups.length - 1].subs.push(h);
+        } else {
+          groups.push({ h2: null, subs: [h] });
+        }
+      }
+
+      var nav = document.createElement('aside');
+      nav.className = 'toc';
+      nav.setAttribute('aria-label', '目录');
+
+      var head = document.createElement('p');
+      head.className = 'toc-head';
+      head.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" ' +
+        'stroke-linecap="round" stroke-linejoin="round">' +
+        '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>' +
+        '<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>' +
+        '<span>目录</span>';
+      nav.appendChild(head);
+
+      function link(h) {
+        var a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = h.textContent;
+        a.title = h.textContent;
+        return a;
+      }
+
+      var root = document.createElement('ul');
+
+      for (var g = 0; g < groups.length; g++) {
+        var grp = groups[g];
+        var li = document.createElement('li');
+
+        if (grp.h2) {
+          if (grp.subs.length) {
+            li.className = 'has-sub';
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'toggle';
+            btn.setAttribute('aria-label', '展开或折叠');
+            btn.textContent = '\u25BE';
+            (function (target) {
+              btn.addEventListener('click', function () {
+                target.classList.toggle('collapsed');
+              });
+            })(li);
+            li.appendChild(btn);
+          }
+          li.appendChild(link(grp.h2));
+        }
+
+        if (grp.subs.length) {
+          var sub = document.createElement('ul');
+          sub.className = 'sub';
+          for (var k = 0; k < grp.subs.length; k++) {
+            var sli = document.createElement('li');
+            sli.appendChild(link(grp.subs[k]));
+            sub.appendChild(sli);
+          }
+          li.appendChild(sub);
+        }
+
+        root.appendChild(li);
+      }
+
+      nav.appendChild(root);
+      document.body.appendChild(nav);
+
+      /* 滚动高亮 */
+      var links = nav.querySelectorAll('a');
+      var byId = {};
+      for (var j = 0; j < links.length; j++) {
+        byId[links[j].getAttribute('href').slice(1)] = links[j];
+      }
+
+      function setActive(id) {
+        var cur = nav.querySelector('a.active');
+        if (cur) cur.classList.remove('active');
+        if (byId[id]) {
+          byId[id].classList.add('active');
+          var parentLi = byId[id].closest('li.has-sub');
+          if (parentLi) parentLi.classList.remove('collapsed');
+        }
+      }
+
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (en.isIntersecting) setActive(en.target.id);
+          });
+        }, { rootMargin: '-12% 0px -72% 0px', threshold: [0, 1] });
+        for (var m = 0; m < heads.length; m++) io.observe(heads[m]);
+      }
+    })();
+
+    /* ============================================================
+       2. 复制链接按钮
+       ============================================================ */
+    (function buildShare() {
+      var bar = document.createElement('div');
+      bar.className = 'share-bar';
+
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'share-btn';
+      btn.textContent = '复制本文链接';
+
+      var tip = document.createElement('span');
+      tip.className = 'share-tip';
+
+      function flash(text) {
+        tip.textContent = text;
+        btn.classList.add('is-done');
+        setTimeout(function () {
+          tip.textContent = '';
+          btn.classList.remove('is-done');
+        }, 1800);
+      }
+
+      function legacy(url) {
+        var t = document.createElement('textarea');
+        t.value = url;
+        t.setAttribute('readonly', '');
+        t.style.position = 'fixed';
+        t.style.opacity = '0';
+        document.body.appendChild(t);
+        t.select();
+        try { document.execCommand('copy'); flash('已复制'); }
+        catch (e) { flash('复制失败，请手动复制地址栏'); }
+        document.body.removeChild(t);
+      }
+
+      btn.addEventListener('click', function () {
+        var url = window.location.href;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(function () { flash('已复制'); },
+                                                  function () { legacy(url); });
+        } else {
+          legacy(url);
+        }
+      });
+
+      bar.appendChild(btn);
+      bar.appendChild(tip);
+      content.parentNode.insertBefore(bar, content.nextSibling);
+    })();
+
+    /* ============================================================
+       3. giscus 评论
+       —— 只改下面这两个值，其余不用动
+       ============================================================ */
+    var GISCUS = {
+      repo: 'Changee25/changee25.github.io',
+      repoId: 'R_kgDOVW185w',
+      category: 'Announcements',
+      categoryId: '',            /* ← 从 giscus.app 复制这一串 */
+      mapping: 'pathname',
+      theme: 'light'
+    };
+
+    (function buildComments() {
+      var box = document.createElement('section');
+      box.className = 'comments';
+
+      var h2 = document.createElement('h2');
+      h2.className = 'comments-title';
+      h2.textContent = '评论';
+      box.appendChild(h2);
+
+      if (!GISCUS.categoryId) {
+        var tip = document.createElement('div');
+        tip.className = 'comments-tip';
+        tip.innerHTML =
+          '评论区还没配置好。去 <a href="https://giscus.app" target="_blank" rel="noopener">giscus.app</a> ' +
+          '选好仓库和分类，把生成的 <code>data-category-id</code> 填进 ' +
+          '<code>_includes/head.html</code> 的 <code>categoryId</code> 就行。';
+        box.appendChild(tip);
+      } else {
+        var script = document.createElement('script');
+        script.src = 'https://giscus.app/client.js';
+        script.setAttribute('data-repo', GISCUS.repo);
+        script.setAttribute('data-repo-id', GISCUS.repoId);
+        script.setAttribute('data-category', GISCUS.category);
+        script.setAttribute('data-category-id', GISCUS.categoryId);
+        script.setAttribute('data-mapping', GISCUS.mapping);
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', GISCUS.theme);
+        script.setAttribute('data-lang', 'zh-CN');
+        script.setAttribute('data-loading', 'lazy');
+        script.crossOrigin = 'anonymous';
+        script.async = true;
+        box.appendChild(script);
+      }
+
+      var anchor = content.nextSibling;
+      if (anchor && anchor.nextSibling) anchor = anchor.nextSibling;
+      content.parentNode.insertBefore(box, anchor || null);
+    })();
+  });
+  </script>
+</head>
