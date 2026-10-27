@@ -43,7 +43,8 @@
     @media (min-width: 1340px) {
       .toc {
         display: block;
-        right: calc((100vw - 780px) / 2 - 258px);
+        /* 贴着正文外侧，但最多离右边 72px，宽屏不会飘太远 */
+        right: clamp(28px, calc((100vw - 780px) / 2 - 258px), 72px);
       }
     }
 
@@ -473,7 +474,7 @@
     ov.className = 'lock-overlay';
     ov.innerHTML =
       '<div class="lock-card">' +
-        '<h2>友链</h2>' +
+        '<h2>要密码才能看</h2>' +
         '<p>这个页面加密了，输入密码查看。</p>' +
         '<form class="lock-form">' +
           '<input class="lock-input" type="password" placeholder="密码" autocomplete="current-password">' +
