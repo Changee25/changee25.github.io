@@ -39,7 +39,7 @@
       background: rgba(255, 255, 255, 0.84);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      box-shadow: 0 10px 28px rgba(30, 90, 140, 0.06);
+      box-shadow: 0 10px 30px rgba(30, 90, 140, 0.06);
     }
     @media (min-width: 1340px) {
       .toc {
@@ -224,13 +224,35 @@
 
     /* 文章大标题小一号（minima 默认 42px） */
     .post-title {
-      font-size: 34px;
+      font-size: 36px;
       line-height: 1.25;
     }
 
     @media screen and (max-width: 800px) {
-      .post-title { font-size: 28px; }
+      .post-title { font-size: 30px; }
     }
+
+    /* 章节标题字号：h2 32px → 26px，h3 26px → 20px */
+    .post-content h2,
+    .page-content h2 {
+      font-size: 26px;
+      line-height: 1.45;
+    }
+
+    .post-content h3,
+    .page-content h3 {
+      font-size: 20px;
+      line-height: 1.5;
+    }
+
+    @media screen and (max-width: 800px) {
+      .post-content h2,
+      .page-content h2 { font-size: 23px; }
+      .post-content h3,
+      .page-content h3 { font-size: 18px; }
+    }
+
+
 
 </style>
 
