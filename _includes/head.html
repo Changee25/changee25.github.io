@@ -214,6 +214,13 @@
       font-size: 13px;
       color: #6b8aa6;
     }
+
+    .comments .share-bar {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: 0;
+      margin-bottom: 20px;
+    }
 </style>
 
   <!-- 悬停预渲染 -->
@@ -483,8 +490,14 @@
 
       var h2 = document.createElement('h2');
       h2.className = 'comments-title';
-      h2.textContent = '评论';
+      h2.textContent = '互动区';
       box.appendChild(h2);
+
+      /* 把上面的「复制本文链接」挪进来，和评论合成一个互动区 */
+      var shareBar = document.querySelector('.share-bar');
+      if (shareBar && shareBar.parentNode) {
+        box.appendChild(shareBar);
+      }
 
       if (!GISCUS.categoryId) {
         var tip = document.createElement('div');
