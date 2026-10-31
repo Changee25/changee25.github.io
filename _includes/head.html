@@ -134,7 +134,87 @@
       border: 1px dashed rgba(31, 111, 178, .24);
       border-radius: 10px;
     }
-  </style>
+  
+    /* ---------- 代码块：浅底 + 深字，Rouge 的 token 才看得见 ---------- */
+    .highlight,
+    .highlighter-rouge .highlight {
+      background: #eaf2fb;
+      border-radius: 10px;
+    }
+
+    pre {
+      background: #eaf2fb;
+      border: 1px solid rgba(31, 111, 178, 0.14);
+      border-radius: 10px;
+    }
+
+    pre code,
+    .highlight code,
+    .highlight pre {
+      background: none;
+      border: 0;
+      color: #24303d;
+    }
+
+    .highlight .err {
+      background: transparent !important;
+      color: #b3261e;
+    }
+
+    .highlight pre {
+      margin: 0;
+      padding: 1em 1.2em;
+    }
+
+    /* ---------- 背景稍微加深，别一片惨白 ---------- */
+    html {
+      background: linear-gradient(180deg, #b9daf7 0%, #d3e9fd 34%, #e6f3ff 68%, #f4faff 100%) !important;
+    }
+
+    /* ---------- 章节折叠 ---------- */
+    .post-content h2 {
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .post-content h2::before {
+      content: "\25B8";
+      position: absolute;
+      left: 0;
+      top: 0.15em;
+      font-size: 0.75em;
+      color: #1f6fb2;
+      transition: transform 0.2s ease;
+    }
+
+    section.sec.open > h2::before {
+      transform: rotate(90deg);
+    }
+
+    section.sec > h2 {
+      margin-top: 1.3em;
+    }
+
+    section.sec:first-of-type > h2 {
+      margin-top: 0.4em;
+    }
+
+    section.sec > .sec-body {
+      display: none;
+    }
+
+    section.sec.open > .sec-body {
+      display: block;
+    }
+
+    .sec-hint {
+      margin: 0 0 1.6em;
+      font-size: 13px;
+      color: #6b8aa6;
+    }
+</style>
 
   <!-- 悬停预渲染 -->
   <script type="speculationrules">
@@ -267,6 +347,69 @@
         }, { rootMargin: '-12% 0px -72% 0px', threshold: [0, 1] });
         for (var m = 0; m < heads.length; m++) io.observe(heads[m]);
       }
+    })();
+
+    /* ============================================================
+       1.5 章节折叠：默认只显示标题，点标题展开
+       ============================================================ */
+    (function accordion() {
+      var heads = content.querySelectorAll('h2');
+      if (heads.length < 2) return;
+
+      var hint = document.createElement('p');
+      hint.className = 'sec-hint';
+      hint.textContent = '点标题展开／收起这一节';
+      var first = heads[0];
+      first.parentNode.insertBefore(hint, first);
+
+      for (var i = 0; i < heads.length; i++) {
+        var h = heads[i];
+        var sec = document.createElement('section');
+        sec.className = 'sec';
+        h.parentNode.insertBefore(sec, h);
+
+        var body = document.createElement('div');
+        body.className = 'sec-body';
+
+        var n = h.nextSibling;
+        while (n && !(n.nodeType === 1 && n.tagName === 'H2')) {
+          var next = n.nextSibling;
+          body.appendChild(n);
+          n = next;
+        }
+
+        sec.appendChild(h);
+        sec.appendChild(body);
+
+        (function (target) {
+          target.querySelector('h2').addEventListener('click', function (e) {
+            if (e.target.tagName === 'A') return;
+            target.classList.toggle('open');
+          });
+        })(sec);
+      }
+
+      function openByHash() {
+        var id = decodeURIComponent(location.hash.replace('#', ''));
+        if (!id) return;
+        var target = document.getElementById(id);
+        if (!target) return;
+        var sec = target.closest('section.sec');
+        if (sec) sec.classList.add('open');
+      }
+
+      openByHash();
+      window.addEventListener('hashchange', openByHash);
+
+      /* 点目录时先展开再跳转 */
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest ? e.target.closest('.toc a') : null;
+        if (!a) return;
+        var id = decodeURIComponent(a.getAttribute('href').replace('#', ''));
+        var t = document.getElementById(id);
+        var sec = t && t.closest ? t.closest('section.sec') : null;
+        if (sec) sec.classList.add('open');
+      });
     })();
 
     /* ============================================================
