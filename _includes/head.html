@@ -496,6 +496,15 @@
     };
 
     (function buildComments() {
+      /* 保险：description 太长会让 giscus 的 iframe 地址超限（URI_TOO_LONG），先截短 */
+      var metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) {
+        var dc = metaDesc.getAttribute('content') || '';
+        if (dc.length > 200) {
+          metaDesc.setAttribute('content', dc.slice(0, 160).replace(/\s+/g, ' ') + '…');
+        }
+      }
+
       var box = document.createElement('section');
       box.className = 'comments';
 
