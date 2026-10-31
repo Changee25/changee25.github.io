@@ -1,6 +1,8 @@
 ---
 title: PHP 入门笔记
-date: 2026-10-31 
+date: 2026-10-31 20:00:00 +0800
+categories: 学习
+excerpt: PHP 是运行在服务器端的脚本语言.
 ---
 
 ## 一、PHP 是什么？
