@@ -1307,4 +1307,3 @@ echo grade(120);     // 分数必须在 0 到 100 之间
 - `0 == ""`、`0 == "abc"` 等在 PHP 8.0 之前为 true，之后为 false —— [类型比较表](https://www.php.net/manual/zh/types.comparisons.php)中的 `*` 注释
 - PHP 5.6 于 2018-12-31 停止支持 —— [官方 EOL 页面](https://www.php.net/eol.php)
 
-## <十一、臭玉米
