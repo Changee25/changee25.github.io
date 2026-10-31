@@ -9,7 +9,7 @@ url: "https://changee25.github.io"
 baseurl: ""
 
 theme: minima
-show_excerpts: true
+show_excerpts: false
 header_pages:
   - blog.md
   - diary.md
