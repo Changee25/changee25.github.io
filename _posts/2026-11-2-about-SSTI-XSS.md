@@ -1,5 +1,5 @@
 ---
-about-SSTI-XSS
+title:about-SSTI-XSS
 date: 2026-11-02
 categories: 学习
 excerpt:SSTI 是服务端模板注入，代码在服务器上执行
