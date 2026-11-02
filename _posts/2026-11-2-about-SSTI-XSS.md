@@ -1,4 +1,9 @@
+---
 ## about-SSTI-XSS
+date: 2026-11-02
+categories: 学习
+excerpt:...
+---
 
 **SSTI（Server-Side Template Injection，服务端模板注入）**：用户输入被当成“模板代码”交给模板引擎执行，而不是当成普通数据。
 
