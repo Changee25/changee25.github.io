@@ -28,7 +28,7 @@ excerpt: "SSTI 是服务端模板注入，代码在服务器上执行"
 
 # 二、SSTI 是什么
 
-## 1. 原理
+## 1. SSTI原理
 
 模板引擎本来是让开发者写“模板”的：
 
@@ -349,7 +349,7 @@ return render_template("page.html", content=user_input)
 
 # 三、XSS 是什么
 
-## 1. 原理
+##1.XSS原理
 
 XSS 是攻击者把恶意 JavaScript 注入到网页里，让**其他用户的浏览器**执行。
 
@@ -657,9 +657,9 @@ Set-Cookie: session=...; HttpOnly; Secure; SameSite=Lax
 
 ------
 
-# 四、SSTI 和 XSS 的关系
+## 四、SSTI 和 XSS 的关系
 
-## 1. 它们不是一回事
+#1. 它们不是一回事
 
 - SSTI：服务器执行模板代码；
 - XSS：浏览器执行 JavaScript。
@@ -667,7 +667,7 @@ Set-Cookie: session=...; HttpOnly; Secure; SameSite=Lax
 SSTI 可以读服务器文件、执行系统命令；
 XSS 不能直接读服务器文件，但能操作受害者浏览器。
 
-## 2. SSTI 可以导致 XSS
+#2. SSTI 可以导致 XSS
 
 如果模板注入的输出是 HTML，攻击者可以插入：
 
@@ -681,12 +681,12 @@ XSS 不能直接读服务器文件，但能操作受害者浏览器。
 
 但这不是 XSS 作为根因，而是 SSTI 产生的 HTML 又触发了 XSS。
 
-## 3. XSS 不能直接变成 SSTI
+#3. XSS 不能直接变成 SSTI
 
 XSS 在浏览器里执行，无法直接让服务器模板引擎执行代码。
 除非它进一步利用其他服务端漏洞。
 
-## 4. 记忆方法
+#4. 记忆方法
 
 先立一个共同前提：所有注入漏洞都是同一个故事
 想象一家连锁餐厅的「菜品公告系统」：
@@ -742,9 +742,9 @@ XSS：输入 → 服务端/前端写入 HTML → 浏览器 JS 引擎 → 执行
 
 ------
 
-# 五、JNCTF训练赛
+## 五、JNCTF训练赛
 
-## 模拟宇宙 1
+#模拟宇宙 1
 
 - 404 页面把 `request.path` 拼进 `render_template_string`；
 - `{{7*7}}` 返回 `49`；
