@@ -4,6 +4,7 @@ date: 2026-10-22 20:00:00 +0800
 categories: 团队
 tags: [例会, CTF, Web, HTTP]
 description: 从装工具开始，到 URL、HTML、HTTP 报文，再到用 Docker 起一台靶机——这是第一次例会的完整内容，也是后面所有 Web 题的地基。
+index_img: /img/cover-first-meeting.jpg
 ---
 
 这次例会分成两半：前半段解决「工欲善其事」，把工具装好、配好；后半段讲真正的地基——URL、前端三件套、HTTP 报文。最后留了作业：抓人生第一个包，做完 CTFHub 的 HTTP 题。

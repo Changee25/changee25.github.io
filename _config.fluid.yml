@@ -62,8 +62,19 @@ index:
 # ---------- 各内页头图 ----------
 # 统一用同一张 banner，想区分开就各自换成别的图
 post:
-  banner_img: /img/banner.jpg
+  # 文章页头图：黄昏电线杆那张（和 demo 站同一系列）
+  banner_img: /img/banner-post.jpg
   banner_img_height: 70
+
+  # 卡片默认封面：文章没写 index_img 时用这张，新文章不用手动配也有图
+  default_index_img: /img/cover-default.jpg
+
+  # 文章底部评论：用 utterances（基于 GitHub Issues，零配置）
+  # 第一次使用前需要给仓库装一次 utterances App，见 README「评论区」一节
+  comments:
+    enable: true
+    type: utterances
+    # 其他可选：giscus（需要类目 ID）/ waline / twikoo / valine / disqus
 
 archive:
   banner_img: /img/banner.jpg
@@ -96,6 +107,17 @@ links:
 
   # 对方头像加载失败时显示的图片
   onerror_avatar: /img/avatar.jpg
+
+# ---------- 评论区（utterances，基于 GitHub Issues）----------
+# 前置条件：给仓库装一次 utterances App —— https://github.com/apps/utterances
+# 每篇文章对应仓库里的一个 Issue，issue-term 用 pathname 保证一篇文章一个帖
+utterances:
+  repo: "Changee25/changee25.github.io"
+  issue_term: pathname
+  # 留空 = 给 Issue 打标签的步骤跳过（仓库里没有这个标签也不会报错）
+  label: ""
+  theme: github-light
+  theme_dark: github-dark
 
 # ---------- 页脚 ----------
 footer:
