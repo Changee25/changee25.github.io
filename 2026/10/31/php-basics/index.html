@@ -1,0 +1,1595 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar-favicon.png">
+  <link rel="icon" href="/img/avatar-favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="AMOUR">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="PHP 是运行在服务器端的脚本语言.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP 入门笔记">
+<meta property="og:url" content="https://changee25.github.io/2026/10/31/php-basics/">
+<meta property="og:site_name" content="AMOUR">
+<meta property="og:description" content="PHP 是运行在服务器端的脚本语言.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-10-31T12:00:00.000Z">
+<meta property="article:modified_time" content="2026-11-11T17:03:04.527Z">
+<meta property="article:author" content="AMOUR">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>PHP 入门笔记 - AMOUR</title>
+
+  <link  rel="stylesheet" href="/vendor/lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="/vendor/lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="/vendor/lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="/vendor/lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="/vendor/at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="/vendor/at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"changee25.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>AMOUR</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-articles"></i>
+                <span>文章</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/diary/" target="_self">
+                <i class="iconfont icon-date-fill"></i>
+                <span>日记</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-articles"></i>
+                  <span>文章</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/diary/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-date-fill"></i>
+                  <span>日记</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/links/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-link-fill"></i>
+                  <span>友链</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/banner.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">PHP 入门笔记</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-10-31 20:00" pubdate>
+          2026年10月31日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          16k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          135 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">PHP 入门笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="一、PHP-是什么？"><a href="#一、PHP-是什么？" class="headerlink" title="一、PHP 是什么？"></a>一、PHP 是什么？</h2><h3 id="1-定义"><a href="#1-定义" class="headerlink" title="1. 定义"></a>1. 定义</h3><p>PHP 是一种主要运行在<strong>服务器</strong>上的脚本语言，专门用来做网站和 Web 应用，可以直接写在 HTML 里。</p>
+<h3 id="2-相当于PHP-是餐厅的后厨"><a href="#2-相当于PHP-是餐厅的后厨" class="headerlink" title="2. 相当于PHP 是餐厅的后厨"></a>2. 相当于PHP 是餐厅的后厨</h3><p>你去餐厅吃饭：</p>
+<ul>
+<li>你看到的是菜单、摆盘、端上来的菜 → <strong>浏览器看到的 HTML&#x2F;CSS&#x2F;JS</strong></li>
+<li>后厨里洗菜、切菜、炒菜的过程 → <strong>服务器上的 PHP 代码</strong></li>
+<li>仓库（冰箱）→ <strong>数据库、文件</strong></li>
+</ul>
+<p>浏览器访问一个 PHP 页面时，大致发生：</p>
+<ol>
+<li>浏览器向服务器要 <code>index.php</code></li>
+<li>Web 服务器（Apache&#x2F;Nginx）把请求交给 PHP 解释器</li>
+<li>PHP 执行代码（可能查数据库、算价格、判断登录）</li>
+<li>PHP 把结果变成 HTML 返回</li>
+<li>浏览器拿到 HTML 并显示</li>
+</ol>
+<p>关键点：<strong>用户一般看不到 PHP 源代码，只能看到它加工后的 HTML</strong>。这也是它和 JavaScript 最大的区别：JS 在浏览器里跑，源码用户能看；PHP 在服务器上跑，源码留在服务器。</p>
+<p>（当然，如果服务器没配好，PHP 源码被当文本下载，就会泄露——部署时要注意。）</p>
+<h2 id="二、PHP-初步语法"><a href="#二、PHP-初步语法" class="headerlink" title="二、PHP 初步语法"></a>二、PHP 初步语法</h2><h3 id="1-文件与“进出厨房的门”"><a href="#1-文件与“进出厨房的门”" class="headerlink" title="1. 文件与“进出厨房的门”"></a>1. 文件与“进出厨房的门”</h3><p>PHP 文件一般以 <code>.php</code> 结尾。文件里可以全是 PHP，也可以 HTML 和 PHP 混着写。</p>
+<p>进入 PHP 模式用 <code>&lt;?php</code>，退出用 <code>?&gt;</code>：</p>
+<p>php</p>
+<figure class="highlight php-template"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs php-template"><span class="language-xml"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span></span><br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span></span><br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>你好<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span><br><span class="language-xml">  </span><span class="language-php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;这句话是 PHP 生成的&quot;</span>; <span class="hljs-meta">?&gt;</span></span><span class="language-xml"></span><br><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span><br><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+<p><code>&lt;?=</code> 是 <code>&lt;?php echo</code> 的简写,就像这样：</p>
+<p>php</p>
+<figure class="highlight php-template"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php-template"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>欢迎，</span><span class="language-php"><span class="hljs-meta">&lt;?=</span> <span class="hljs-variable">$name</span> <span class="hljs-meta">?&gt;</span></span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+<p>小建议：<strong>如果文件里只有 PHP 代码，结尾的 <code>?&gt;</code> 最好省略</strong>。因为它后面的空格&#x2F;换行可能被输出，导致 “headers already sent” 之类的问题（官方手册建议纯 PHP 文件省略结束标记）。</p>
+<h3 id="2-语句、分号、注释"><a href="#2-语句、分号、注释" class="headerlink" title="2. 语句、分号、注释"></a>2. 语句、分号、注释</h3><ul>
+<li>每条语句结尾加 <code>;</code>（最后一条在 <code>?&gt;</code> 前可以省，但建议统一加）</li>
+<li>注释三种：</li>
+</ul>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-comment">// 单行注释</span><br><span class="hljs-comment"># 也是单行注释（但是不常用）</span><br><span class="hljs-comment">/* 多行</span><br><span class="hljs-comment">   注释 */</span><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Hello&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-大小写和空白"><a href="#3-大小写和空白" class="headerlink" title="3. 大小写和空白"></a>3. 大小写和空白</h3><ul>
+<li><strong>变量名区分大小写</strong>：<code>$name</code> 和 <code>$Name</code> 是两个变量</li>
+<li><strong>关键字、函数名、类名不区分大小写</strong>：<code>echo</code>、<code>ECHO</code>、<code>Echo</code> 都行；<code>strlen()</code> 和 <code>STRLEN()</code> 也行（但别故意这么写）</li>
+<li>空格、换行、缩进随便加，不影响执行（字符串里面的除外）</li>
+</ul>
+<h3 id="4-第一个完整例子"><a href="#4-第一个完整例子" class="headerlink" title="4. 第一个完整例子"></a>4. 第一个完整例子</h3><p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-comment">// first.php</span><br><span class="hljs-variable">$name</span> = <span class="hljs-string">&quot;小明&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;你好，&quot;</span> . <span class="hljs-variable">$name</span> . <span class="hljs-string">&quot;！&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<p>代码块</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">你好，小明！<br></code></pre></td></tr></table></figure>
+
+<p>怎么运行：</p>
+<ul>
+<li>装 XAMPP &#x2F; phpStudy，把文件放进网站根目录，浏览器访问</li>
+<li>或者命令行：<code>php first.php</code></li>
+<li>或者用 PHP 自带的小服务器：<code>php -S localhost:8000</code>，然后访问 <code>http://localhost:8000/first.php</code></li>
+</ul>
+<h3 id="5-易错"><a href="#5-易错" class="headerlink" title="5. 易错"></a>5. 易错</h3><ul>
+<li>漏分号或用了中文分号 <code>；</code>、中文引号 <code>“”</code>（但是学了C语言应该也不容易这样</li>
+<li>PHP 代码没放进 <code>&lt;?php ... ?&gt;</code> </li>
+<li>文件开头有 BOM 或多余空白，导致页面顶部多出空行</li>
+<li>变量漏写 <code>$</code></li>
+</ul>
+<h2 id="三、echo、print、var-dump"><a href="#三、echo、print、var-dump" class="headerlink" title="三、echo、print、var_dump"></a>三、echo、print、var_dump</h2><h3 id="1-echo：大喇叭"><a href="#1-echo：大喇叭" class="headerlink" title="1. echo：大喇叭"></a>1. echo：大喇叭</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.echo.php">官方手册</a>明确说 “echo 不是函数，而是语言结构”</li>
+<li>可以一次输出多个值，用逗号隔开</li>
+<li><strong>没有返回值</strong></li>
+<li>不能当函数用（不能 <code>$f = &#39;echo&#39;</code>，也不能命名参数）</li>
+</ul>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Hello&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;Hello&quot;</span>, <span class="hljs-string">&quot; &quot;</span>, <span class="hljs-string">&quot;World&quot;</span>;   <span class="hljs-comment">// 输出 Hello World</span><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;a&quot;</span> . <span class="hljs-string">&quot;b&quot;</span> . <span class="hljs-string">&quot;c&quot;</span>;          <span class="hljs-comment">// 输出 abc</span><br><span class="hljs-keyword">echo</span> <span class="hljs-number">6</span> * <span class="hljs-number">7</span>;                    <span class="hljs-comment">// 输出 42</span><br></code></pre></td></tr></table></figure>
+
+<p>注意：<code>echo(&quot;hello&quot;)</code> 能跑，但括号只是把 <code>&quot;hello&quot;</code> 包起来，不是函数调用。<code>echo(&quot;a&quot;, &quot;b&quot;)</code> 反而会报解析错误。</p>
+<h4 id="2-print：小喇叭，会回一句“收到”"><a href="#2-print：小喇叭，会回一句“收到”" class="headerlink" title="2.print：小喇叭，会回一句“收到”"></a>2.print：小喇叭，会回一句“收到”</h4><ul>
+<li>也是<strong>语言结构</strong>，不是函数</li>
+<li><strong>只能输出一个值</strong></li>
+<li><strong>总是返回 1</strong></li>
+</ul>
+<p>正因为返回 1，它可以塞进表达式里：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$ok</span> = <span class="hljs-keyword">print</span> <span class="hljs-string">&quot;hello&quot;</span>;   <span class="hljs-comment">// 先输出 hello，然后 $ok 变成 1</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$ok</span>);         <span class="hljs-comment">// int(1)</span><br></code></pre></td></tr></table></figure>
+
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-comment">// 三元表达式里可以用 print，但不能用 echo</span><br>(<span class="hljs-number">1</span> === <span class="hljs-number">1</span>) ? <span class="hljs-keyword">print</span> <span class="hljs-string">&quot;真&quot;</span> : <span class="hljs-keyword">print</span> <span class="hljs-string">&quot;假&quot;</span>;   <span class="hljs-comment">// 输出：真</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3-var-dump：X-光机-体检报告"><a href="#3-var-dump：X-光机-体检报告" class="headerlink" title="3. var_dump：X 光机 &#x2F; 体检报告"></a>3. var_dump：X 光机 &#x2F; 体检报告</h3><ul>
+<li>是<strong>函数</strong></li>
+<li>不只显示值，还显示<strong>类型、长度、结构</strong></li>
+<li>数组和对象会递归展开，缩进显示</li>
+<li>没有返回值（返回 void）</li>
+<li>调试时最常用</li>
+</ul>
+<p>官方定义：<code>var_dump()</code> 显示一个或多个表达式的结构信息，包括表达式的类型与值；数组和对象将递归展开值，通过缩进显示其结构（<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.var-dump.php">手册</a>）。</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-number">123</span>);          <span class="hljs-comment">// int(123)</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-number">1.5</span>);          <span class="hljs-comment">// float(1.5)</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-literal">true</span>);         <span class="hljs-comment">// bool(true)</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-string">&quot;hi&quot;</span>);         <span class="hljs-comment">// string(2) &quot;hi&quot;</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-literal">null</span>);         <span class="hljs-comment">// NULL</span><br><br><span class="hljs-title function_ invoke__">var_dump</span>([<span class="hljs-number">1</span>, <span class="hljs-string">&quot;a&quot;</span>]);<br><span class="hljs-comment">// array(2) &#123;</span><br><span class="hljs-comment">//   [0]=&gt;</span><br><span class="hljs-comment">//   int(1)</span><br><span class="hljs-comment">//   [1]=&gt;</span><br><span class="hljs-comment">//   string(1) &quot;a&quot;</span><br><span class="hljs-comment">// &#125;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="4-三者对比"><a href="#4-三者对比" class="headerlink" title="4. 三者对比"></a>4. 三者对比</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>echo</th>
+<th>print</th>
+<th>var_dump</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>本质</td>
+<td>语言结构</td>
+<td>语言结构</td>
+<td>函数</td>
+</tr>
+<tr>
+<td>参数个数</td>
+<td>多个</td>
+<td>一个</td>
+<td>一个或多个</td>
+</tr>
+<tr>
+<td>返回值</td>
+<td>无</td>
+<td>1</td>
+<td>无（void）</td>
+</tr>
+<tr>
+<td>能否放进表达式</td>
+<td>不能</td>
+<td>能</td>
+<td>能</td>
+</tr>
+<tr>
+<td>主要用途</td>
+<td>输出字符串</td>
+<td>输出字符串（少用）</td>
+<td>调试，看类型和结构</td>
+</tr>
+<tr>
+<td>输出类型信息</td>
+<td>否</td>
+<td>否</td>
+<td>是</td>
+</tr>
+</tbody></table>
+<h3 id="5-调试：var-dump、print-r、var-export"><a href="#5-调试：var-dump、print-r、var-export" class="headerlink" title="5. 调试：var_dump、print_r、var_export"></a>5. 调试：var_dump、print_r、var_export</h3><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>特点</th>
+<th>适合</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>var_dump()</code></td>
+<td>类型 + 值 + 长度，最详细</td>
+<td>调试，确认类型</td>
+</tr>
+<tr>
+<td><code>print_r()</code></td>
+<td>人类可读，默认不显示类型；第二个参数传 <code>true</code> 可返回字符串</td>
+<td>快速看数组结构</td>
+</tr>
+<tr>
+<td><code>var_export()</code></td>
+<td>输出合法的 PHP 代码形式</td>
+<td>生成配置&#x2F;缓存文件</td>
+</tr>
+</tbody></table>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$arr</span> = [<span class="hljs-string">&quot;a&quot;</span> =&gt; <span class="hljs-number">1</span>, <span class="hljs-string">&quot;b&quot;</span> =&gt; [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>]];<br><span class="hljs-title function_ invoke__">print_r</span>(<span class="hljs-variable">$arr</span>);<br><span class="hljs-comment">// Array</span><br><span class="hljs-comment">// (</span><br><span class="hljs-comment">//     [a] =&gt; 1</span><br><span class="hljs-comment">//     [b] =&gt; Array</span><br><span class="hljs-comment">//         (</span><br><span class="hljs-comment">//             [0] =&gt; 2</span><br><span class="hljs-comment">//             [1] =&gt; 3</span><br><span class="hljs-comment">//         )</span><br><span class="hljs-comment">// )</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="四、PHP-变量"><a href="#四、PHP-变量" class="headerlink" title="四、PHP 变量"></a>四、PHP 变量</h2><h3 id="1-变量是什么"><a href="#1-变量是什么" class="headerlink" title="1. 变量是什么"></a>1. 变量是什么</h3><p>变量就是一个<strong>贴了名字的储物柜</strong>。<code>$</code> 是柜子上的挂钩，名字是标签，<code>=</code> 是“把东西放进去”。</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$name</span> = <span class="hljs-string">&quot;小明&quot;</span>;   <span class="hljs-comment">// 把字符串放进 $name</span><br><span class="hljs-variable">$age</span>  = <span class="hljs-number">18</span>;       <span class="hljs-comment">// 把整数放进 $age</span><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;我叫<span class="hljs-subst">&#123;$name&#125;</span>，今年<span class="hljs-subst">&#123;$age&#125;</span>岁。&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<p>代码块</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">我叫小明，今年18岁。<br></code></pre></td></tr></table></figure>
+
+<p>几个要点：</p>
+<ul>
+<li>变量名以 <code>$</code> 开头，后面必须是字母或下划线，再后面可以是字母、数字、下划线</li>
+<li><strong>区分大小写</strong>：<code>$name</code>、<code>$Name</code>、<code>$NAME</code> 是三个不同的变量</li>
+<li><strong>不需要提前声明</strong>，第一次赋值就创建了</li>
+<li><strong>弱类型&#x2F;动态类型</strong>：同一个柜子今天装字符串，明天装数字，PHP 不拦你</li>
+</ul>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$x</span> = <span class="hljs-number">1</span>;<br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$x</span>);   <span class="hljs-comment">// int(1)</span><br><span class="hljs-variable">$x</span> = <span class="hljs-string">&quot;hello&quot;</span>;<br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$x</span>);   <span class="hljs-comment">// string(5) &quot;hello&quot;</span><br><span class="hljs-variable">$x</span> = <span class="hljs-number">1.5</span>;<br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$x</span>);   <span class="hljs-comment">// float(1.5)</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-不是“等于“"><a href="#2-不是“等于“" class="headerlink" title="2. = 不是“等于“"></a>2. <code>=</code> 不是“等于“</h3><p>（C语言讲过哦喵~</p>
+<ul>
+<li><code>=</code> 是<strong>赋值</strong>：把右边放进左边</li>
+<li><code>==</code> 是<strong>松散比较</strong>：值相等（会做类型转换）</li>
+<li><code>===</code> 是<strong>严格比较</strong>：类型和值都相等</li>
+</ul>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$a</span> = <span class="hljs-number">1</span>;      <span class="hljs-comment">// 赋值</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$a</span> == <span class="hljs-string">&quot;1&quot;</span>);   <span class="hljs-comment">// bool(true)</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$a</span> === <span class="hljs-string">&quot;1&quot;</span>);  <span class="hljs-comment">// bool(false)</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3-变量变量（了解即可）"><a href="#3-变量变量（了解即可）" class="headerlink" title="3. 变量变量（了解即可）"></a>3. 变量变量（了解即可）</h3><p>一个变量的名字，又存在另一个变量里：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$name</span> = <span class="hljs-string">&quot;city&quot;</span>;<br><span class="hljs-variable">$$name</span> = <span class="hljs-string">&quot;北京&quot;</span>;   <span class="hljs-comment">// 相当于 $city = &quot;北京&quot;</span><br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$city</span>;        <span class="hljs-comment">// 北京</span><br></code></pre></td></tr></table></figure>
+
+<p>相当于钥匙上写着另一个柜子的编号。实际项目里很少用，看到能认识就行。</p>
+<h3 id="4-引用赋值：配一把备用钥匙"><a href="#4-引用赋值：配一把备用钥匙" class="headerlink" title="4. 引用赋值：配一把备用钥匙"></a>4. 引用赋值：配一把备用钥匙</h3><p>普通的 <code>$b = $a</code> 是<strong>复制一份</strong>放进新柜子；<code>$b = &amp;$a</code> 是<strong>给同一个柜子配了把备用钥匙</strong>。</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$a</span> = <span class="hljs-number">1</span>;<br><span class="hljs-variable">$b</span> = <span class="hljs-variable">$a</span>;     <span class="hljs-comment">// 复制</span><br><span class="hljs-variable">$b</span> = <span class="hljs-number">2</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$a</span>;     <span class="hljs-comment">// 1，$a 没变</span><br><br><span class="hljs-variable">$c</span> = <span class="hljs-number">1</span>;<br><span class="hljs-variable">$d</span> = &amp;<span class="hljs-variable">$c</span>;    <span class="hljs-comment">// 引用，同一个柜子</span><br><span class="hljs-variable">$d</span> = <span class="hljs-number">2</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$c</span>;     <span class="hljs-comment">// 2，$c 也变了</span><br></code></pre></td></tr></table></figure>
+
+<p><code>unset($d)</code> 只是把 <code>$d</code> 这把钥匙扔掉，<code>$c</code> 和柜子都还在。</p>
+<h3 id="5-作用域：函数是“隔音房间”"><a href="#5-作用域：函数是“隔音房间”" class="headerlink" title="5. 作用域：函数是“隔音房间”"></a>5. 作用域：函数是“隔音房间”</h3><p>函数内部默认看不到外面的变量：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$x</span> = <span class="hljs-number">10</span>;<br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">test</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-comment">// echo $x;  // 错误：函数里没有 $x</span><br>    <span class="hljs-keyword">global</span> <span class="hljs-variable">$x</span>;   <span class="hljs-comment">// 把外面的 $x 拿进来</span><br>    <span class="hljs-keyword">echo</span> <span class="hljs-variable">$x</span>;     <span class="hljs-comment">// 10</span><br>&#125;<br><br><span class="hljs-title function_ invoke__">test</span>();<br></code></pre></td></tr></table></figure>
+
+<p>三种办法让函数拿到外面的变量：</p>
+<ol>
+<li><code>global $x;</code>（在函数里声明）</li>
+<li><code>$GLOBALS[&#39;x&#39;]</code>（直接访问全局数组）</li>
+<li>通过参数传进去（<strong>最推荐</strong>，关系清晰）</li>
+</ol>
+<p>反过来，函数里定义的变量，函数执行完就没了。想让某个值“记住”，用 <code>static</code>：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">counter</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">static</span> <span class="hljs-variable">$n</span> = <span class="hljs-number">0</span>;   <span class="hljs-comment">// 只初始化一次</span><br>    <span class="hljs-variable">$n</span>++;<br>    <span class="hljs-keyword">return</span> <span class="hljs-variable">$n</span>;<br>&#125;<br><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">counter</span>();  <span class="hljs-comment">// 1</span><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">counter</span>();  <span class="hljs-comment">// 2</span><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">counter</span>();  <span class="hljs-comment">// 3</span><br></code></pre></td></tr></table></figure>
+
+<p>比喻：普通局部变量是“一次性纸杯”，函数结束就扔；<code>static</code> 是“放在柜子里的杯子”，下次进来还在。</p>
+<h3 id="6-超全局变量"><a href="#6-超全局变量" class="headerlink" title="6. 超全局变量"></a>6. 超全局变量</h3><p>这些变量在<strong>任何地方</strong>都能直接用（函数里也不用 <code>global</code>）：</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>装什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>$GLOBALS</code></td>
+<td>所有全局变量</td>
+</tr>
+<tr>
+<td><code>$_SERVER</code></td>
+<td>服务器和执行环境信息</td>
+</tr>
+<tr>
+<td><code>$_GET</code></td>
+<td>URL 查询参数</td>
+</tr>
+<tr>
+<td><code>$_POST</code></td>
+<td>POST 表单数据</td>
+</tr>
+<tr>
+<td><code>$_FILES</code></td>
+<td>上传的文件</td>
+</tr>
+<tr>
+<td><code>$_COOKIE</code></td>
+<td>Cookie</td>
+</tr>
+<tr>
+<td><code>$_SESSION</code></td>
+<td>会话</td>
+</tr>
+<tr>
+<td><code>$_REQUEST</code></td>
+<td>GET&#x2F;POST&#x2F;Cookie 的合集（少用，来源不明确）</td>
+</tr>
+<tr>
+<td><code>$_ENV</code></td>
+<td>环境变量</td>
+</tr>
+</tbody></table>
+<p>注意：表单提交上来的都是<strong>字符串</strong>（哪怕是数字），需要自己转换。官方手册在类型比较表里也专门提醒了这一点。</p>
+<h3 id="7-常量"><a href="#7-常量" class="headerlink" title="7. 常量"></a>7. 常量</h3><p>常量是<strong>写死就不能改的值</strong>，适合放配置：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">define</span>(<span class="hljs-string">&quot;SITE_NAME&quot;</span>, <span class="hljs-string">&quot;我的网站&quot;</span>);<br><span class="hljs-keyword">echo</span> SITE_NAME;<br><br><span class="hljs-keyword">const</span> <span class="hljs-variable constant_">PI</span> = <span class="hljs-number">3.14</span>;      <span class="hljs-comment">// PHP 5.3+，文件顶层/类里可用</span><br><span class="hljs-keyword">echo</span> PI;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>常量名前不加 <code>$</code></li>
+<li>一旦定义，不能重新赋值</li>
+<li><code>define()</code> 默认区分大小写；第三个参数传 <code>true</code> 可开启不区分（PHP 7.3 起废弃，8.0 移除，别用）</li>
+<li>检查是否存在：<code>defined(&quot;SITE_NAME&quot;)</code></li>
+<li>魔术常量：<code>__LINE__</code>、<code>__FILE__</code>、<code>__DIR__</code>、<code>__FUNCTION__</code>、<code>__CLASS__</code> 等，会随位置自动变化</li>
+</ul>
+<hr>
+<h2 id="五、PHP-5-的数据类型（八种）"><a href="#五、PHP-5-的数据类型（八种）" class="headerlink" title="五、PHP 5 的数据类型（八种）"></a>五、PHP 5 的数据类型（八种）</h2><p>PHP 5 官方手册把类型分成三大类、共八种：</p>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>类型</th>
+<th>中文</th>
+<th>大白话</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>标量（scalar）</td>
+<td><code>boolean</code></td>
+<td>布尔型</td>
+<td>开关</td>
+<td><code>true</code> &#x2F; <code>false</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>integer</code></td>
+<td>整型</td>
+<td>整数</td>
+<td><code>42</code>、<code>-7</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>float</code>（double）</td>
+<td>浮点型</td>
+<td>小数</td>
+<td><code>3.14</code>、<code>1.0E3</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>string</code></td>
+<td>字符串</td>
+<td>文字</td>
+<td><code>&quot;你好&quot;</code></td>
+</tr>
+<tr>
+<td>复合（compound）</td>
+<td><code>array</code></td>
+<td>数组</td>
+<td>带格子的柜子</td>
+<td><code>[1, 2, 3]</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>object</code></td>
+<td>对象</td>
+<td>有属性有技能的东西</td>
+<td><code>new Person()</code></td>
+</tr>
+<tr>
+<td>特殊（special）</td>
+<td><code>resource</code></td>
+<td>资源</td>
+<td>外部东西的取货凭证</td>
+<td><code>fopen(...)</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>NULL</code></td>
+<td>空值</td>
+<td>空盒子</td>
+<td><code>null</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>说明：<code>callable</code>、<code>iterable</code>、<code>mixed</code> 这些是后来的“伪类型”或新类型（<code>iterable</code> 是 PHP 7.1 加的），PHP 5 的八种就是上表这些。</p>
+</blockquote>
+<h3 id="1-boolean（布尔型）：开关"><a href="#1-boolean（布尔型）：开关" class="headerlink" title="1. boolean（布尔型）：开关"></a>1. boolean（布尔型）：开关</h3><p>只有两个值：<code>true</code> 和 <code>false</code>（大小写不敏感）。</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$isLogin</span> = <span class="hljs-literal">true</span>;<br><span class="hljs-variable">$isAdmin</span> = <span class="hljs-literal">false</span>;<br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$isLogin</span>);   <span class="hljs-comment">// bool(true)</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>重点：哪些值会被当成 false？</strong></p>
+<p>在 PHP 里，以下值在 <code>if</code>、<code>while</code>、<code>&amp;&amp;</code> 等布尔上下文里都算“假”：</p>
+<ul>
+<li><code>false</code></li>
+<li><code>0</code>（整数零）</li>
+<li><code>0.0</code>（浮点零）</li>
+<li><code>&quot;&quot;</code>（空字符串）</li>
+<li><code>&quot;0&quot;</code>（只含一个 0 的字符串）—— <strong>这个最坑</strong></li>
+<li><code>[]</code>（空数组）</li>
+<li><code>null</code></li>
+</ul>
+<p>其他基本都是 <code>true</code>，包括 <code>&quot;0.0&quot;</code>、<code>&quot; &quot;</code>（空格）、<code>-1</code>、<code>&quot;false&quot;</code>（字符串）、<code>&quot;00&quot;</code>。</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">var_dump</span>((<span class="hljs-keyword">bool</span>)<span class="hljs-string">&quot;0&quot;</span>);     <span class="hljs-comment">// bool(false)  ← 注意</span><br><span class="hljs-title function_ invoke__">var_dump</span>((<span class="hljs-keyword">bool</span>)<span class="hljs-string">&quot;0.0&quot;</span>);   <span class="hljs-comment">// bool(true)   ← 注意</span><br><span class="hljs-title function_ invoke__">var_dump</span>((<span class="hljs-keyword">bool</span>)<span class="hljs-string">&quot;false&quot;</span>); <span class="hljs-comment">// bool(true)   ← 注意</span><br><span class="hljs-title function_ invoke__">var_dump</span>((<span class="hljs-keyword">bool</span>)[]);      <span class="hljs-comment">// bool(false)</span><br></code></pre></td></tr></table></figure>
+
+<p>比喻：PHP 判断“真假”不看东西长什么样，只看是不是“空&#x2F;零”。字符串 <code>&quot;0&quot;</code> 虽然有一个字符，但在 PHP 眼里等于零，所以是假。</p>
+<h3 id="2-integer（整型）：整数"><a href="#2-integer（整型）：整数" class="headerlink" title="2. integer（整型）：整数"></a>2. integer（整型）：整数</h3><p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$dec</span> = <span class="hljs-number">123</span>;      <span class="hljs-comment">// 十进制</span><br><span class="hljs-variable">$neg</span> = -<span class="hljs-number">45</span>;      <span class="hljs-comment">// 负数</span><br><span class="hljs-variable">$hex</span> = <span class="hljs-number">0x1A</span>;     <span class="hljs-comment">// 十六进制 = 26</span><br><span class="hljs-variable">$oct</span> = <span class="hljs-number">0755</span>;     <span class="hljs-comment">// 八进制 = 493</span><br><span class="hljs-variable">$bin</span> = <span class="hljs-number">0b1010</span>;   <span class="hljs-comment">// 二进制 = 10（PHP 5.4+）</span><br></code></pre></td></tr></table></figure>
+
+<p>要点：</p>
+<ul>
+<li>整数的大小跟平台有关：32 位系统最大约 21 亿，64 位系统最大约 9.2e18</li>
+<li>用 <code>PHP_INT_MAX</code> 看当前平台的最大值，<code>PHP_INT_SIZE</code> 看字节数（4 或 8）</li>
+<li><strong>溢出会变成浮点数</strong>：</li>
+</ul>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">var_dump</span>(PHP_INT_MAX);        <span class="hljs-comment">// int(9223372036854775807)（64 位）</span><br><span class="hljs-title function_ invoke__">var_dump</span>(PHP_INT_MAX + <span class="hljs-number">1</span>);    <span class="hljs-comment">// float(9.2233720368547758E+18)</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>判断：<code>is_int($x)</code> &#x2F; <code>is_integer($x)</code>（别名）</li>
+<li>转换：<code>(int)$x</code>、<code>intval($x)</code></li>
+</ul>
+<h3 id="3-float（浮点型）：小数"><a href="#3-float（浮点型）：小数" class="headerlink" title="3. float（浮点型）：小数"></a>3. float（浮点型）：小数</h3><p>也叫 <code>double</code>、<code>real</code>。注意：<code>gettype()</code> 对浮点数返回的是 <strong>“double”</strong>，不是 “float”。</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$pi</span> = <span class="hljs-number">3.14</span>;<br><span class="hljs-variable">$big</span> = <span class="hljs-number">1.0E3</span>;    <span class="hljs-comment">// 1000.0，科学计数法</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$pi</span>);   <span class="hljs-comment">// float(3.14)</span><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">gettype</span>(<span class="hljs-variable">$pi</span>); <span class="hljs-comment">// double</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>重点：浮点数不能直接用 <code>==</code> 判断相等。</strong></p>
+<p>因为计算机用二进制存小数，很多十进制小数存不精确：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-number">0.1</span> + <span class="hljs-number">0.2</span>);            <span class="hljs-comment">// float(0.30000000000000004)</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-number">0.1</span> + <span class="hljs-number">0.2</span> == <span class="hljs-number">0.3</span>);     <span class="hljs-comment">// bool(false)  ← 坑</span><br></code></pre></td></tr></table></figure>
+
+<p>（PHP 7.1 起 <code>var_dump</code> 显示得更精确；PHP 5 可能显示 <code>float(0.3)</code>，但实际值仍不精确。）</p>
+<p>正确做法：判断差值是否足够小，或者用 <code>round()</code>：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$a</span> = <span class="hljs-number">0.1</span> + <span class="hljs-number">0.2</span>;<br><span class="hljs-variable">$b</span> = <span class="hljs-number">0.3</span>;<br><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-title function_ invoke__">abs</span>(<span class="hljs-variable">$a</span> - <span class="hljs-variable">$b</span>) &lt; <span class="hljs-number">1e-10</span>);        <span class="hljs-comment">// bool(true)</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-title function_ invoke__">round</span>(<span class="hljs-variable">$a</span>, <span class="hljs-number">2</span>) == <span class="hljs-variable">$b</span>);          <span class="hljs-comment">// bool(true)</span><br></code></pre></td></tr></table></figure>
+
+<p>比喻：浮点数像“用尺子量出来的近似值”，不是精确的分数。比较两个测量值，要看“差得是不是在误差范围内”，而不是“是否一模一样”。</p>
+<p>另外还有两个特殊值：<code>NAN</code>（不是数，比如 <code>sqrt(-1)</code>）和 <code>INF</code>（无穷大）。<code>NAN</code> 和任何值比较（包括它自己）都是 false。</p>
+<h3 id="4-string（字符串）：文字"><a href="#4-string（字符串）：文字" class="headerlink" title="4. string（字符串）：文字"></a>4. string（字符串）：文字</h3><p>四种写法：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-comment">// 1. 单引号：只认 \&#x27; 和 \\</span><br><span class="hljs-variable">$s1</span> = <span class="hljs-string">&#x27;你好\n世界&#x27;</span>;   <span class="hljs-comment">// 输出：你好\n世界（\n 不换行）</span><br><br><span class="hljs-comment">// 2. 双引号：认转义和变量</span><br><span class="hljs-variable">$name</span> = <span class="hljs-string">&quot;小明&quot;</span>;<br><span class="hljs-variable">$s2</span> = <span class="hljs-string">&quot;你好，<span class="hljs-subst">$name</span>\n&quot;</span>;   <span class="hljs-comment">// 换行，并插入变量</span><br><br><span class="hljs-comment">// 3. heredoc：双引号风格的多行字符串</span><br><span class="hljs-variable">$s3</span> = <span class="hljs-string">&lt;&lt;&lt;EOT</span><br><span class="hljs-string">第一行</span><br><span class="hljs-string">第二行 <span class="hljs-subst">$name</span></span><br><span class="hljs-string">EOT</span>;<br><br><span class="hljs-comment">// 4. nowdoc：单引号风格的多行字符串（PHP 5.3+）</span><br><span class="hljs-variable">$s4</span> = <span class="hljs-string">&lt;&lt;&lt;&#x27;EOT&#x27;</span><br><span class="hljs-string">这里 $name 不会被替换</span><br><span class="hljs-string">EOT</span>;<br></code></pre></td></tr></table></figure>
+
+<p>要点：</p>
+<ul>
+<li>单引号里只有 <code>\&#39;</code> 和 <code>\\</code> 是转义，其他 <code>\n</code> 都按字面显示</li>
+<li>双引号里 <code>\n</code>（换行）、<code>\t</code>（制表）、<code>\$</code>、<code>\&quot;</code> 等会转义，变量也会被替换</li>
+<li>拼接用 <code>.</code>（点），不是 <code>+</code></li>
+<li>双引号里插入数组&#x2F;对象属性，用花括号更稳：</li>
+</ul>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$arr</span> = [<span class="hljs-string">&quot;name&quot;</span> =&gt; <span class="hljs-string">&quot;小明&quot;</span>];<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;你好，<span class="hljs-subst">&#123;$arr[&#x27;name&#x27;]&#125;</span>&quot;</span>;   <span class="hljs-comment">// 你好，小明</span><br><span class="hljs-comment">// echo &quot;你好，$arr[&#x27;name&#x27;]&quot;;  // 解析错误</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>strlen()</code> 数的是<strong>字节</strong>，不是字符。UTF-8 下一个汉字占 3 字节：</li>
+</ul>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-string">&quot;你好&quot;</span>);      <span class="hljs-comment">// 6</span><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">mb_strlen</span>(<span class="hljs-string">&quot;你好&quot;</span>);   <span class="hljs-comment">// 2（需要 mbstring 扩展）</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>取单个字符：<code>$str[0]</code>（PHP 5 也支持 <code>$str{0}</code>，但 7.4 废弃、8.0 移除，别用花括号）</li>
+</ul>
+<h3 id="5-array（数组）：带格子的柜子"><a href="#5-array（数组）：带格子的柜子" class="headerlink" title="5. array（数组）：带格子的柜子"></a>5. array（数组）：带格子的柜子</h3><p>PHP 的数组其实是<strong>有序映射</strong>（ordered map）：每个值都有一个 key（键），key 可以是整数或字符串。</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-comment">// 索引数组：key 是 0、1、2...</span><br><span class="hljs-variable">$fruits</span> = [<span class="hljs-string">&quot;苹果&quot;</span>, <span class="hljs-string">&quot;香蕉&quot;</span>, <span class="hljs-string">&quot;橙子&quot;</span>];<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$fruits</span>[<span class="hljs-number">0</span>];   <span class="hljs-comment">// 苹果</span><br><br><span class="hljs-comment">// 关联数组：key 是自己起的名字</span><br><span class="hljs-variable">$person</span> = [<br>    <span class="hljs-string">&quot;name&quot;</span> =&gt; <span class="hljs-string">&quot;小明&quot;</span>,<br>    <span class="hljs-string">&quot;age&quot;</span>  =&gt; <span class="hljs-number">18</span>,<br>    <span class="hljs-string">&quot;city&quot;</span> =&gt; <span class="hljs-string">&quot;北京&quot;</span><br>];<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$person</span>[<span class="hljs-string">&quot;name&quot;</span>];   <span class="hljs-comment">// 小明</span><br></code></pre></td></tr></table></figure>
+
+<p>要点：</p>
+<ul>
+<li><code>[]</code> 短语法从 PHP 5.4 开始支持；老代码用 <code>array(...)</code></li>
+<li>key 的规则：<ul>
+<li>纯数字字符串 <code>&quot;8&quot;</code> 会被转成整数 <code>8</code></li>
+<li>浮点数 key 会被截断成整数</li>
+<li><code>true</code> → <code>1</code>，<code>false</code> → <code>0</code>，<code>null</code> → <code>&quot;&quot;</code></li>
+</ul>
+</li>
+<li>不写 key 时，自动用“当前最大整数 key + 1”：</li>
+</ul>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$arr</span> = [];<br><span class="hljs-variable">$arr</span>[] = <span class="hljs-string">&quot;a&quot;</span>;   <span class="hljs-comment">// key 0</span><br><span class="hljs-variable">$arr</span>[] = <span class="hljs-string">&quot;b&quot;</span>;   <span class="hljs-comment">// key 1</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>count($arr)</code> 数元素个数</li>
+<li><code>isset($arr[&quot;key&quot;])</code> 判断“键存在且值不是 null”；如果值可能是 null，用 <code>array_key_exists()</code></li>
+<li><code>in_array($needle, $haystack, true)</code> 第三个参数传 <code>true</code> 才是严格比较</li>
+<li>数组赋值是<strong>复制</strong>（写时复制），改副本不影响原数组</li>
+</ul>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$a</span> = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br><span class="hljs-variable">$b</span> = <span class="hljs-variable">$a</span>;<br><span class="hljs-variable">$b</span>[<span class="hljs-number">0</span>] = <span class="hljs-number">99</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$a</span>[<span class="hljs-number">0</span>];   <span class="hljs-comment">// 1，原数组没变</span><br></code></pre></td></tr></table></figure>
+
+<p>比喻：数组像一排带标签的快递柜，每个格子有编号（key）和内容（value）。你可以按编号取，也可以按标签取。</p>
+<h3 id="6-object（对象）：有属性、有技能的东西"><a href="#6-object（对象）：有属性、有技能的东西" class="headerlink" title="6. object（对象）：有属性、有技能的东西"></a>6. object（对象）：有属性、有技能的东西</h3><p>对象是“类”的实例。类像图纸，对象像按图纸造出来的东西。</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$name</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$age</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-variable">$name</span>, <span class="hljs-variable">$age</span></span>) </span>&#123;<br>        <span class="hljs-variable language_">$this</span>-&gt;name = <span class="hljs-variable">$name</span>;<br>        <span class="hljs-variable language_">$this</span>-&gt;age  = <span class="hljs-variable">$age</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sayHello</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;你好，我是&quot;</span> . <span class="hljs-variable language_">$this</span>-&gt;name;<br>    &#125;<br>&#125;<br><br><span class="hljs-variable">$p</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>(<span class="hljs-string">&quot;小明&quot;</span>, <span class="hljs-number">18</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$p</span>-&gt;name;          <span class="hljs-comment">// 小明</span><br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$p</span>-&gt;<span class="hljs-title function_ invoke__">sayHello</span>();    <span class="hljs-comment">// 你好，我是小明</span><br><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$p</span>);<br><span class="hljs-comment">// object(Person)#1 (2) &#123;</span><br><span class="hljs-comment">//   [&quot;name&quot;]=&gt;</span><br><span class="hljs-comment">//   string(6) &quot;小明&quot;</span><br><span class="hljs-comment">//   [&quot;age&quot;]=&gt;</span><br><span class="hljs-comment">//   int(18)</span><br><span class="hljs-comment">// &#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>（<code>#1</code> 是对象编号，可能不同。）</p>
+<p>要点：</p>
+<ul>
+<li><code>new</code> 造对象，<code>-&gt;</code> 访问属性&#x2F;方法，<code>::</code> 访问静态成员&#x2F;常量</li>
+<li><strong>对象变量存的是“门禁卡”（handle），不是对象本身</strong>：</li>
+</ul>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>(<span class="hljs-string">&quot;小明&quot;</span>, <span class="hljs-number">18</span>);<br><span class="hljs-variable">$b</span> = <span class="hljs-variable">$a</span>;          <span class="hljs-comment">// 复制的是门禁卡，两个人进同一间屋</span><br><span class="hljs-variable">$b</span>-&gt;name = <span class="hljs-string">&quot;小红&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$a</span>-&gt;name;    <span class="hljs-comment">// 小红</span><br></code></pre></td></tr></table></figure>
+
+<p>想真正复制对象，用 <code>clone</code>（浅复制）：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$c</span> = <span class="hljs-keyword">clone</span> <span class="hljs-variable">$a</span>;<br><span class="hljs-variable">$c</span>-&gt;name = <span class="hljs-string">&quot;小刚&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$a</span>-&gt;name;    <span class="hljs-comment">// 小红，原对象没变</span><br></code></pre></td></tr></table></figure>
+
+<p>比喻：<code>$a = $b</code> 对数组是“复印一份文件”，对对象是“多配一张门禁卡”。复印的文件改了不影响原件；门禁卡进的是同一个房间，改房间里的东西大家都看得见。</p>
+<h3 id="7-resource（资源）：外部东西的“取货凭证”"><a href="#7-resource（资源）：外部东西的“取货凭证”" class="headerlink" title="7. resource（资源）：外部东西的“取货凭证”"></a>7. resource（资源）：外部东西的“取货凭证”</h3><p>资源不是普通数据，而是一个<strong>指向外部资源的句柄</strong>：打开的文件、数据库连接、图片画布等。</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$fp</span> = <span class="hljs-title function_ invoke__">fopen</span>(<span class="hljs-string">&quot;php://memory&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$fp</span>);              <span class="hljs-comment">// resource(5) of type (stream)（数字可能不同）</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-title function_ invoke__">is_resource</span>(<span class="hljs-variable">$fp</span>)); <span class="hljs-comment">// bool(true)</span><br><br><span class="hljs-title function_ invoke__">fclose</span>(<span class="hljs-variable">$fp</span>);<br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-title function_ invoke__">is_resource</span>(<span class="hljs-variable">$fp</span>)); <span class="hljs-comment">// bool(false)</span><br></code></pre></td></tr></table></figure>
+
+<p>要点：</p>
+<ul>
+<li>资源由专门的函数创建（<code>fopen</code>、<code>mysqli_connect</code> 等）</li>
+<li>用完要释放（<code>fclose</code> 等），否则可能泄漏</li>
+<li><code>get_resource_type($fp)</code> 看类型</li>
+<li>资源不能直接存进数据库，也不能被 <code>var_dump</code> 展开成普通值</li>
+</ul>
+<p>比喻：资源像“取货凭证&#x2F;门禁卡”，它本身不是货，但凭它可以去操作仓库里的东西。凭证作废（关闭）后，就不能再用了。</p>
+<h3 id="8-NULL（空值）：空盒子"><a href="#8-NULL（空值）：空盒子" class="headerlink" title="8. NULL（空值）：空盒子"></a>8. NULL（空值）：空盒子</h3><p><code>NULL</code> 表示“没有值”。大小写不敏感（<code>null</code>、<code>NULL</code>、<code>Null</code> 都一样）。</p>
+<p>三种情况会得到 null：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$a</span> = <span class="hljs-literal">null</span>;          <span class="hljs-comment">// 1. 明确赋值为 null</span><br><br><span class="hljs-comment">// 2. 从未赋值的变量，访问时得到 null，并提示未定义</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$b</span>);       <span class="hljs-comment">// NULL + Warning/Notice: Undefined variable</span><br><br><span class="hljs-variable">$c</span> = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">unset</span>(<span class="hljs-variable">$c</span>);          <span class="hljs-comment">// 3. unset 之后变量被销毁</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$c</span>);       <span class="hljs-comment">// NULL + Warning/Notice: Undefined variable</span><br></code></pre></td></tr></table></figure>
+
+<p>判断：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$x</span> = <span class="hljs-literal">null</span>;<br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-title function_ invoke__">is_null</span>(<span class="hljs-variable">$x</span>));   <span class="hljs-comment">// bool(true)</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$x</span> === <span class="hljs-literal">null</span>);   <span class="hljs-comment">// bool(true)</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$x</span> == <span class="hljs-literal">null</span>);    <span class="hljs-comment">// bool(true)</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$x</span> == <span class="hljs-number">0</span>);       <span class="hljs-comment">// bool(true)  ← 坑！null 和 0 松散比较是 true</span><br></code></pre></td></tr></table></figure>
+
+<p>所以判断 null 一定用 <code>=== null</code> 或 <code>is_null()</code>。</p>
+<p>比喻：</p>
+<ul>
+<li><code>null</code> &#x3D; 空盒子，连空气都没有</li>
+<li><code>&quot;&quot;</code> &#x3D; 盒子里装了一张白纸</li>
+<li><code>0</code> &#x3D; 盒子里装了数字 0</li>
+<li><code>&quot;0&quot;</code> &#x3D; 盒子里装了一个写着 0 的纸条</li>
+</ul>
+<p>它们“看起来都空空的”，但完全不是一回事。</p>
+<h3 id="9-类型判断与转换"><a href="#9-类型判断与转换" class="headerlink" title="9. 类型判断与转换"></a>9. 类型判断与转换</h3><p>判断类型：</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>gettype($x)</code></td>
+<td>返回类型名字符串（浮点返回 “double”）</td>
+</tr>
+<tr>
+<td><code>is_int()</code> &#x2F; <code>is_integer()</code></td>
+<td>是否整数</td>
+</tr>
+<tr>
+<td><code>is_float()</code> &#x2F; <code>is_double()</code></td>
+<td>是否浮点</td>
+</tr>
+<tr>
+<td><code>is_string()</code></td>
+<td>是否字符串</td>
+</tr>
+<tr>
+<td><code>is_bool()</code></td>
+<td>是否布尔</td>
+</tr>
+<tr>
+<td><code>is_array()</code></td>
+<td>是否数组</td>
+</tr>
+<tr>
+<td><code>is_object()</code></td>
+<td>是否对象</td>
+</tr>
+<tr>
+<td><code>is_resource()</code></td>
+<td>是否资源</td>
+</tr>
+<tr>
+<td><code>is_null()</code></td>
+<td>是否 null</td>
+</tr>
+<tr>
+<td><code>is_numeric()</code></td>
+<td>是否数字或数字字符串</td>
+</tr>
+<tr>
+<td><code>is_callable()</code></td>
+<td>是否可调用</td>
+</tr>
+</tbody></table>
+<p>强制转换：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$s</span> = <span class="hljs-string">&quot;123&quot;</span>;<br><span class="hljs-title function_ invoke__">var_dump</span>((<span class="hljs-keyword">int</span>)<span class="hljs-variable">$s</span>);      <span class="hljs-comment">// int(123)</span><br><span class="hljs-title function_ invoke__">var_dump</span>((<span class="hljs-keyword">float</span>)<span class="hljs-variable">$s</span>);    <span class="hljs-comment">// float(123)</span><br><span class="hljs-title function_ invoke__">var_dump</span>((<span class="hljs-keyword">string</span>)<span class="hljs-number">123</span>);  <span class="hljs-comment">// string(3) &quot;123&quot;</span><br><span class="hljs-title function_ invoke__">var_dump</span>((<span class="hljs-keyword">bool</span>)<span class="hljs-string">&quot;0&quot;</span>);    <span class="hljs-comment">// bool(false)</span><br><span class="hljs-title function_ invoke__">var_dump</span>((<span class="hljs-keyword">array</span>)<span class="hljs-string">&quot;abc&quot;</span>); <span class="hljs-comment">// array(1) &#123; [0]=&gt; string(3) &quot;abc&quot; &#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>settype()</code> 会直接改变变量本身的类型：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$x</span> = <span class="hljs-string">&quot;123&quot;</span>;<br><span class="hljs-title function_ invoke__">settype</span>(<span class="hljs-variable">$x</span>, <span class="hljs-string">&quot;integer&quot;</span>);<br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$x</span>);   <span class="hljs-comment">// int(123)</span><br></code></pre></td></tr></table></figure>
+
+<p>类型转换函数：<code>intval()</code>、<code>floatval()</code>、<code>strval()</code>、<code>boolval()</code>（PHP 5.5+）。</p>
+<p><strong>自动类型转换（类型戏法）</strong>：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-string">&quot;10&quot;</span> + <span class="hljs-number">5</span>);        <span class="hljs-comment">// int(15)</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-string">&quot;10.5&quot;</span> + <span class="hljs-number">1</span>);      <span class="hljs-comment">// float(11.5)</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-string">&quot;10 apples&quot;</span> + <span class="hljs-number">1</span>); <span class="hljs-comment">// int(11)，并有一个 notice（PHP 5/7）</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-string">&quot;abc&quot;</span> + <span class="hljs-number">1</span>);       <span class="hljs-comment">// PHP 5/7：int(1) + 警告；PHP 8：TypeError</span><br></code></pre></td></tr></table></figure>
+
+<p>【PHP 8 注意】PHP 8 对“非数字字符串”做算术会抛 <code>TypeError</code>，不再像 PHP 5 那样悄悄当 0。</p>
+<h2 id="七、函数"><a href="#七、函数" class="headerlink" title="七、函数"></a>七、函数</h2><h3 id="1-函数是什么"><a href="#1-函数是什么" class="headerlink" title="1. 函数是什么"></a>1. 函数是什么</h3><p>函数是一台<strong>榨汁机</strong>：你把原料（参数）放进去，按按钮（调用），它给你一杯果汁（返回值）。你不用关心里面的刀片怎么转。</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span>(<span class="hljs-params"><span class="hljs-variable">$a</span>, <span class="hljs-variable">$b</span></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-variable">$a</span> + <span class="hljs-variable">$b</span>;<br>&#125;<br><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">add</span>(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>);   <span class="hljs-comment">// 5</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>function</code> 是声明关键字</li>
+<li><code>add</code> 是函数名</li>
+<li><code>$a</code>、<code>$b</code> 是参数</li>
+<li><code>return</code> 把结果交出来</li>
+<li>函数名<strong>不区分大小写</strong>，但不能和内置函数重名</li>
+<li>函数不能重复定义（会报 fatal error）</li>
+</ul>
+<h3 id="2-参数：默认值、引用、可变参数"><a href="#2-参数：默认值、引用、可变参数" class="headerlink" title="2. 参数：默认值、引用、可变参数"></a>2. 参数：默认值、引用、可变参数</h3><p><strong>默认值</strong>（有默认值的参数放右边）：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">greet</span>(<span class="hljs-params"><span class="hljs-variable">$name</span>, <span class="hljs-variable">$greeting</span> = <span class="hljs-string">&quot;你好&quot;</span></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-variable">$greeting</span> . <span class="hljs-string">&quot;，&quot;</span> . <span class="hljs-variable">$name</span>;<br>&#125;<br><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">greet</span>(<span class="hljs-string">&quot;小明&quot;</span>);          <span class="hljs-comment">// 你好，小明</span><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">greet</span>(<span class="hljs-string">&quot;Tom&quot;</span>, <span class="hljs-string">&quot;Hello&quot;</span>);  <span class="hljs-comment">// Hello，Tom</span><br></code></pre></td></tr></table></figure>
+
+<p>默认值必须是常量表达式，不能写 <code>$x</code> 这种变量。</p>
+<p><strong>引用参数</strong>（函数里改，外面也变）：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addOne</span>(<span class="hljs-params">&amp;<span class="hljs-variable">$n</span></span>) </span>&#123;<br>    <span class="hljs-variable">$n</span>++;<br>&#125;<br><br><span class="hljs-variable">$x</span> = <span class="hljs-number">1</span>;<br><span class="hljs-title function_ invoke__">addOne</span>(<span class="hljs-variable">$x</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$x</span>;   <span class="hljs-comment">// 2</span><br></code></pre></td></tr></table></figure>
+
+<p>比喻：普通参数是“把文件复印一份给函数”，函数在复印件上改，原件不变；引用参数是“把原件递进去”。</p>
+<p><strong>可变参数</strong>（PHP 5.6+）：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sum</span>(<span class="hljs-params">...<span class="hljs-variable">$nums</span></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">array_sum</span>(<span class="hljs-variable">$nums</span>);<br>&#125;<br><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">sum</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>);   <span class="hljs-comment">// 10</span><br></code></pre></td></tr></table></figure>
+
+<p>老办法（PHP 5 全版本可用）：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sum2</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-variable">$args</span> = <span class="hljs-title function_ invoke__">func_get_args</span>();<br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">array_sum</span>(<span class="hljs-variable">$args</span>);<br>&#125;<br><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">sum2</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>);   <span class="hljs-comment">// 6</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3-返回值"><a href="#3-返回值" class="headerlink" title="3. 返回值"></a>3. 返回值</h3><ul>
+<li><code>return</code> 可以返回任意类型：数字、字符串、数组、对象、null</li>
+<li>没有 <code>return</code>（或 <code>return;</code>）的函数，返回 <code>null</code></li>
+<li><code>return</code> 会立刻结束函数，后面的代码不执行</li>
+</ul>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">divide</span>(<span class="hljs-params"><span class="hljs-variable">$a</span>, <span class="hljs-variable">$b</span></span>) </span>&#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$b</span> == <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;    <span class="hljs-comment">// 提前返回</span><br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-variable">$a</span> / <span class="hljs-variable">$b</span>;<br>&#125;<br><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-title function_ invoke__">divide</span>(<span class="hljs-number">10</span>, <span class="hljs-number">2</span>));   <span class="hljs-comment">// int(5)（整除时返回整数）</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-title function_ invoke__">divide</span>(<span class="hljs-number">10</span>, <span class="hljs-number">0</span>));   <span class="hljs-comment">// NULL</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="4-作用域与-static"><a href="#4-作用域与-static" class="headerlink" title="4. 作用域与 static"></a>4. 作用域与 static</h3><p>函数内部是独立空间，看不到外面的变量；要用 <code>global</code> 或参数传进来。函数里的 <code>static</code> 变量会在多次调用之间保留值（前面变量章节讲过）。</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">makeCounter</span>(<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-built_in">static</span> <span class="hljs-variable">$count</span> = <span class="hljs-number">0</span>;<br>    <span class="hljs-variable">$count</span>++;<br>    <span class="hljs-keyword">return</span> <span class="hljs-variable">$count</span>;<br>&#125;<br><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">makeCounter</span>();   <span class="hljs-comment">// 1</span><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">makeCounter</span>();   <span class="hljs-comment">// 2</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="5-可变函数、匿名函数、闭包"><a href="#5-可变函数、匿名函数、闭包" class="headerlink" title="5. 可变函数、匿名函数、闭包"></a>5. 可变函数、匿名函数、闭包</h3><p><strong>可变函数</strong>：函数名存在变量里。</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$fn</span> = <span class="hljs-string">&quot;strlen&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$fn</span>(<span class="hljs-string">&quot;hello&quot;</span>);   <span class="hljs-comment">// 5</span><br><br><span class="hljs-variable">$fn2</span> = <span class="hljs-string">&quot;strtoupper&quot;</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$fn2</span>(<span class="hljs-string">&quot;abc&quot;</span>);    <span class="hljs-comment">// ABC</span><br></code></pre></td></tr></table></figure>
+
+<p>注意：<code>echo</code>、<code>print</code>、<code>isset</code>、<code>empty</code> 这些是语言结构，不能这样调用。</p>
+<p><strong>匿名函数 &#x2F; 闭包</strong>（PHP 5.3+）：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$double</span> = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"><span class="hljs-variable">$x</span></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-variable">$x</span> * <span class="hljs-number">2</span>;<br>&#125;;<br><br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$double</span>(<span class="hljs-number">5</span>);   <span class="hljs-comment">// 10</span><br></code></pre></td></tr></table></figure>
+
+<p>闭包要用外面的变量，得用 <code>use</code>：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$rate</span> = <span class="hljs-number">0.1</span>;<br><span class="hljs-variable">$tax</span> = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"><span class="hljs-variable">$price</span></span>) <span class="hljs-keyword">use</span> (<span class="hljs-params"><span class="hljs-variable">$rate</span></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-variable">$price</span> * (<span class="hljs-number">1</span> + <span class="hljs-variable">$rate</span>);<br>&#125;;<br><br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$tax</span>(<span class="hljs-number">100</span>);   <span class="hljs-comment">// 110</span><br></code></pre></td></tr></table></figure>
+
+<p><code>use (&amp;$rate)</code> 是引用捕获，函数里改会影响外面；不加 <code>&amp;</code> 是值捕获，捕获的是定义那一刻的副本。</p>
+<p><strong>箭头函数</strong>（PHP 7.4+，了解）：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$double</span> = <span class="hljs-function"><span class="hljs-keyword">fn</span>(<span class="hljs-params"><span class="hljs-variable">$x</span></span>) =&gt;</span> <span class="hljs-variable">$x</span> * <span class="hljs-number">2</span>;<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$double</span>(<span class="hljs-number">5</span>);   <span class="hljs-comment">// 10</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="6-递归：函数自己调用自己"><a href="#6-递归：函数自己调用自己" class="headerlink" title="6. 递归：函数自己调用自己"></a>6. 递归：函数自己调用自己</h3><p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">factorial</span>(<span class="hljs-params"><span class="hljs-variable">$n</span></span>) </span>&#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$n</span> &lt;= <span class="hljs-number">1</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-variable">$n</span> * <span class="hljs-title function_ invoke__">factorial</span>(<span class="hljs-variable">$n</span> - <span class="hljs-number">1</span>);<br>&#125;<br><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">factorial</span>(<span class="hljs-number">5</span>);   <span class="hljs-comment">// 120</span><br></code></pre></td></tr></table></figure>
+
+<p>比喻：俄罗斯套娃，一层套一层，直到最小的那个（终止条件）。递归一定要有终止条件，否则会栈溢出。</p>
+<h3 id="7-类型声明（PHP-5-与-7-8-的差别）"><a href="#7-类型声明（PHP-5-与-7-8-的差别）" class="headerlink" title="7. 类型声明（PHP 5 与 7&#x2F;8 的差别）"></a>7. 类型声明（PHP 5 与 7&#x2F;8 的差别）</h3><p>PHP 5 支持类名、数组、<code>callable</code> 参数声明：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">total</span>(<span class="hljs-params"><span class="hljs-keyword">array</span> <span class="hljs-variable">$nums</span></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">array_sum</span>(<span class="hljs-variable">$nums</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>PHP 7 开始支持标量类型和返回值类型：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">declare</span>(strict_types=<span class="hljs-number">1</span>);   <span class="hljs-comment">// 严格模式，必须放在文件第一行</span><br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span>(<span class="hljs-params"><span class="hljs-keyword">int</span> <span class="hljs-variable">$a</span>, <span class="hljs-keyword">int</span> <span class="hljs-variable">$b</span></span>): <span class="hljs-title">int</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-variable">$a</span> + <span class="hljs-variable">$b</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>PHP 8 支持联合类型、命名参数等：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">show</span>(<span class="hljs-params"><span class="hljs-keyword">int</span>|<span class="hljs-keyword">string</span> <span class="hljs-variable">$id</span></span>): <span class="hljs-title">string</span> </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;ID: &quot;</span> . <span class="hljs-variable">$id</span>;<br>&#125;<br><br><span class="hljs-title function_ invoke__">show</span>(<span class="hljs-attr">id</span>: <span class="hljs-number">123</span>);   <span class="hljs-comment">// 命名参数</span><br></code></pre></td></tr></table></figure>
+
+<p>新手先掌握“参数”和“返回值”即可，类型声明可以慢慢加。</p>
+<h3 id="8-常用内置函数（先混个脸熟）"><a href="#8-常用内置函数（先混个脸熟）" class="headerlink" title="8. 常用内置函数（先混个脸熟）"></a>8. 常用内置函数（先混个脸熟）</h3><table>
+<thead>
+<tr>
+<th>类别</th>
+<th>函数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>字符串</td>
+<td><code>strlen()</code></td>
+<td>字节长度</td>
+</tr>
+<tr>
+<td></td>
+<td><code>mb_strlen()</code></td>
+<td>字符长度（中文用）</td>
+</tr>
+<tr>
+<td></td>
+<td><code>strpos()</code></td>
+<td>找子串位置（没找到返回 false）</td>
+</tr>
+<tr>
+<td></td>
+<td><code>substr()</code></td>
+<td>截取</td>
+</tr>
+<tr>
+<td></td>
+<td><code>str_replace()</code></td>
+<td>替换</td>
+</tr>
+<tr>
+<td></td>
+<td><code>trim()</code></td>
+<td>去首尾空白</td>
+</tr>
+<tr>
+<td></td>
+<td><code>strtoupper()</code> &#x2F; <code>strtolower()</code></td>
+<td>大小写</td>
+</tr>
+<tr>
+<td></td>
+<td><code>implode()</code> &#x2F; <code>explode()</code></td>
+<td>数组转字符串 &#x2F; 字符串转数组</td>
+</tr>
+<tr>
+<td>数组</td>
+<td><code>count()</code></td>
+<td>元素个数</td>
+</tr>
+<tr>
+<td></td>
+<td><code>array_push()</code> &#x2F; <code>array_pop()</code></td>
+<td>尾部加&#x2F;取</td>
+</tr>
+<tr>
+<td></td>
+<td><code>array_merge()</code></td>
+<td>合并</td>
+</tr>
+<tr>
+<td></td>
+<td><code>array_keys()</code> &#x2F; <code>array_values()</code></td>
+<td>取键&#x2F;取值</td>
+</tr>
+<tr>
+<td></td>
+<td><code>in_array()</code></td>
+<td>是否包含</td>
+</tr>
+<tr>
+<td></td>
+<td><code>array_map()</code> &#x2F; <code>array_filter()</code></td>
+<td>映射&#x2F;过滤</td>
+</tr>
+<tr>
+<td></td>
+<td><code>sort()</code> &#x2F; <code>usort()</code></td>
+<td>排序</td>
+</tr>
+<tr>
+<td>判断</td>
+<td><code>isset()</code></td>
+<td>是否存在且不为 null</td>
+</tr>
+<tr>
+<td></td>
+<td><code>empty()</code></td>
+<td>是否为空（“0” 也算空）</td>
+</tr>
+<tr>
+<td></td>
+<td><code>is_numeric()</code></td>
+<td>是否数字字符串</td>
+</tr>
+<tr>
+<td>输出</td>
+<td><code>echo</code> &#x2F; <code>print</code> &#x2F; <code>var_dump()</code> &#x2F; <code>print_r()</code></td>
+<td>输出&#x2F;调试</td>
+</tr>
+</tbody></table>
+<h3 id="9-函数小练习"><a href="#9-函数小练习" class="headerlink" title="9. 函数小练习"></a>9. 函数小练习</h3><p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-comment">// 1. 判断偶数</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isEven</span>(<span class="hljs-params"><span class="hljs-variable">$n</span></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-variable">$n</span> % <span class="hljs-number">2</span> === <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-comment">// 2. 安全除法</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">safeDivide</span>(<span class="hljs-params"><span class="hljs-variable">$a</span>, <span class="hljs-variable">$b</span></span>) </span>&#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$b</span> == <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-variable">$a</span> / <span class="hljs-variable">$b</span>;<br>&#125;<br><br><span class="hljs-comment">// 3. 格式化价格</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">formatPrice</span>(<span class="hljs-params"><span class="hljs-variable">$price</span></span>) </span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;¥&quot;</span> . <span class="hljs-title function_ invoke__">number_format</span>(<span class="hljs-variable">$price</span>, <span class="hljs-number">2</span>);<br>&#125;<br><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-title function_ invoke__">isEven</span>(<span class="hljs-number">4</span>));            <span class="hljs-comment">// bool(true)</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-title function_ invoke__">safeDivide</span>(<span class="hljs-number">10</span>, <span class="hljs-number">0</span>));    <span class="hljs-comment">// NULL</span><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">formatPrice</span>(<span class="hljs-number">1234.5</span>);       <span class="hljs-comment">// ¥1,234.50</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="八、把知识串起来：一个小例子"><a href="#八、把知识串起来：一个小例子" class="headerlink" title="八、把知识串起来：一个小例子"></a>八、把知识串起来：一个小例子</h2><p>写一个“成绩等级”函数，把变量、类型、比较、函数、输出都用上：</p>
+<p>php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">grade</span>(<span class="hljs-params"><span class="hljs-variable">$score</span></span>) </span>&#123;<br>    <span class="hljs-comment">// 1. 先确认是数字（表单传来的都是字符串）</span><br>    <span class="hljs-keyword">if</span> (!<span class="hljs-title function_ invoke__">is_numeric</span>(<span class="hljs-variable">$score</span>)) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;分数必须是数字&quot;</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// 2. 转成浮点数</span><br>    <span class="hljs-variable">$score</span> = (<span class="hljs-keyword">float</span>)<span class="hljs-variable">$score</span>;<br><br>    <span class="hljs-comment">// 3. 范围检查</span><br>    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$score</span> &lt; <span class="hljs-number">0</span> || <span class="hljs-variable">$score</span> &gt; <span class="hljs-number">100</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;分数必须在 0 到 100 之间&quot;</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// 4. 用比较判断等级</span><br>    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$score</span> &gt;= <span class="hljs-number">90</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;优秀&quot;</span>;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$score</span> &gt;= <span class="hljs-number">60</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;及格&quot;</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;不及格&quot;</span>;<br>&#125;<br><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">grade</span>(<span class="hljs-string">&quot;95&quot;</span>);    <span class="hljs-comment">// 优秀</span><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">grade</span>(<span class="hljs-number">59</span>);      <span class="hljs-comment">// 不及格</span><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">grade</span>(<span class="hljs-string">&quot;abc&quot;</span>);   <span class="hljs-comment">// 分数必须是数字</span><br><span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">grade</span>(<span class="hljs-number">120</span>);     <span class="hljs-comment">// 分数必须在 0 到 100 之间</span><br></code></pre></td></tr></table></figure>
+
+<p>这个例子体现了：变量、函数、<code>is_numeric()</code> 判断、强制转换 <code>(float)</code>、比较运算符、<code>return</code> 提前结束、字符串输出。</p>
+<hr>
+<h2 id="九、速查表"><a href="#九、速查表" class="headerlink" title="九、速查表"></a>九、速查表</h2><h3 id="八种类型"><a href="#八种类型" class="headerlink" title="八种类型"></a>八种类型</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>判断函数</th>
+<th>例子</th>
+<th><code>var_dump</code> 样子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>boolean</td>
+<td><code>is_bool()</code></td>
+<td><code>true</code></td>
+<td><code>bool(true)</code></td>
+</tr>
+<tr>
+<td>integer</td>
+<td><code>is_int()</code></td>
+<td><code>42</code></td>
+<td><code>int(42)</code></td>
+</tr>
+<tr>
+<td>float</td>
+<td><code>is_float()</code></td>
+<td><code>3.14</code></td>
+<td><code>float(3.14)</code></td>
+</tr>
+<tr>
+<td>string</td>
+<td><code>is_string()</code></td>
+<td><code>&quot;hi&quot;</code></td>
+<td><code>string(2) &quot;hi&quot;</code></td>
+</tr>
+<tr>
+<td>array</td>
+<td><code>is_array()</code></td>
+<td><code>[1, 2]</code></td>
+<td><code>array(2) { ... }</code></td>
+</tr>
+<tr>
+<td>object</td>
+<td><code>is_object()</code></td>
+<td><code>new Foo()</code></td>
+<td><code>object(Foo)#1 (0) { }</code></td>
+</tr>
+<tr>
+<td>resource</td>
+<td><code>is_resource()</code></td>
+<td><code>fopen(...)</code></td>
+<td><code>resource(5) of type (stream)</code></td>
+</tr>
+<tr>
+<td>NULL</td>
+<td><code>is_null()</code></td>
+<td><code>null</code></td>
+<td><code>NULL</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>==</code> 会转类型，<code>===</code> 不会</li>
+<li>数字和字符串比，PHP 5&#x2F;7 转数字，PHP 8 转字符串（非数字字符串时）</li>
+<li>判断“没找到”用 <code>=== false</code></li>
+<li>判断 null 用 <code>=== null</code></li>
+<li>浮点数别用 <code>==</code></li>
+<li>不确定就用 <code>===</code></li>
+</ul>
+<h3 id="常见“假值”"><a href="#常见“假值”" class="headerlink" title="常见“假值”"></a>常见“假值”</h3><p><code>false</code>、<code>0</code>、<code>0.0</code>、<code>&quot;&quot;</code>、<code>&quot;0&quot;</code>、<code>[]</code>、<code>null</code></p>
+<hr>
+<h2 id="十、参考资料"><a href="#十、参考资料" class="headerlink" title="十、参考资料"></a>十、参考资料</h2><p>以下都是 PHP 官方手册（中文版）和官网页面，本文的结论均以此为依据：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/intro-whatis.php">PHP 是什么（引言）</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.basic-syntax.php">PHP 基本语法</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.echo.php">echo</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.print.php">print</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.var-dump.php">var_dump</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.variables.php">变量</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.types.php">类型总览</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/types.comparisons.php">PHP 类型比较表</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.operators.comparison.php">比较运算符</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.types.type-juggling.php">类型戏法（自动转换）</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.functions.php">函数</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.php.net/eol.php">PHP 支持周期（EOL）</a></li>
+</ol>
+<p>其中几条关键依据：</p>
+<ul>
+<li><strong>echo</strong> 是语言结构、没有返回值、可传多个参数 —— <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.echo.php">echo 手册</a></li>
+<li><strong>print</strong> 是语言结构、只接受一个参数、总是返回 1 —— <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.print.php">print 手册</a></li>
+<li><strong>var_dump</strong> 显示类型与值、递归展开数组&#x2F;对象、无返回值 —— <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.var-dump.php">var_dump 手册</a></li>
+<li><code>0 == &quot;&quot;</code>、<code>0 == &quot;abc&quot;</code> 等在 PHP 8.0 之前为 true，之后为 false —— <a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/types.comparisons.php">类型比较表</a>中的 <code>*</code> 注释</li>
+<li>PHP 5.6 于 2018-12-31 停止支持 —— <a target="_blank" rel="noopener" href="https://www.php.net/eol.php">官方 EOL 页面</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B9%A0/" class="category-chain-item">学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>PHP 入门笔记</div>
+      <div>https://changee25.github.io/2026/10/31/php-basics/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>AMOUR</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年10月31日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/10/22/first-meeting/" title="第一次例会：前端基础与 HTTP 入门">
+                        <span class="hidden-mobile">第一次例会：前端基础与 HTTP 入门</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <span>© 2026 AMOUR</span> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="/vendor/lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="/vendor/lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="/vendor/lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="/vendor/lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('/vendor/lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=/vendor/lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('/vendor/lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('/vendor/lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
