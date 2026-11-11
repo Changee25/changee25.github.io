@@ -1,0 +1,19 @@
+# Hexo 生成物
+public/
+.deploy_git/
+db.json
+*.log
+
+# 依赖
+node_modules/
+
+# 本地安装/构建用的配置，不提交
+.npmrc
+pnpm-lock.yaml
+pnpm-workspace.yaml
+.edge-*/
+.tmp_*
+
+# 系统文件
+.DS_Store
+Thumbs.db

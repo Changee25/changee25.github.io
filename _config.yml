@@ -1,0 +1,85 @@
+# ==========================================================
+# AMOUR 的博客 · Hexo 站点配置
+# 主题配置在 _config.fluid.yml，不要写在这里
+# ==========================================================
+
+# 站点信息
+title: AMOUR
+subtitle: I don't know where I'm going, but I'm on my way.
+description: 记录学习、项目，和一些没想明白的事
+keywords:
+author: AMOUR
+language: zh-CN
+timezone: Asia/Shanghai
+
+# 域名：GitHub Pages 的仓库名是 changee25.github.io，属于「用户站」，所以 url 是根域名、root 留空
+url: https://changee25.github.io
+root: /
+permalink: :year/:month/:day/:title/
+permalink_defaults:
+pretty_urls:
+  trailing_index: false
+  trailing_html: false
+
+# 目录
+source_dir: source
+public_dir: public
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
+i18n_dir: :lang
+skip_render:
+
+# 写作
+new_post_name: :year-:month-:day-:title.md
+default_layout: post
+titlecase: false
+external_link:
+  enable: true
+  field: site
+  exclude:
+filename_case: 0
+render_drafts: false
+post_asset_folder: false
+relative_link: false
+future: true
+syntax_highlighter: highlight.js
+highlight:
+  line_number: true
+  auto_detect: false
+  tab_replace: ''
+  wrap: true
+  hljs: false
+prismjs:
+  preprocess: true
+  line_number: true
+  tab_replace: ''
+
+# 首页：每页 6 篇，按时间倒序
+index_generator:
+  path: ''
+  per_page: 6
+  order_by: -date
+
+default_category: 未分类
+category_map:
+tag_map:
+
+meta_generator: true
+date_format: YYYY-MM-DD
+time_format: HH:mm:ss
+updated_option: 'mtime'
+
+per_page: 6
+pagination_dir: page
+
+# 主题
+theme: fluid
+
+# 部署：推送到 GitHub Pages 仓库的 main 分支
+deploy:
+  type: git
+  repo: https://github.com/Changee25/changee25.github.io.git
+  branch: main
+  message: "Site updated: {{ now('YYYY-MM-DD HH:mm:ss') }}"

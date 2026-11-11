@@ -1,0 +1,49 @@
+# 源码推到 src 分支 -> 云端自动构建 -> 发布到 main 分支（GitHub Pages 读的就是 main）
+#
+# 这样本机不需要装 Node.js：你在 Typora 写完 md，用 GitHub Desktop 提交并推送 src 即可。
+name: 构建并发布博客
+
+on:
+  push:
+    branches: [src]
+  workflow_dispatch: # 也可以在 Actions 页面手动点一下重跑
+
+permissions:
+  contents: write
+
+concurrency:
+  group: blog-deploy
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出源码
+        uses: actions/checkout@v4
+
+      - name: 准备 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 安装依赖
+        run: |
+          npm config set registry https://registry.npmjs.org/
+          npm install --no-audit --no-fund
+
+      - name: 构建静态文件
+        run: |
+          npx hexo clean
+          npx hexo generate
+          ls -la public | head -20
+
+      - name: 发布到 main
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: main
+          publish_dir: ./public
+          user_name: github-actions[bot]
+          user_email: github-actions[bot]@users.noreply.github.com
+          commit_message: "deploy: ${{ github.event.head_commit.message }}"

@@ -1,0 +1,107 @@
+# ==========================================================
+# AMOUR 的博客 · Hexo Theme Fluid 主题配置（覆盖文件）
+#
+# 这里只写「和主题默认值不一样」的项，其余全部自动继承主题默认配置。
+# 想改某个默认值，去 themes/fluid/_config.yml（或 node_modules/hexo-theme-fluid/_config.yml）
+# 里查键名，再抄到本文件对应位置即可。
+# ==========================================================
+
+# ---------- 浏览器标签图标 ----------
+# 现在用的是头像生成的占位图标，换头像时一并替换 source/img/avatar-favicon.png 即可
+favicon: /img/avatar-favicon.png
+apple_touch_icon: /img/avatar-favicon.png
+
+# ---------- 打字机效果 ----------
+# 首页副标题的打字机动画；scope 限定只在首页打字
+fun_features:
+  typing:
+    enable: true
+    typeSpeed: 80
+    cursorChar: "_"
+    loop: false
+    scope:
+      - home
+
+# ---------- 自定义样式 ----------
+# 导航栏「头像 + 昵称 AMOUR」就靠这个文件实现
+custom_css: /css/custom.css
+
+# ---------- 导航栏 ----------
+navbar:
+  # 左上角显示的文字，由 custom.css 在他左边加上头像
+  blog_title: "AMOUR"
+
+  menu:
+    - { key: "home", name: "首页", link: "/", icon: "iconfont icon-home-fill" }
+    - { key: "articles", name: "文章", link: "/archives/", icon: "iconfont icon-articles" }
+    - { key: "diary", name: "日记", link: "/diary/", icon: "iconfont icon-date-fill" }
+    - { key: "links", name: "友链", link: "/links/", icon: "iconfont icon-link-fill" }
+    - { key: "about", name: "关于", link: "/about/", icon: "iconfont icon-user-fill" }
+
+# ---------- 搜索 ----------
+# 关闭：没装 hexo-generator-search 插件，开着会请求不存在的索引文件
+search:
+  enable: false
+
+# ---------- 首页 ----------
+index:
+  # 首屏大图：source/img/banner.jpg（初音未来壁纸，已压到 1920×1080 / 约 260KB）
+  banner_img: /img/banner.jpg
+  banner_img_height: 100
+  # 黑色蒙版不透明度，0 = 完全不压暗；这张图偏暗，0.2 足够看清白字
+  banner_mask_alpha: 0.2
+
+  slogan:
+    enable: true
+    text: "I don't know where I'm going, but I'm on my way."
+
+  # 首页文章摘要：自动截取正文前 200 字
+  auto_excerpt:
+    enable: true
+
+# ---------- 各内页头图 ----------
+# 统一用同一张 banner，想区分开就各自换成别的图
+post:
+  banner_img: /img/banner.jpg
+  banner_img_height: 70
+
+archive:
+  banner_img: /img/banner.jpg
+
+page:
+  banner_img: /img/banner.jpg
+
+# ---------- 关于页 ----------
+about:
+  banner_img: /img/banner.jpg
+  # 换成你自己的头像：直接覆盖 source/img/avatar.jpg 这个文件即可，不用改配置
+  avatar: /img/avatar.jpg
+  name: "AMOUR"
+  intro: "I don't know where I'm going, but I'm on my way."
+  icons:
+    - { class: "iconfont icon-github-fill", link: "https://github.com/Changee25", tip: "GitHub" }
+    - { class: "iconfont icon-mail", link: "mailto:", tip: "邮箱" }
+
+# ---------- 友链页 ----------
+links:
+  banner_img: /img/banner.jpg
+  items:
+    - {
+      title: "Circle",
+      intro: "记录我的 web 学习之路",
+      link: "https://circle-q.github.io"
+    }
+    # 加友链：照抄上面 5 行，改标题/介绍/网址；avatar 可填对方头像图片地址
+    # - { title: "名字", intro: "一句话介绍", link: "https://example.com", avatar: "https://example.com/avatar.png" }
+
+  # 对方头像加载失败时显示的图片
+  onerror_avatar: /img/avatar.jpg
+
+# ---------- 页脚 ----------
+footer:
+  content: '
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    <span>© 2026 AMOUR</span>
+  '
