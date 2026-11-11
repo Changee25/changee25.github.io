@@ -3,21 +3,18 @@
   新建一篇文章（本机没装 Node、用不了 hexo new 时用这个）。
 
 .DESCRIPTION
-  在 source\_posts 下生成 YYYY-MM-DD-slug.md，带好 front matter，
-  然后用 Typora 打开写正文。写完提交推送即可（见 README）。
+  在 source\_posts 下生成 YYYY-MM-DD-slug.md，带好 front matter。
 
-.EXAMPLE
-  powershell -ExecutionPolicy Bypass -File tools\new-post.ps1 -Title "先学会走" -Category 随笔 -Tags 日记,随笔 -Open
-
-.EXAMPLE
-  # 指定英文 slug，网址更干净
-  powershell -ExecutionPolicy Bypass -File tools\new-post.ps1 -Title "PHP 数组笔记" -Slug php-array -Category 学习
+  两种用法：
+    1) 双击项目根目录的「新建文章.bat」，按提示输入标题 / 分类 / 标签
+    2) 命令行带参数，例如：
+       powershell -ExecutionPolicy Bypass -File tools\new-post.ps1 -Title "标题" -Category 随笔 -Tags 日记,随笔 -Open
 #>
 param(
-  [Parameter(Mandatory = $true)][string]$Title,
+  [string]$Title,
   [string]$Slug,
-  [string]$Category = '',
-  [string[]]$Tags = @(),
+  [string]$Category,
+  [string[]]$Tags,
   [switch]$Open
 )
 
@@ -26,6 +23,31 @@ $root = Split-Path -Parent $PSScriptRoot
 $postsDir = Join-Path $root 'source\_posts'
 if (-not (Test-Path -LiteralPath $postsDir)) { throw "找不到 $postsDir" }
 
+function Ask([string]$prompt, [string]$default = '') {
+  try {
+    $v = Read-Host $prompt
+    if ([string]::IsNullOrWhiteSpace($v)) { return $default }
+    return $v.Trim()
+  } catch {
+    # 非交互环境（比如被脚本调用）就退回默认值
+    return $default
+  }
+}
+
+# ---------- 补全信息 ----------
+if ([string]::IsNullOrWhiteSpace($Title)) { $Title = Ask "文章标题（必填）" }
+if ([string]::IsNullOrWhiteSpace($Title)) { throw "标题为空，已取消" }
+
+if ([string]::IsNullOrWhiteSpace($Category)) { $Category = Ask "分类（回车默认：随笔）" '随笔' }
+
+if (-not $Tags -or $Tags.Count -eq 0) {
+  $t = Ask "标签（逗号分隔，可留空）"
+  if (-not [string]::IsNullOrWhiteSpace($t)) {
+    $Tags = $t -split '[,，]' | ForEach-Object { $_.Trim() } | Where-Object { $_ }
+  }
+}
+
+# ---------- 生成文件 ----------
 $now = Get-Date
 if ([string]::IsNullOrWhiteSpace($Slug)) {
   $Slug = ($Title -replace '\s+', '-' -replace '[\\/:*?"<>|]', '')
@@ -35,7 +57,7 @@ $file = Join-Path $postsDir $fileName
 if (Test-Path -LiteralPath $file) { throw "已经存在同名文章：$fileName" }
 
 $tagsYaml = ''
-if ($Tags.Count -gt 0) { $tagsYaml = '[' + ($Tags -join ', ') + ']' }
+if ($Tags -and $Tags.Count -gt 0) { $tagsYaml = '[' + ($Tags -join ', ') + ']' }
 
 $content = @"
 ---
@@ -46,26 +68,20 @@ tags: $tagsYaml
 description:
 ---
 
-在这里写正文（Typora 直接写 Markdown 即可）。
-
-## 小标题
-
-正文……
+在这里写正文。
 
 <!-- more -->
-
-## 正文从这里继续
-
-<!--
-  小提示：
-  1. description 写一句摘要，首页卡片和搜索结果里显示的就是它；不填会截取正文前 200 字
-  2. <!-- more --> 之前的段落算摘要，之后的内容要点“阅读全文”才看得到，可以删掉
-  3. 图片放在 source\img\ 下，正文里写 ![说明](/img/图片名.png)
--->
 "@
 
 Set-Content -LiteralPath $file -Value $content -Encoding UTF8
-Write-Host "已创建：$file"
+
 Write-Host ""
-Write-Host "写完记得：GitHub Desktop → 提交 → Push origin（推到 src 分支，云端会自动构建发布）"
+Write-Host "已创建：$file" -ForegroundColor Green
+Write-Host ("网址会是你：/{0}/{1}/" -f $now.ToString('yyyy/MM/dd'), $Slug) -ForegroundColor DarkGray
+Write-Host ""
+Write-Host "写完正文后：" -ForegroundColor Yellow
+Write-Host "  GitHub Desktop -> 选 hexo-blog 仓库 -> 填一句说明 -> Commit to src -> Push origin"
+Write-Host "  1~2 分钟后线上自动更新"
+Write-Host ""
+
 if ($Open) { Start-Process $file }

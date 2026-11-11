@@ -18,12 +18,13 @@ Typora 写 md  →  source/_posts  →  GitHub Desktop 提交+推送 src
 
 ## 一、写文章并发布
 
-1. **建文章**（推荐用脚本，会自动补 front matter 并打开 Typora）：
+1. **建文章**（最省事：双击项目根目录的 **`新建文章.bat`**，按提示输标题 / 分类 / 标签，会自动生成 md 并打开 Typora）
+   命令行也行：
    ```powershell
    cd D:\DSH\hexo-blog
    powershell -ExecutionPolicy Bypass -File tools\new-post.ps1 -Title "文章标题" -Category 随笔 -Tags 日记,随笔 -Open
    ```
-   也可以在 `source\_posts\` 自己新建 `.md`，开头写：
+   或者直接在 `source\_posts\` 新建 `.md`（文件名建议 `2026-11-12-english-slug.md`），开头写：
    ```yaml
    ---
    title: 文章标题
@@ -34,7 +35,7 @@ Typora 写 md  →  source/_posts  →  GitHub Desktop 提交+推送 src
    index_img: /img/cover-default.jpg   # 可选，不给就用默认封面
    ---
    ```
-2. **Typora 写正文**，图片放 `source\img\`，正文写 `![说明](/img/图片名.png)`
+2. **Typora 写正文**，图片放 `source\img\`，正文写 `![说明](/img/图片名.png)`（**开头要带 `/`**）
 3. **推送**：GitHub Desktop → 选 `hexo-blog` 仓库 → 填提交信息 → **Commit to src** → **Push origin**
 4. **等 1~2 分钟**，Actions 自动构建发布（仓库页 **Actions** 标签看进度）
 
