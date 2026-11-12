@@ -139,8 +139,33 @@ utterances:
 | 友链 | `_config.fluid.yml` → `links.items` |
 | 首屏高度/压暗 | `index.banner_img_height`（100=整屏）、`index.banner_mask_alpha` |
 | 关于页正文 | `source/about/index.md` |
-| 写日记 | 双击 **`写日记.bat`**（自动把当天小节插到最上面，并用 Typora 打开）；或直接编辑 `source/diary/index.md`，**新的写最上面** |
+| 写日记 | 双击 **`写日记.bat`**（在 `source/_diary/` 建当天文件并打开 Typora） |
 | 页脚 | `footer.content` |
+
+### 日记是怎么组织的
+
+改成「**一天一个文件 + 自动倒序 + 分页**」了：
+
+```
+source/_diary/
+├─ 2026-10-27.md
+├─ 2026-10-31.md   ← front matter 里 title: 2026-10-31 & 11-1（自定义这天显示的名字）
+├─ 2026-11-02.md
+└─ 2026-11-04.md
+```
+
+- 文件内容：
+  ```yaml
+  ---
+  date: 2026-11-12
+  title: 可选，想改显示的名字才写
+  ---
+
+  正文（Markdown，随便写几段）
+  ```
+- **不用管顺序**：`scripts/diary-generator.js` 会按 `date` 倒序生成 `/diary/`、`/diary/page/2/`……
+- **每页显示几天**：改 `scripts/diary-generator.js` 顶部的 `PER_PAGE`（现在是 3）
+- 生成出来的页面用的是主题的 `page` 布局，所以头图、导航、页脚和其他页面一致；条目样式在 `source/css/custom.css` 的「日记页」一节
 
 ---
 

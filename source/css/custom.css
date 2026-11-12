@@ -74,3 +74,41 @@
     line-height: 1.6;
   }
 }
+
+/* ----------------------------------------------------------
+   3) 日记页（scripts/diary-generator.js 生成）
+   一天一条，日期在上、正文在下，条目之间用虚线分隔
+   ---------------------------------------------------------- */
+.diary-entry {
+  padding-bottom: 1.4rem;
+  margin-bottom: 1.8rem;
+  border-bottom: 1px dashed rgba(128, 128, 128, 0.28);
+}
+
+.diary-entry:last-of-type {
+  border-bottom: 0;
+  margin-bottom: 0.6rem;
+}
+
+.diary-entry .diary-date {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.6rem;
+  color: #30a9de;
+}
+
+.diary-entry .diary-body > :first-child {
+  margin-top: 0;
+}
+
+.diary-entry .diary-body > :last-child {
+  margin-bottom: 0;
+}
+
+/* 条目之间留点呼吸感，正文不要挤在一起 */
+.diary-entry .diary-body p {
+  margin-bottom: 0.7rem;
+  line-height: 1.85;
+}
+
