@@ -139,7 +139,7 @@ utterances:
 | 友链 | `_config.fluid.yml` → `links.items` |
 | 首屏高度/压暗 | `index.banner_img_height`（100=整屏）、`index.banner_mask_alpha` |
 | 关于页正文 | `source/about/index.md` |
-| 日记 | `source/diary/index.md` |
+| 写日记 | 双击 **`写日记.bat`**（自动把当天小节插到最上面，并用 Typora 打开）；或直接编辑 `source/diary/index.md`，**新的写最上面** |
 | 页脚 | `footer.content` |
 
 ---
