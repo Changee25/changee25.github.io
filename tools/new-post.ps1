@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   新建一篇文章（本机没装 Node、用不了 hexo new 时用这个）。
 
@@ -73,7 +73,9 @@ description:
 <!-- more -->
 "@
 
-Set-Content -LiteralPath $file -Value $content -Encoding UTF8
+# 必须是「UTF-8 无 BOM」：Windows PowerShell 5.1 的 Set-Content -Encoding UTF8 会加 BOM，
+# 而 BOM 会让 Hexo 的 front matter 解析失败（文章会变成没有标题/日期的散文件）
+[System.IO.File]::WriteAllText($file, $content, (New-Object System.Text.UTF8Encoding($false)))
 
 Write-Host ""
 Write-Host "已创建：$file" -ForegroundColor Green

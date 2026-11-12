@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   把 public/ 的构建产物同步进旧站仓库并提交，之后你去 GitHub Desktop 点一下 Push 就行。
 

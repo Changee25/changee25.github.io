@@ -1,10 +1,14 @@
 @echo off
-chcp 65001 >nul
+title AMOUR blog - new diary entry
 cd /d "%~dp0"
+set "PS_EXE=C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
+if not exist "%PS_EXE%" set "PS_EXE=powershell"
 echo ============================================
-echo   New diary entry  /  <xie ri ji>
+echo   AMOUR blog : new diary entry
+echo   (press Enter = today, or type 2026-11-13)
 echo ============================================
 echo.
-powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0tools\add-diary.ps1" -Open
+"%PS_EXE%" -NoProfile -ExecutionPolicy Bypass -File "%~dp0tools\add-diary.ps1" -Open
 echo.
-pause
+echo --- done, press any key to close ---
+pause >nul
