@@ -20,6 +20,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot '_open-editor.ps1')
 $root = Split-Path -Parent $PSScriptRoot
 if ([string]::IsNullOrWhiteSpace($Dir)) { $Dir = Join-Path $root 'source\_diary' }
 if (-not (Test-Path -LiteralPath $Dir)) { New-Item -ItemType Directory -Path $Dir -Force | Out-Null }
@@ -42,7 +43,7 @@ if ($Date -notmatch '^\d{4}-\d{2}-\d{2}$') { throw "日期格式不对：$Date�
 $file = Join-Path $Dir "$Date.md"
 if (Test-Path -LiteralPath $file) {
   Write-Host "这天已经有日记了，直接打开给你改：$file" -ForegroundColor Yellow
-  if ($Open) { Start-Process $file }
+  if ($Open) { Open-InEditor -Path $file }
   return
 }
 
@@ -61,4 +62,4 @@ Write-Host ""
 Write-Host "写完正文后：" -ForegroundColor Yellow
 Write-Host "  GitHub Desktop -> 选 hexo-blog -> 填说明 -> Commit to src -> Push origin"
 
-if ($Open) { Start-Process $file }
+if ($Open) { Open-InEditor -Path $file }

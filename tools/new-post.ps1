@@ -19,6 +19,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot '_open-editor.ps1')
 $root = Split-Path -Parent $PSScriptRoot
 $postsDir = Join-Path $root 'source\_posts'
 if (-not (Test-Path -LiteralPath $postsDir)) { throw "找不到 $postsDir" }
@@ -86,4 +87,4 @@ Write-Host "  GitHub Desktop -> 选 hexo-blog 仓库 -> 填一句说明 -> Commi
 Write-Host "  1~2 分钟后线上自动更新"
 Write-Host ""
 
-if ($Open) { Start-Process $file }
+if ($Open) { Open-InEditor -Path $file }

@@ -42,6 +42,43 @@ Typora 写 md  →  source/_posts  →  GitHub Desktop 提交+推送 src
 > 只装 Git 够不够？**够**——构建在云端跑，本机不用装 Node.js。
 > 想发布前本地预览才需要装 [Node.js LTS](https://nodejs.org/zh-cn)，然后 `npx hexo server`。
 
+### 只用 Typora 写（完全不碰脚本 / 命令行）
+
+Typora 自带文件树，可以直接把 `source` 文件夹当工作目录用：
+
+1. Typora 菜单 **File → Open Folder**（打开文件夹），选：
+   ```
+   D:\DSH\hexo-blog\source
+   ```
+2. 左侧文件树里右键新建：
+   | 写什么 | 在哪个文件夹 | 文件怎么命名 |
+   |---|---|---|
+   | 新文章 | `_posts` | `2026-11-13-english-slug.md`（日期-英文短名） |
+   | 新日记 | `_diary` | `2026-11-13.md`（**只要日期**） |
+3. 文件开头要有 front matter。Typora 里**先打 `---` 再回车**，会自动变成 YAML 元数据块，照着填：
+
+   ```yaml
+   ---
+   title: 文章标题                      # 日记可省
+   date: 2026-11-13 20:00:00
+   categories: 随笔                     # 日记可省
+   tags: [日记]                         # 日记可省
+   description: 一句话摘要              # 日记可省
+   ---
+   ```
+4. 懒得记格式就直接**复制模板**（放在 `source\_templates\`，这个目录 Hexo 不会发布）：
+   - `文章模板.md`
+   - `日记模板.md`
+5. 写完保存 → GitHub Desktop → 推 `src` → 1~2 分钟自动上线
+
+> 注意：**文章必须有 `title` 和 `date`**；日记只靠文件名日期也能排（`date` 写了优先用 `date`）。
+> 文件夹里的 `_templates`、`_diary`、`_posts` 都是以 `_` 开头，Hexo 不会把它们当普通页面发布。
+
+### 或者双击脚本（现在也会用 Typora 打开）
+
+`.md` 的默认打开程序是 **WorkBuddy**，不是 Typora，所以脚本已经改成**显式调用 `D:\tools\Typora\Typora.exe`**。
+换编辑器就改 `tools\_open-editor.ps1` 里的候选路径列表。
+
 ---
 
 ## 二、换头像 / 标签图标
