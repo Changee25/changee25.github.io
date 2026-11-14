@@ -216,6 +216,9 @@ source/_diary/
 | 浏览器还是旧页面 | `Ctrl+F5`；或等 1~2 分钟 |
 | 想退回旧版 Jekyll | `git revert a9e989d` 后推 main；或用备份 zip |
 | 分类/标签页还在 | `/categories/` `/tags/` 照常生成，只是没导航入口，不影响 |
+| 文章没标题、开头多出 `title:` / `date:` 字样 | 文件开头的 `---` 丢了。**构建前会自动修复**（`tools/repair-front-matter.js`，Actions 里也会跑），推上去等它跑完即可 |
+| 日记没按日期排到最上面 | 文件名必须是 `2026-11-15.md` 这种 **YYYY-MM-DD** 格式，文件名就是排序依据 |
+| 想手动检查 / 修复 | `node tools/repair-front-matter.js`（有 Node 时）。它会补 `---`，并提醒日记文件名不规范 |
 
 ---
 

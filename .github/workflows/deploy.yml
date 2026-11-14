@@ -32,6 +32,9 @@ jobs:
           npm config set registry https://registry.npmjs.org/
           npm install --no-audit --no-fund
 
+      - name: 修复 front matter（模板复制丢了 --- 时自动补上）
+        run: node tools/repair-front-matter.js
+
       - name: 构建静态文件
         run: |
           npx hexo clean
