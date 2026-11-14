@@ -50,6 +50,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: main
           publish_dir: ./public
+          # 每次都用孤儿提交强制覆盖：main 只放构建产物，
+          # 这样即使 main 被别的仓库/误操作覆盖过，也能一次重建回来
+          force_orphan: true
           user_name: github-actions[bot]
           user_email: github-actions[bot]@users.noreply.github.com
           commit_message: "deploy: ${{ github.event.head_commit.message }}"
