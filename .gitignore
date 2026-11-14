@@ -17,3 +17,7 @@ pnpm-workspace.yaml
 # 系统文件
 .DS_Store
 Thumbs.db
+desktop.ini
+*.lnk
+*.tmp
+~$*
