@@ -18,6 +18,9 @@ concurrency:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    # 固定时区，避免「只写日期的 date: 」在云端按 UTC 算成前一天
+    env:
+      TZ: Asia/Shanghai
     steps:
       - name: 检出源码
         uses: actions/checkout@v4
