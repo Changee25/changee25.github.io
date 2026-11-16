@@ -241,7 +241,6 @@ D:\DSH\hexo-blog\                 ← 源码仓库（src 分支）
 ├─ tools/
 │  ├─ new-post.ps1                新建文章（带 front matter）
 │  ├─ update-avatar.ps1           一键换头像 + favicon
-│  ├─ sync-to-repo.ps1            （备用）本地构建后手动同步发布
 │  └─ localize-cdn.js             一次性工具：把新的外链资源下到 source/vendor/
 ├─ source/
 │  ├─ _posts/                     文章

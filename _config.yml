@@ -77,9 +77,3 @@ pagination_dir: page
 # 主题
 theme: fluid
 
-# 部署：推送到 GitHub Pages 仓库的 main 分支
-deploy:
-  type: git
-  repo: https://github.com/Changee25/changee25.github.io.git
-  branch: main
-  message: "Site updated: {{ now('YYYY-MM-DD HH:mm:ss') }}"
