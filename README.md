@@ -35,7 +35,15 @@ Typora 写 md  →  source/_posts  →  GitHub Desktop 提交+推送 src
    index_img: /img/cover-default.jpg   # 可选，不给就用默认封面
    ---
    ```
-2. **Typora 写正文**，图片放 `source\img\`，正文写 `![说明](/img/图片名.png)`（**开头要带 `/`**）
+2. **Typora 写正文**，插图片有两种方式：
+
+   **① 最省事（推荐）**：在 Typora 里直接粘贴/拖图片，按它默认的方式存（会记成本机路径）。写完**双击项目根目录的 `整理图片.bat`**——
+   脚本会把图片复制进 `source\img\posts\<文章名>\`，并把正文里的本机路径改写成 `/img/posts/<文章名>/img-01.png` 这种站内路径。
+
+   **② 手动**：先把图片复制到 `source\img\`，正文里写 `![说明](/img/图片名.png)`（**开头必须带 `/`**）。
+
+   > ⚠️ 绝对不要在正文里留 `C:\Users\...` 这种本机路径——网站上看不到。
+   > 判断方法：`Ctrl+/` 看源码模式，搜一下 `C:\` 有没有命中。
 3. **推送**：GitHub Desktop → 选 `hexo-blog` 仓库 → 填提交信息 → **Commit to src** → **Push origin**
 4. **等 1~2 分钟**，Actions 自动构建发布（仓库页 **Actions** 标签看进度）
 

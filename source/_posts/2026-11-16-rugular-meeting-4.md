@@ -29,7 +29,7 @@ description: 第四次例会作业
 
 ##### PART2.解题回顾
 
-<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20261116140955399.png" alt="image-20261116140955399" style="zoom: 67%;" />
+<img src="/img/posts/2026-11-16-rugular-meeting-4/img-01.png" alt="image-20261116140955399" style="zoom: 67%;" />
 
 ```
  !preg_match('/base|rot/i',$file)
@@ -51,7 +51,7 @@ description: 第四次例会作业
 
 **`/resource=flag.php`**：表示真正要读取的文件是 `flag.php`，前面的 filter 只负责转换
 
-<img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20261116141733130.png" alt="image-20261116141733130" style="zoom: 67%;" />
+<img src="/img/posts/2026-11-16-rugular-meeting-4/img-02.png" alt="image-20261116141733130" style="zoom: 67%;" />
 
 由于`{`=`+AHs-`、`}`=`+AH0`，所以可知flag为CTF2{ab5380f5-7bcd-4a99-99ad-6af52cd038f1}
 
@@ -103,11 +103,11 @@ else{
 
 注释提示去 `phpinfo.php` 找信息。所以访问 `/phpinfo.php`，搜索flag可以看到
 
-<img src="C:\Users\lenovo\Pictures\Screenshots\屏幕截图 2026-11-16 142938.png" alt="屏幕截图 2026-11-16 142938" style="zoom: 50%;" />
+<img src="/img/posts/2026-11-16-rugular-meeting-4/img-03.png" alt="屏幕截图 2026-11-16 142938" style="zoom: 50%;" />
 
 根据提示搜 `register_argc_argv`
 
-<img src="C:\Users\lenovo\Pictures\Screenshots\屏幕截图 2026-11-16 143015.png" alt="屏幕截图 2026-11-16 143015" style="zoom:67%;" />
+<img src="/img/posts/2026-11-16-rugular-meeting-4/img-04.png" alt="屏幕截图 2026-11-16 143015" style="zoom:67%;" />
 
 浏览器直接写文件
 
@@ -127,11 +127,11 @@ Host: <实例域名>
 Connection: close
 ```
 
-⛓️‍💥Repeater 默认按 HTTP/2 发送，`:path` 里的 `<>` 被 openresty 判非法，返回 `400 Bad Request`。需要在 Repeater 顶部把协议从 `HTTP/2` 切成 `HTTP/1`。<img src="C:\Users\lenovo\Pictures\Screenshots\屏幕截图 2026-11-16 151214.png" alt="屏幕截图 2026-11-16 151214" style="zoom: 67%;" />
+⛓️‍💥Repeater 默认按 HTTP/2 发送，`:path` 里的 `<>` 被 openresty 判非法，返回 `400 Bad Request`。需要在 Repeater 顶部把协议从 `HTTP/2` 切成 `HTTP/1`。<img src="/img/posts/2026-11-16-rugular-meeting-4/img-05.png" alt="屏幕截图 2026-11-16 151214" style="zoom: 67%;" />
 
 响应末尾：
 
-<img src="C:\Users\lenovo\Pictures\Screenshots\屏幕截图 2026-11-16 145634.png" alt="屏幕截图 2026-11-16 145634" style="zoom: 67%;" />
+<img src="/img/posts/2026-11-16-rugular-meeting-4/img-06.png" alt="屏幕截图 2026-11-16 145634" style="zoom: 67%;" />
 
 验证文件可执行
 
@@ -157,7 +157,7 @@ http://<实例域名>/?file=/tmp/shell&a=ls%20/
 
 页面输出被 PEAR 配置序列化文本包裹，但其中能看到 `bin boot dev etc flag home lib …`，确认根目录存在 `flag`
 
-<img src="C:\Users\lenovo\Pictures\Screenshots\屏幕截图 2026-11-16 145734.png" alt="屏幕截图 2026-11-16 145734" style="zoom: 50%;" />
+<img src="/img/posts/2026-11-16-rugular-meeting-4/img-07.png" alt="屏幕截图 2026-11-16 145734" style="zoom: 50%;" />
 
 然后去读flag
 
@@ -165,7 +165,7 @@ http://<实例域名>/?file=/tmp/shell&a=ls%20/
 http://<实例域名>/?file=/tmp/shell&a=cat%20/flag
 ```
 
-<img src="C:\Users\lenovo\Pictures\Screenshots\屏幕截图 2026-11-16 145856.png" alt="屏幕截图 2026-11-16 145856" style="zoom:50%;" />
+<img src="/img/posts/2026-11-16-rugular-meeting-4/img-08.png" alt="屏幕截图 2026-11-16 145856" style="zoom:50%;" />
 
 
 
