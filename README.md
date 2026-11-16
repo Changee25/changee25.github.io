@@ -62,25 +62,23 @@ Typora 自带文件树，可以直接把 `source` 文件夹当工作目录用：
    | 写什么 | 在哪个文件夹 | 文件怎么命名 |
    |---|---|---|
    | 新文章 | `_posts` | `2026-11-13-english-slug.md`（日期-英文短名） |
-   | 新日记 | `_diary` | `2026-11-13.md`（**只要日期**） |
 3. 文件开头要有 front matter。Typora 里**先打 `---` 再回车**，会自动变成 YAML 元数据块，照着填：
 
    ```yaml
    ---
-   title: 文章标题                      # 日记可省
+   title: 文章标题
    date: 2026-11-13 20:00:00
-   categories: 随笔                     # 日记可省
-   tags: [日记]                         # 日记可省
-   description: 一句话摘要              # 日记可省
+   categories: 随笔
+   tags: [日记]
+   description: 一句话摘要
    ---
    ```
 4. 懒得记格式就直接**复制模板**（放在 `source\_templates\`，这个目录 Hexo 不会发布）：
    - `文章模板.md`
-   - `日记模板.md`
 5. 写完保存 → GitHub Desktop → 推 `src` → 1~2 分钟自动上线
 
-> 注意：**文章必须有 `title` 和 `date`**；日记只靠文件名日期也能排（`date` 写了优先用 `date`）。
-> 文件夹里的 `_templates`、`_diary`、`_posts` 都是以 `_` 开头，Hexo 不会把它们当普通页面发布。
+> 注意：**文章必须有 `title` 和 `date`**，`date` 记得带上时间和 `+08:00`。
+> 文件夹里的 `_templates`、`_posts` 都是以 `_` 开头，Hexo 不会把它们当普通页面发布。
 
 ### 或者双击脚本（现在也会用 Typora 打开）
 
@@ -164,7 +162,7 @@ utterances:
 | 主页背景换成压缩包那张图 | `source/img/banner.jpg`，`index.banner_img` | ✅ 已上线 |
 | 左上角头像 + 昵称 AMOUR | `navbar.blog_title` + `custom.css` 的 `::before`（图：`avatar.jpg`） | ✅ 已上线 |
 | 那句英文打字机 | `index.slogan.text` + `fun_features.typing` | ✅ 已上线 |
-| 去掉 文档/搜索/分类/社群 | `navbar.menu` 只留 首页·文章·日记·友链·关于 + 日夜切换 | ✅ 已上线 |
+| 去掉 文档/搜索/分类/社群 | `navbar.menu` 只留 首页·文章·友链·关于 + 日夜切换 | ✅ 已上线 |
 | 不删文章 | 两篇正文原样迁移，`excerpt:` → `description:` | ✅ |
 | 不依赖外部 CDN | 21 个文件下到 `source/vendor/`，构建钩子改写路径 | ✅ |
 | 替换旧站 | `main` 已换成新站 + `.nojekyll` | ✅ 已上线 |
@@ -184,33 +182,7 @@ utterances:
 | 友链 | `_config.fluid.yml` → `links.items` |
 | 首屏高度/压暗 | `index.banner_img_height`（100=整屏）、`index.banner_mask_alpha` |
 | 关于页正文 | `source/about/index.md` |
-| 写日记 | 双击 **`写日记.bat`**（在 `source/_diary/` 建当天文件并打开 Typora） |
 | 页脚 | `footer.content` |
-
-### 日记是怎么组织的
-
-改成「**一天一个文件 + 自动倒序 + 分页**」了：
-
-```
-source/_diary/
-├─ 2026-10-27.md
-├─ 2026-10-31.md   ← front matter 里 title: 2026-10-31 & 11-1（自定义这天显示的名字）
-├─ 2026-11-02.md
-└─ 2026-11-04.md
-```
-
-- 文件内容：
-  ```yaml
-  ---
-  date: 2026-11-12
-  title: 可选，想改显示的名字才写
-  ---
-
-  正文（Markdown，随便写几段）
-  ```
-- **不用管顺序**：`scripts/diary-generator.js` 会按 `date` 倒序生成 `/diary/`、`/diary/page/2/`……
-- **每页显示几天**：改 `scripts/diary-generator.js` 顶部的 `PER_PAGE`（现在是 3）
-- 生成出来的页面用的是主题的 `page` 布局，所以头图、导航、页脚和其他页面一致；条目样式在 `source/css/custom.css` 的「日记页」一节
 
 ---
 
@@ -225,8 +197,7 @@ source/_diary/
 | 想退回旧版 Jekyll | `git revert a9e989d` 后推 main；或用备份 zip |
 | 分类/标签页还在 | `/categories/` `/tags/` 照常生成，只是没导航入口，不影响 |
 | 文章没标题、开头多出 `title:` / `date:` 字样 | 文件开头的 `---` 丢了。**构建前会自动修复**（`tools/repair-front-matter.js`，Actions 里也会跑），推上去等它跑完即可 |
-| 日记没按日期排到最上面 | 文件名必须是 `2026-11-15.md` 这种 **YYYY-MM-DD** 格式，文件名就是排序依据 |
-| 想手动检查 / 修复 | `node tools/repair-front-matter.js`（有 Node 时）。它会补 `---`，并提醒日记文件名不规范 |
+| 想手动检查 / 修复 | `node tools/repair-front-matter.js`（有 Node 时）。它会补 `---` |
 
 ---
 
@@ -244,7 +215,7 @@ D:\DSH\hexo-blog\                 ← 源码仓库（src 分支）
 │  └─ localize-cdn.js             一次性工具：把新的外链资源下到 source/vendor/
 ├─ source/
 │  ├─ _posts/                     文章
-│  ├─ about|diary|links/          页面
+│  ├─ about|links/                页面
 │  ├─ css/custom.css              导航栏头像、窄屏字号
 │  ├─ img/                        banner.jpg / banner-post.jpg / avatar.jpg / cover-*.jpg
 │  └─ vendor/                     本地化的 jQuery/Bootstrap/typed.js/图标字体

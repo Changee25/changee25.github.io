@@ -34,7 +34,6 @@ navbar:
   menu:
     - { key: "home", name: "首页", link: "/", icon: "iconfont icon-home-fill" }
     - { key: "articles", name: "文章", link: "/archives/", icon: "iconfont icon-articles" }
-    - { key: "diary", name: "日记", link: "/diary/", icon: "iconfont icon-date-fill" }
     - { key: "links", name: "友链", link: "/links/", icon: "iconfont icon-link-fill" }
     - { key: "about", name: "关于", link: "/about/", icon: "iconfont icon-user-fill" }
 
