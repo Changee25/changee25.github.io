@@ -38,6 +38,25 @@ jobs:
       - name: 修复 front matter（模板复制丢了 --- 时自动补上）
         run: node tools/repair-front-matter.js
 
+      - name: 检查正文里有没有本机路径图片
+        run: |
+          files=$(grep -rIl -e 'C:\\Users' -e 'file:///' source/_posts || true)
+          if [ -n "$files" ]; then
+            echo "::warning::以下文章引用了本机路径图片，网站上会显示不出来。请在本地双击「整理图片.bat」后再提交："
+            echo "$files"
+            {
+              echo "### ⚠️ 图片路径有问题"
+              echo ""
+              echo "这些文章引用了本机路径图片（如 \`C:\\Users\\...\`），网站上会显示不出来："
+              echo '```'
+              echo "$files"
+              echo '```'
+              echo "**修法**：本地双击 \`整理图片.bat\`（会把图片复制进仓库并改写路径），然后重新 Commit + Push。"
+            } >> $GITHUB_STEP_SUMMARY
+          else
+            echo "图片路径检查通过"
+          fi
+
       - name: 构建静态文件
         run: |
           npx hexo clean
