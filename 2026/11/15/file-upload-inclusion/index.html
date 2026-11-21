@@ -1,0 +1,945 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar-favicon.png">
+  <link rel="icon" href="/img/avatar-favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="AMOUR">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="纯个人理解 0学术价值">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文件上传＋文件包含">
+<meta property="og:url" content="https://changee25.github.io/2026/11/15/file-upload-inclusion/">
+<meta property="og:site_name" content="AMOUR">
+<meta property="og:description" content="纯个人理解 0学术价值">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-11-14T20:00:00.000Z">
+<meta property="article:modified_time" content="2026-11-21T13:18:07.333Z">
+<meta property="article:author" content="AMOUR">
+<meta property="article:tag" content="web">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>文件上传＋文件包含 - AMOUR</title>
+
+  <link  rel="stylesheet" href="/vendor/lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="/vendor/lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="/vendor/lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="/vendor/lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="/vendor/at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="/vendor/at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"changee25.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>AMOUR</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-articles"></i>
+                <span>文章</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-articles"></i>
+                  <span>文章</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/links/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-link-fill"></i>
+                  <span>友链</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/banner-post.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">文件上传＋文件包含</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-11-15 04:00" pubdate>
+          2026年11月15日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">文件上传＋文件包含</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="一、文件包含"><a href="#一、文件包含" class="headerlink" title="一、文件包含"></a>一、文件包含</h2><h3 id="1-生活里的比喻"><a href="#1-生活里的比喻" class="headerlink" title="1. 生活里的比喻"></a>1. 生活里的比喻</h3><p>假设我们去一家公司前台说：</p>
+<blockquote>
+<p>“帮我拿一下 3 号文件。”</p>
+</blockquote>
+<p>前台去档案室，把 <code>3 号文件</code> 拿给咱们。</p>
+<p>正常流程是：</p>
+<p>用户说文件名 → 前台去指定档案柜拿 → 交付</p>
+<p>但如果前台做事不思考，和他说：</p>
+<blockquote>
+<p>“帮我拿一下 <code>../财务室/工资表.txt</code>”</p>
+</blockquote>
+<p>他也不检查，直接跑到隔壁财务室拿给我们。这就是<strong>目录穿越</strong>。</p>
+<p><code>..</code> 的意思是“上一级目录”。<br><code>../</code> 就是“先回到上一层，再进入别的目录”。</p>
+<h3 id="2-代码大概长什么样"><a href="#2-代码大概长什么样" class="headerlink" title="2. 代码大概长什么样"></a>2. 代码大概长什么样</h3><p>PHP 里常见这种写法：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-variable">$page</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;page&#x27;</span>];<br><span class="hljs-keyword">include</span>(<span class="hljs-string">&quot;pages/&quot;</span> . <span class="hljs-variable">$page</span> . <span class="hljs-string">&quot;.php&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>正常访问：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">?<span class="hljs-attribute">page</span>=home<br></code></pre></td></tr></table></figure>
+
+<p>实际包含：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">pages/home.php<br></code></pre></td></tr></table></figure>
+
+<p>但如果访问：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">?<span class="hljs-attribute">page</span>=../../secret/flag<br></code></pre></td></tr></table></figure>
+
+<p>实际路径就变成了：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">pages<span class="hljs-regexp">/../</span>..<span class="hljs-regexp">/secret/</span>flag.php<br></code></pre></td></tr></table></figure>
+
+<p>中间的 <code>../</code> 会一层层往上跳，最后可能跳到 <code>pages/</code> 外面。</p>
+<h3 id="3-为什么危险"><a href="#3-为什么危险" class="headerlink" title="3. 为什么危险"></a>3. 为什么危险</h3><p>文件包含的危险分两层：</p>
+<p><strong>第一层：读到不该读的文件。</strong></p>
+<p>比如配置文件、数据库密码、源代码、密钥、日志，甚至系统文件。</p>
+<p><strong>第二层：执行不该执行的代码。</strong></p>
+<p>如果被包含的文件里含有 PHP 代码，PHP 不只是“读出来”，还会<strong>执行它</strong>。</p>
+<p>所以：</p>
+<ul>
+<li>包含一个 <code>.txt</code>：通常只是把内容显示出来。</li>
+<li>包含一个 <code>.php</code>：里面的 PHP 代码会被执行。</li>
+</ul>
+<p>这就是为什么 LFI（本地文件包含）有时能升级成 RCE（远程代码执行）。</p>
+<h3 id="4-LFI-和-RFI"><a href="#4-LFI-和-RFI" class="headerlink" title="4. LFI 和 RFI"></a>4. LFI 和 RFI</h3><ul>
+<li><strong>LFI</strong>：Local File Inclusion，本地文件包含。<br>包含服务器本地的文件，比如 <code>../../secret.txt</code>。</li>
+<li><strong>RFI</strong>：Remote File Inclusion，远程文件包含。<br>包含攻击者自己服务器上的文件，比如 <code>http://evil.com/shell.txt</code>。<br>这需要服务器开启“允许远程包含”，现代 PHP 一般默认关闭，所以 RFI 没有以前常见。</li>
+</ul>
+<p><strong>LFI 更常见，RFI 条件更苛刻。</strong></p>
+<h3 id="5-怎么修"><a href="#5-怎么修" class="headerlink" title="5. 怎么修"></a>5. 怎么修</h3><p>核心原则：<strong>不要让用户输入直接变成文件路径。</strong></p>
+<p>不要这样：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-keyword">include</span>(<span class="hljs-string">&quot;pages/&quot;</span> . <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;page&#x27;</span>] . <span class="hljs-string">&quot;.php&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>改成“名字 → 固定文件”的映射：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-variable">$pages</span> = [<br>    <span class="hljs-string">&#x27;home&#x27;</span>    =&gt; __DIR__ . <span class="hljs-string">&#x27;/pages/home.php&#x27;</span>,<br>    <span class="hljs-string">&#x27;about&#x27;</span>   =&gt; __DIR__ . <span class="hljs-string">&#x27;/pages/about.php&#x27;</span>,<br>    <span class="hljs-string">&#x27;contact&#x27;</span> =&gt; __DIR__ . <span class="hljs-string">&#x27;/pages/contact.php&#x27;</span>,<br>];<br><br><span class="hljs-variable">$page</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;page&#x27;</span>] ?? <span class="hljs-string">&#x27;home&#x27;</span>;<br><br><span class="hljs-keyword">if</span> (!isset(<span class="hljs-variable">$pages</span>[<span class="hljs-variable">$page</span>])) &#123;<br>    <span class="hljs-keyword">exit</span>(<span class="hljs-string">&#x27;页面不存在&#x27;</span>);<br>&#125;<br><br>include <span class="hljs-variable">$pages</span>[<span class="hljs-variable">$page</span>];<br></code></pre></td></tr></table></figure>
+
+<p>这样用户只能说 <code>home</code>、<code>about</code>、<code>contact</code>，不能说 <code>../../secret</code>。</p>
+<p>如果业务确实需要拼路径，就要：</p>
+<ol>
+<li>用 <code>realpath()</code> 得到真实路径；</li>
+<li>检查这个路径是否仍然在允许的目录里面；</li>
+<li>不在就拒绝。</li>
+</ol>
+<p>另外，PHP 的远程包含应该关闭：</p>
+<p>ini</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">allow_url_include</span> = <span class="hljs-literal">Off</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="二、文件上传"><a href="#二、文件上传" class="headerlink" title="二、文件上传"></a>二、文件上传</h2><h3 id="1-生活里的比喻-1"><a href="#1-生活里的比喻-1" class="headerlink" title="1. 生活里的比喻"></a>1. 生活里的比喻</h3><p>文件上传就像公司收发室：</p>
+<blockquote>
+<p>有人寄来一个包裹，收发室不检查，直接放进办公室。</p>
+</blockquote>
+<p>如果包裹里只是普通文件，没问题。<br>但如果包裹里是危险物品，或者包裹本身能被当成“工作人员”使唤，那就出事了。</p>
+<p>文件上传功能本身不是漏洞。<br><strong>真正的漏洞是：服务器太信任用户上传的文件。</strong></p>
+<h3 id="2-代码大概长什么样-1"><a href="#2-代码大概长什么样-1" class="headerlink" title="2. 代码大概长什么样"></a>2. 代码大概长什么样</h3><p>PHP 里常见这种写法：</p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs prolog">move_uploaded_file(<br>    $<span class="hljs-symbol">_FILES</span>[<span class="hljs-string">&#x27;file&#x27;</span>][<span class="hljs-string">&#x27;tmp_name&#x27;</span>],<br>    <span class="hljs-string">&quot;uploads/&quot;</span> . $<span class="hljs-symbol">_FILES</span>[<span class="hljs-string">&#x27;file&#x27;</span>][<span class="hljs-string">&#x27;name&#x27;</span>]<br>);<br></code></pre></td></tr></table></figure>
+
+<p>这段代码做了三件事：</p>
+<ol>
+<li>接收用户上传的文件；</li>
+<li>用用户提供的文件名；</li>
+<li>保存到 <code>uploads/</code> 目录。</li>
+</ol>
+<p>如果没有任何检查，用户就能上传任意文件。</p>
+<h3 id="3-三种常见风险"><a href="#3-三种常见风险" class="headerlink" title="3. 三种常见风险"></a>3. 三种常见风险</h3><p><strong>第一种：上传可执行脚本，拿到服务器权限。</strong></p>
+<p>如果：</p>
+<ul>
+<li>上传目录在网站根目录下面；</li>
+<li>服务器会执行 PHP；</li>
+<li>上传目录有执行权限；</li>
+</ul>
+<p>那攻击者上传一个 <code>.php</code> 文件，再访问它，服务器就可能执行里面的代码。这就是常说的“上传木马”或“GetShell”。</p>
+<p><strong>第二种：上传 HTML &#x2F; SVG，造成存储型 XSS。</strong></p>
+<p>即使服务器不执行 PHP，上传一个 <code>.html</code> 文件也可能有问题。</p>
+<p>如果网站这样返回：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-title class_">Content</span>-<span class="hljs-title class_">Type</span>: text/html<br></code></pre></td></tr></table></figure>
+
+<p>浏览器就会把上传的 HTML 当成网站自己的页面执行。里面的 JavaScript 可以：</p>
+<ul>
+<li>读取页面内容；</li>
+<li>以当前用户身份发请求；</li>
+<li>修改页面；</li>
+</ul>
+<p><strong>第三种：覆盖文件、塞满磁盘、托管恶意文件。</strong></p>
+<p>比如上传同名文件覆盖配置，或者上传大量大文件把磁盘撑满，或者把网站当成恶意软件下载站。</p>
+<h3 id="4-为什么“只检查后缀”不够"><a href="#4-为什么“只检查后缀”不够" class="headerlink" title="4. 为什么“只检查后缀”不够"></a>4. 为什么“只检查后缀”不够</h3><p>如果这样写：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs dns">if <span class="hljs-punctuation">(</span>pathinfo<span class="hljs-punctuation">(</span>$name, PATHINFO_EXTENSION<span class="hljs-punctuation">)</span> === &#x27;jpg&#x27;<span class="hljs-punctuation">)</span> &#123;<br>    // 允许上传<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>因为攻击者可以：</p>
+<ul>
+<li>改后缀：<code>shell.php</code> 改成 <code>shell.jpg</code>；</li>
+<li>伪造 <code>Content-Type</code>：请求里写 <code>image/png</code>，但内容不是图片；</li>
+<li>利用黑名单漏掉的后缀：只禁了 <code>.php</code>，可能还有别的可执行后缀；</li>
+<li>上传 <code>.htaccess</code> 之类的配置文件，改变服务器行为；</li>
+<li>上传 SVG，里面带脚本。</li>
+</ul>
+<p>所以不能只信：</p>
+<ul>
+<li>文件名；</li>
+<li>扩展名；</li>
+<li>浏览器发来的 <code>Content-Type</code>。</li>
+</ul>
+<p>这些都能被用户控制。</p>
+<h3 id="5-比较靠谱的检查顺序"><a href="#5-比较靠谱的检查顺序" class="headerlink" title="5. 比较靠谱的检查顺序"></a>5. 比较靠谱的检查顺序</h3><ol>
+<li><strong>先登录&#x2F;鉴权</strong>：不是谁都能上传。</li>
+<li><strong>限制大小</strong>：防止塞满磁盘。</li>
+<li><strong>扩展名白名单</strong>：只允许业务需要的类型，比如 <code>.png</code>、<code>.jpg</code>。</li>
+<li><strong>检查文件头</strong>：文件开头几个字节是“身份证”，比如 PNG 有固定开头。</li>
+<li><strong>图片重新编码</strong>：把图片重新生成一遍，去掉夹带的内容。</li>
+<li><strong>随机文件名</strong>：不要用用户给的名字，防止覆盖和特殊字符。</li>
+<li><strong>存到 Web 根目录之外</strong>：上传目录不要能被 URL 直接访问。</li>
+<li><strong>禁止执行</strong>：即使文件进了上传目录，服务器也不要把 <code>.php</code> 当程序跑。</li>
+<li><strong>下载时鉴权</strong>：通过后端控制谁能看、以什么类型返回。</li>
+</ol>
+<hr>
+<h2 id="三、这两个漏洞经常一起出现"><a href="#三、这两个漏洞经常一起出现" class="headerlink" title="三、这两个漏洞经常一起出现"></a>三、这两个漏洞经常一起出现</h2><p>它们可以组合：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs">先上传一个文件<br>      ↓<br>再用文件包含去包含它<br>      ↓<br>服务器执行文件里的代码<br></code></pre></td></tr></table></figure>
+
+<p>或者：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs">上传目录在网站根目录<br>      ↓<br>直接上传可执行脚本<br>      ↓<br>访问这个脚本<br>      ↓<br>服务器执行<br></code></pre></td></tr></table></figure>
+
+<p>所以真实渗透测试里，文件上传和文件包含经常被放在一起看。</p>
+<hr>
+<h2 id="四、一张表区分它们"><a href="#四、一张表区分它们" class="headerlink" title="四、一张表区分它们"></a>四、一张表区分它们</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>文件包含</th>
+<th>文件上传</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>用户控制什么</td>
+<td>读哪个文件</td>
+<td>传什么文件</td>
+</tr>
+<tr>
+<td>常见入口</td>
+<td><code>?page=...</code>、<code>?file=...</code></td>
+<td>上传表单</td>
+</tr>
+<tr>
+<td>核心问题</td>
+<td>用户输入直接拼进路径</td>
+<td>服务端信任上传文件</td>
+</tr>
+<tr>
+<td>常见结果</td>
+<td>读源码&#x2F;配置，可能执行代码</td>
+<td>存储型 XSS，可能 RCE</td>
+</tr>
+<tr>
+<td>修复关键词</td>
+<td>白名单映射、路径校验</td>
+<td>类型白名单、内容校验、禁止执行</td>
+</tr>
+</tbody></table>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B9%A0/" class="category-chain-item">学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/web/" class="print-no-link">#web</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>文件上传＋文件包含</div>
+      <div>https://changee25.github.io/2026/11/15/file-upload-inclusion/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>AMOUR</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年11月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/11/16/rugular-meeting-4/" title="第四次例会作业：文件包含（include）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">第四次例会作业：文件包含（include）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/11/02/about-ssti-xss/" title="SSTI 与 XSS 的区别">
+                        <span class="hidden-mobile">SSTI 与 XSS 的区别</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'Changee25/changee25.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <span>© 2026 AMOUR</span> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="/vendor/lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="/vendor/lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="/vendor/lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="/vendor/lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('/vendor/lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=/vendor/lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('/vendor/lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('/vendor/lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
