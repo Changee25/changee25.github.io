@@ -220,7 +220,7 @@ if ($_FILES["file"]["type"] == "image/jpeg") { ... }
 
 没办法上传 `.php` 文件。准备一个文件，文件名就是 `.htaccess`，
 
-内容（这里因为直接用的是例会里的代码但是好像出问题了，就去问dsh她说**因为我机器上装的是 NTS 版 PHP，它根本不提供 Apache 模块 DLL，只能跑成独立进程**）
+内容（这里因为直接用的是例会里的代码但是好像出问题了，就 去问dsh她说**因为我机器上装的是 NTS 版 PHP，它根本不提供 Apache 模块 DLL，只能跑成独立进程**）
 
 ```
 AddHandler fcgid-script .jpg
