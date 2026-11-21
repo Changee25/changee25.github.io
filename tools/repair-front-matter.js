@@ -1,9 +1,11 @@
 /**
  * 自动修复 front matter（在构建前跑，CI 里也会跑）
  *
- * 起因：从模板复制 / 在 Typora 里另存为时，开头的 `---` 很容易丢掉，
- * 一旦丢掉 Hexo 就认不出 front matter，文章会变成「没标题、正文开头多出 date: 字样」。
- * 这个脚本扫描 source/_posts 和 source/_diary，发现「有 key: value 但没有 --- 包裹」时自动补上。
+ * 处理两类常见手误：
+ *   1. 开头的 `---` 丢了 → 自动补上
+ *      （复制模板 / 在 Typora 里另存为时最常见，丢了 Hexo 就认不出 front matter）
+ *   2. `description:meow~` 这种冒号后没空格 → 补成 `description: meow~`
+ *      （YAML 要求冒号后必须有空格，否则整块解析失败）
  *
  * 用法：node tools/repair-front-matter.js
  */
@@ -11,31 +13,38 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const DIRS = [
-  path.join(ROOT, "source", "_posts"),
-  path.join(ROOT, "source", "_diary")
-];
+const DIRS = [path.join(ROOT, "source", "_posts"), path.join(ROOT, "source", "_diary")];
 
 const KEY_RE = /^[A-Za-z_][\w-]*\s*:/;
-const log = [];
+const COLON_RE = /^([A-Za-z_][\w-]*):(?!\s)(.*)$/gm;
+
+function fixColon(body) {
+  return body.replace(COLON_RE, "$1: $2");
+}
 
 function tryRepair(text) {
   const t = text.replace(/\r\n/g, "\n");
-  // 已经有合法的 front matter 就别动
-  if (/^\s*---\n[\s\S]*?\n---(\n|$)/.test(t)) return null;
 
+  // 情况一：已经有 --- 包裹，只检查冒号后空格
+  const m = t.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+  if (m) {
+    const fixed = fixColon(m[1]);
+    if (fixed === m[1]) return null;
+    return "---\n" + fixed + "\n---\n\n" + m[2].replace(/^\n+/, "");
+  }
+
+  // 情况二：front matter 没有 --- 包裹，补上
   const lines = t.split("\n");
-  // 跳过开头的空行
   let start = 0;
   while (start < lines.length && lines[start].trim() === "") start++;
 
   const fm = [];
   let i = start;
   while (i < lines.length && KEY_RE.test(lines[i])) {
-    fm.push(lines[i].trimEnd());
+    fm.push(fixColon(lines[i].trimEnd()));
     i++;
   }
-  if (fm.length === 0) return null; // 没东西可修
+  if (fm.length === 0) return null;
 
   const rest = lines.slice(i).join("\n").replace(/^\n+/, "");
   return "---\n" + fm.join("\n") + "\n---\n\n" + rest;
@@ -55,20 +64,8 @@ for (const dir of DIRS) {
     if (repaired === null) continue;
     fs.writeFileSync(file, repaired, "utf8");
     fixed++;
-    log.push(`修复: ${path.relative(ROOT, file)}`);
-  }
-}
-
-// 顺手提醒：日记文件名最好就是日期
-const diaryDir = path.join(ROOT, "source", "_diary");
-if (fs.existsSync(diaryDir)) {
-  for (const name of fs.readdirSync(diaryDir)) {
-    if (!name.toLowerCase().endsWith(".md")) continue;
-    if (!/^\d{4}-\d{2}-\d{2}\.md$/.test(name)) {
-      log.push(`提醒: 日记文件名不是日期格式 -> source/_diary/${name}（建议改成 2026-11-15.md）`);
-    }
+    console.log(`  修复: ${path.relative(ROOT, file)}`);
   }
 }
 
 console.log(`[repair-front-matter] 扫描 ${scanned} 个文件，修复 ${fixed} 个`);
-for (const line of log) console.log("  " + line);
